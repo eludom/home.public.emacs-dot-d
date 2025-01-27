@@ -61,7 +61,7 @@ The DWIM behaviour of this command is as follows:
 ;; the init.el.
 (menu-bar-mode 1)
 (scroll-bar-mode 1)
-(tool-bar-mode -1)
+(tool-bar-mode 1)
 
 (let ((mono-spaced-font "Monospace")
       (proportionately-spaced-font "Sans"))
@@ -170,12 +170,6 @@ The DWIM behaviour of this command is as follows:
   (setq trashed-date-format "%Y-%m-%d %H:%M:%S"))
 
 
-; Configure xah fly keys
-(add-to-list 'load-path "~/.emacs.d/lisp/")
-(require 'xah-fly-keys)
-;; specify a layout
-(xah-fly-keys-set-layout "qwerty")
-(xah-fly-keys 1)
 
 ;; Enabling ergoemacs-mode
 ;; To enable emacs, add the following to your ~/.emacs or ~/.emacs.d/init.el file:
@@ -183,8 +177,20 @@ The DWIM behaviour of this command is as follows:
 (add-to-list 'load-path "~/.emacs.d/ergoemacs-mode")
 (require 'ergoemacs-mode)
 
-(setq ergoemacs-theme nil) ;; Uses Standard Ergoemacs keyboard theme
-(setq ergoemacs-keyboard-layout "us") ;; Assumes QWERTY keyboard layout
+;; (setq ergoemacs-theme nil) ;; Uses Standard Ergoemacs keyboard theme
+;; (setq ergoemacs-keyboard-layout "us") ;; Assumes QWERTY keyboard layout
 (ergoemacs-mode 1)
+
+; Configure xah fly keys
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+(require 'xah-fly-keys)
+;; specify a layout
+(xah-fly-keys-set-layout "qwerty")
+(xah-fly-keys 1)
+(setq xah-fly-use-control-key t)
+
+;; TODO Fix this.   In insert mode with ergoemacs this still
+;;      goes to beginning of line.
+(global-set-key (kbd "<home>") 'xah-fly-insert-mode-activate)
 
 (message "init.el finished.")
