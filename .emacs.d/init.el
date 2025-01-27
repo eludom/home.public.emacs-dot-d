@@ -168,3 +168,23 @@ The DWIM behaviour of this command is as follows:
   (setq trashed-use-header-line t)
   (setq trashed-sort-key '("Date deleted" . t))
   (setq trashed-date-format "%Y-%m-%d %H:%M:%S"))
+
+
+; Configure xah fly keys
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+(require 'xah-fly-keys)
+;; specify a layout
+(xah-fly-keys-set-layout "qwerty")
+(xah-fly-keys 1)
+
+;; Enabling ergoemacs-mode
+;; To enable emacs, add the following to your ~/.emacs or ~/.emacs.d/init.el file:
+
+(add-to-list 'load-path "~/.emacs.d/ergoemacs-mode")
+(require 'ergoemacs-mode)
+
+(setq ergoemacs-theme nil) ;; Uses Standard Ergoemacs keyboard theme
+(setq ergoemacs-keyboard-layout "us") ;; Assumes QWERTY keyboard layout
+(ergoemacs-mode 1)
+
+(message "init.el finished.")
