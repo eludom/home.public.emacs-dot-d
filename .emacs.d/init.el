@@ -1,5 +1,8 @@
 ; Init.el from https://protesilaos.com/codelog/2024-11-28-basic-emacs-configuration/#h:1e4fde73-a2a2-4dc5-82ad-02cf3884ece6
 
+
+(setq inhibit-startup-screen t)		; Prevent error related to svg in 30.0.50 build 2025-01-28
+
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (load custom-file :no-error-if-file-is-missing)
 
@@ -170,27 +173,43 @@ The DWIM behaviour of this command is as follows:
   (setq trashed-date-format "%Y-%m-%d %H:%M:%S"))
 
 
+;; ;;
+;; ;; ergo-emacs-mode setup
+;; ;;
 
-;; Enabling ergoemacs-mode
-;; To enable emacs, add the following to your ~/.emacs or ~/.emacs.d/init.el file:
+;; (add-to-list 'load-path "~/.emacs.d/ergoemacs-mode")
+;; (require 'ergoemacs-mode)
 
-(add-to-list 'load-path "~/.emacs.d/ergoemacs-mode")
-(require 'ergoemacs-mode)
+;; ;; (setq ergoemacs-theme nil) ;; Uses Standard Ergoemacs keyboard theme
+;; ;; (setq ergoemacs-keyboard-layout "us") ;; Assumes QWERTY keyboard layout
+;; (ergoemacs-mode 1)
 
-;; (setq ergoemacs-theme nil) ;; Uses Standard Ergoemacs keyboard theme
-;; (setq ergoemacs-keyboard-layout "us") ;; Assumes QWERTY keyboard layout
-(ergoemacs-mode 1)
+;;
+;; Configure xah fly keys
+;;
 
-; Configure xah fly keys
 (add-to-list 'load-path "~/.emacs.d/lisp/")
+(setq xah-fly-use-control-key t)
 (require 'xah-fly-keys)
 ;; specify a layout
 (xah-fly-keys-set-layout "qwerty")
 (xah-fly-keys 1)
-(setq xah-fly-use-control-key t)
+
 
 ;; TODO Fix this.   In insert mode with ergoemacs this still
 ;;      goes to beginning of line.
 (global-set-key (kbd "<home>") 'xah-fly-insert-mode-activate)
 
+;;
+;; Org Agenda Setup
+;;
+
+(setq org-habit-show-all-today t)
+
+; The fun starts here !!!
+; pull in my main .org init file.
+;
+(org-babel-load-file "~/.emacs.d/george.org")
+
 (message "init.el finished.")
+
