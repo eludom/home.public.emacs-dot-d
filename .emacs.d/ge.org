@@ -31,7 +31,7 @@ This is my GE.org - George's Emacs ORG config
 ** Prereqs
 ** Conventions
 * Configurations
-** General Emacs Config
+** General Emacs Configs
 *** Things That Have To Load Early
 **** Org Babel Languages
 
@@ -196,6 +196,138 @@ from your init.el (which you may want to share)
   (setq trashed-date-format "%Y-%m-%d %H:%M:%S"))
 #+end_src
 
+*** Exit Emacs.  Don't do this casually !!!
+#     \C-x\C-c is just to easy to type.   And, I mean, really, who wants
+#     to exit Emacs?  Keep calm.  Think it over before taking any rash
+#     action.
+
+	#+BEGIN_SRC emacs-lisp :exports code
+	  (defun dont-kill-emacs ()
+	    (interactive)
+	    (error (substitute-command-keys "I'm sorry, Dave.  I'm afraid I can't do that. To exit emacs: \\[save-buffers-kill-terminal].  Bound to C-X \"")))
+
+	  (global-set-key "\C-x\C-c" 'dont-kill-emacs)
+	  (global-set-key "\C-x\"" 'save-buffers-kill-terminal)
+
+	#+END_SRC
+
+** General Org Mode Configs
+*** Define custom task states
+#+BEGIN_SRC emacs-lisp
+  (setq org-agenda-include-diary t)
+  (setq org-todo-keywords
+  	  '((sequence "TODO(t)" "IN-PROGRESS(i!)" "QUESTION(q@/!)" "WAITING(w@/!)"  "|" "DONE(d!)" "INFO(f!)" "REFILED(r!)" "DELEGATED(g@)" "CANCELED(c@)" "BACKLOG(b!)" "OBE(o@)")))
+#+END_SRC
+
+*** Custom refile commands
+#+begin_src emacs-lisp
+  (define-key org-mode-map (kbd "C-c w") 'org-refile)
+  (define-key org-mode-map (kbd "C-c W") 'org-refile-copy)
+#+end_src
+*** Org capture templtes
+
+#+begin_src emacs-lisp
+
+       (message "set C-cc - ONE")
+       (global-set-key (kbd "\C-cc") 'org-capture)
+
+     ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, and org-protocol
+     (setq org-capture-templates
+	(quote (("t" "TODO (no link)" entry (file "~/Org/refile.org")
+		 "* TODO %?\n  %U\n" :clock-in nil :clock-resume nil)
+		("T" "TODO (store link)" entry (file "~/Org/refile.org")
+		 "* TODO %?\n  %U\n  %a\n" :clock-in nil :clock-resume nil)
+		 ;; ("d" "daily todo" entry (file+datetree "~/Org/daily.org")
+		 ;; "* TODO %?\n  %U\n")
+		("s" "Schedule" entry (file+datetree "~/Org/schedule.org")
+		 "*  %?\n%(format-time-string \"<%Y-%m-%d %H:00-%H:00>\")\n")
+	       ("h" "hugo blog" entry (file "~/blog/drafts/drafts.org")
+  "*** TODO %^{title}		:100DaysToOffload:
+  :PROPERTIES:
+  :EXPORT_FILE_NAME: %(format-time-string \"%Y-%m-%d\")
+  :EXPORT_HUGO_PUBLISHDATE: %(format-time-string \"%Y-%m-%d\"):
+  :END:
+
+  The short story ..
+
+  ,#+caption: [[https://FOO.COM/BAR/BAZ.JPG][\"Name of work\" by WHO is licensed under cc by 2.0]]
+  ,#+attr_html: :width 200px
+  [[file:images/BAZ.JPG]]
+
+  ,#+hugo: more
+
+  The long story...
+
+  #nn of #100DaysToOffload take 2.1, https://100daystooffload.com/
+"		 )
+		 ;; ("r" "respond" entry (file "~/Org/refile.org")
+		  ;; "* TODO Respond to %:from on %:subject\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
+		;; ("n" "note" entry (file "~/Org/refile.org")
+		 ;; "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+		;;
+		;; OpenAI query log
+		;;
+		("O" "OpenAI (store link)" entry (file+datetree "~/private/conversations/gpt.org")
+		 "* %?\n  %U\n  %a\nQuery:")
+		;; ("o" "Journal (no link)" entry (file+datetree "~/private/conversations/gpt.org")
+		 ;; "* %?\n  %U\nQuery: ")
+		("o" "OpenAI (no link)" entry (file+datetree "~/private/conversations/gpt.org")
+ "* %?\n  %U\nQuery: \n\nChatGPT sez:" :jump-to-capture t)
+		("J" "Journal (store link)" entry (file+datetree "~/Org/diary.org")
+		 "* %?\n  %U\n  %a\n")
+		("j" "Journal (no link)" entry (file+datetree "~/Org/diary.org")
+		 "* %?\n  %U\n")
+		;;
+		;; Paper filing
+		;;
+		("p" "paper doc log" entry (file+datetree "~/docs/paper-docs-log.org")
+"* INFO %^{DocID|YYYY-MM-DD-##} - %^{brief description} :%^g
+  %U
+  :PROPERTIES:
+  :what: %^{What|Receipt|Bill|Statement|Form|MedicalRecords}
+  :amount: %^{ammount}
+  :why: %^{Why|Financial|Medical|House|Food|Charity}
+  :where:%^{Where|paper-files-monthly|paper-files-tax|paper-files-medical-OOP-2025|paper-files-medical-steph|paper-files-medical-george|business-inbox}
+  :END:\n%?"
+		)
+
+		("w" "org-protocol" entry (file "~/Org/refile.org")
+		 "* TODO Review %c\n%U\n" :immediate-finish t)
+		;; ("p" "Phone call" entry (file "~/Org/refile.org")
+		;;  "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
+		;; ("m" "Meeting" entry (file "~/git/org/refile.org")
+		;; "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
+		("b" "Habit" entry (file "~/Org/refile.org")
+		 "* TODO %?\n%U\n%a\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:END:\n")
+		;; ("r" "respond" entry (file "~/Org/refile.org")
+		   ;; "* TODO Respond to %:from on %:subject\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
+    ;;              ("n" "note" entry (file "~/Org/refile.org")
+    ;;               "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+		  ("n" "note" entry (file "~/Org/refile.org")
+		   "* %? :NOTE:\n%U\n%a\n")
+		   )))
+
+    ;; (add-to-list 'org-capture-templates
+    ;;              '("c" "Contacts" entry (file "~/Org/contacts.org")
+    ;;              "* %(org-contacts-template-name)
+    ;;   :PROPERTIES:
+    ;;   :EMAIL: %(org-contacts-template-email)
+    ;;   :END:"))
+
+
+;; Define a hook to go to the gpt journal after capture
+
+(defun my/org-capture-goto-new-entry ()
+  "Go to the most recent entry in the capture target."
+  (let ((file "~/private/conversations/gpt.org"))
+    (with-current-buffer (find-file file)
+      (goto-char (point-max))
+      (gmj-backward-whitespace)
+)))
+
+(add-hook 'org-capture-after-finalize-hook #'my/org-capture-goto-new-entry)
+#+end_src
+
 ** Editing
 *** Typeing overwrites active region
 #+begin_src emacs-lisp
@@ -251,12 +383,65 @@ from your init.el (which you may want to share)
 #+RESULTS:
 | gmj-org-config | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-fold-show-all append local] 5] | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-babel-show-result-all append local] 5] | org-babel-result-hide-spec | org-babel-hide-all-hashes | #[0 \301\211\207 [imenu-create-index-function org-imenu-get-tree] 2] |
 
+*** TODO Timestamp files on write
+#+BEGIN_SRC emacs-lisp
+  ;
+  ; Update DATE timestamps on write
+  ;
+  ; Updates any dates in the first 8 lines
+  ; of a file that are of the format:
+  ;
+  ;   ^.*date[d]: <>
+  ;
+  ; See https://www.emacswiki.org/emacs/TimeStamp
+  ;
+  ; Matches these format:
+
+  (setq time-stamp-pattern  "8/[Dd][Aa][Tt][Ee][Dd]?:[ \t]+\\\\?[\"<]+%:y-%02m-%02d %02H:%02M:%02S %:a\\\\?[\">]")
+  (add-hook 'before-save-hook 'time-stamp)
+#+END_SRC
 ** Navigation
 ** Planning
 *** Org Agenda Setup
 
 #+begin_src emacs-lisp
+   (setq org-agenda-files "~/Org/agenda-files.org")
+   (global-set-key "\C-ca" 'org-agenda)
+
   (setq org-habit-show-all-today t)
+  (setq org-agenda-habit-graph-column 50) ;; Set the width of the progress bar
+  (add-to-list 'org-modules 'org-habit) 
+
+
+  ;; View of current week with only DONE items
+  ;; https://emacs.stackexchange.com/questions/8150/show-done-items-in-current-calendar-week
+
+  (setq org-agenda-custom-commands
+  	'(
+
+  	  ("D" "Weekly DONE review"
+  	      agenda ""
+  	      ((org-agenda-span 'week)
+  	       (org-agenda-start-on-weekday 0)
+  	       ;(org-agenda-start-with-log-mode t)
+  	       (org-agenda-start-with-log-mode '(closed state clock))
+  	       (org-agenda-skip-function
+  		'(org-agenda-skip-entry-if 'nottodo 'done))
+  	       ))
+
+  	  ("W" "Weekly Worked-on review"
+  	       agenda ""
+  	       ((org-agenda-span 'week)
+  		(org-agenda-start-on-weekday 0)
+  		;(org-agenda-start-with-log-mode t)
+  		(org-agenda-start-with-log-mode '(closed state clock))
+  		(org-agenda-skip-function
+  		 '(org-agenda-skip-entry-if 'todo '("TODO" "WAITING")))
+  	       ))
+
+  	  )
+  	)
+
 #+end_src
 
 ** Reading

@@ -1,6 +1,6 @@
 <<babel-init>>
 #TITLE: George Jones' emacs config, 2025 edition
-# Updated: <2025-01-30 07:01:37 Thursday>
+# Updated: <2025-01-30 11:45:12 Thursday>
 #+CAPTION: Text Colored Glasses
 #+BEGIN_EXAMPLE
 						     __
@@ -568,7 +568,9 @@
 # (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
 # #+END_SRC
 
-*** TODO Misc functions
+*** CANCELED Misc functions
+- State "CANCELED"   from "TODO"       [2025-01-30 Thu 11:37] \\
+  - Use xah-insert-date
 #+BEGIN_SRC emacs-lisp :exports code
 
   (display-time-mode 1)
@@ -599,7 +601,7 @@
 #    (set-frame-parameter (selected-frame) 'alpha value))
 # #+END_SRC
 
-*** TODO Refile
+*** DONE Refile
 #     Refiling.  Mostly from http://doc.norang.ca/org-mode.org
 # #+begin_src emacs-lisp
 #   ; Targets include this file and any file contributing to the agenda - up to 9 levels deep
@@ -746,7 +748,7 @@
 
 ** TODO Planning
 **** TODO Agenda TODO Items
-***** TODO DONE Figure out how to stop C-c C-[ from adding to init.el
+***** CANCLED Figure out how to stop C-c C-[ from adding to init.el
 #       I want to keep private information out of init.el.
 #       org-agenda-file-to-front adds files there.  I want them in a
 #       separate file.
@@ -958,7 +960,8 @@
 #        (define-global-abbrev "8ugj" "http://port111.com/george")
 #     #+end_example
 
-*** TODO Timestamps
+*** DONE Timestamps
+- State "DONE"       from "TODO"       [2025-01-30 Thu 11:34]
 #+BEGIN_SRC emacs-lisp
   ;
   ; Update DATE timestamps on write
@@ -1006,7 +1009,7 @@
 # (global-set-key "\C-cl" 'org-store-link)
 # #+END_SRC
 
-*** TODO Agenda and tasks related
+*** DONE Agenda and tasks related
  #+BEGIN_SRC emacs-lisp :exports code
    (setq org-agenda-include-diary t)
    (setq org-todo-keywords
@@ -1332,7 +1335,8 @@
 # #+end_src
 
 * TODO Stuff that has to load late
-*** TODO Org Agenda Configs
+*** DONE Org Agenda Configs
+- State "DONE"       from "TODO"       [2025-01-30 Thu 11:42]
 #     This has to load afer org/agenda stuff is setup so that
 #     org-agenda-custom-commands is defined (could probably be a hook)
 #+begin_src emacs-lisp
@@ -1375,7 +1379,9 @@
 
 * TODO Experimental/Testing
 
-** TODO isearch help menu
+** CANCELED isearch help menu
+- State "CANCELED"   from "TODO"       [2025-01-30 Thu 11:43] \\
+  See if the defaults work OK
 #   ; 2023-12-19
 # # #+BEGIN_SRC emacs-lisp :exports code
 # #   ;http://yummymelon.com/devnull/improving-emacs-isearch-usability-with-transient.html
@@ -1389,7 +1395,10 @@
 (setq org-export-with-timestamps nil)
 #+end_src
 
-** TODO Packages
+** CANCELED Packages
+- State "CANCELED"   from "DONE"       [2025-01-30 Thu 11:43] \\
+  Not needed
+- State "DONE"       from "TODO"       [2025-01-30 Thu 11:43]
 # #+begin_src emacs-lisp
 # ;; (require 'use-package)
 
