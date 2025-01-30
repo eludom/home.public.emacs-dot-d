@@ -60,6 +60,41 @@ from your init.el (which you may want to share)
 (load custom-file :no-error-if-file-is-missing)
 #+END_SRC
 ** Editing
+*** Typeing overwrites active region
+#+begin_src emacs-lisp
+(use-package delsel
+  :ensure nil
+  :hook (after-init . delete-selection-mode))
+#+end_src
+
+*** Do something rational when ^G in minibuffer
+#+begin_src emacs-lisp
+(defun prot/keyboard-quit-dwim ()
+  "Do-What-I-Mean behaviour for a general `keyboard-quit'.
+  The generic `keyboard-quit' does not do the expected thing when
+  the minibuffer is open.  Whereas we want it to close the
+  minibuffer, even without explicitly focusing it.
+
+  The DWIM behaviour of this command is as follows:
+
+- When the region is active, disable it.
+- When a minibuffer is open, but not focused, close the minibuffer.
+- When the Completions buffer is selected, close it.
+- In every other case use the regular `keyboard-quit'."
+  (interactive)
+  (cond
+   ((region-active-p)
+    (keyboard-quit))
+   ((derived-mode-p 'completion-list-mode)
+    (delete-completion-window))
+   ((> (minibuffer-depth) 0)
+    (abort-recursive-edit))
+   (t
+    (keyboard-quit))))
+
+(define-key global-map (kbd "C-g") #'prot/keyboard-quit-dwim)
+#+end_src
+
 *** Structure Template
 #+begin_src elisp
 
@@ -95,58 +130,9 @@ from your init.el (which you may want to share)
 
 * Move these up
 
-# (setq custom-file (locate-user-emacs-file "custom.el"))
-# (load custom-file :no-error-if-file-is-missing)
-
-# ;;; Set up the package manager
-
-# (require 'package)
-# (package-initialize)
-
-# (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-
-# (when (< emacs-major-version 29)
-#   (unless (package-installed-p 'use-package)
-#     (unless package-archive-contents
-#       (package-refresh-contents))
-#     (package-install 'use-package)))
-
-# (add-to-list 'display-buffer-alist
-# 	     '("\\`\\*\\(Warnings\\|Compile-Log\\)\\*\\'"
-# 	       (display-buffer-no-window)
-# 	       (allow-no-window . t)))
-
 # ;;; Basic behaviour
 
-# (use-package delsel
-#   :ensure nil
-#   :hook (after-init . delete-selection-mode))
 
-# (defun prot/keyboard-quit-dwim ()
-#   "Do-What-I-Mean behaviour for a general `keyboard-quit'.
-
-# The generic `keyboard-quit' does not do the expected thing when
-# the minibuffer is open.  Whereas we want it to close the
-# minibuffer, even without explicitly focusing it.
-
-# The DWIM behaviour of this command is as follows:
-
-# - When the region is active, disable it.
-# - When a minibuffer is open, but not focused, close the minibuffer.
-# - When the Completions buffer is selected, close it.
-# - In every other case use the regular `keyboard-quit'."
-#   (interactive)
-#   (cond
-#    ((region-active-p)
-#     (keyboard-quit))
-#    ((derived-mode-p 'completion-list-mode)
-#     (delete-completion-window))
-#    ((> (minibuffer-depth) 0)
-#     (abort-recursive-edit))
-#    (t
-#     (keyboard-quit))))
-
-# (define-key global-map (kbd "C-g") #'prot/keyboard-quit-dwim)
 
 # ;;; Tweak the looks of Emacs
 
