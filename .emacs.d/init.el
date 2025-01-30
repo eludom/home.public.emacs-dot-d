@@ -3,6 +3,27 @@
 
 (setq inhibit-startup-screen t)		; Prevent error related to svg in 30.0.50 build 2025-01-28
 
+;;
+;; This is a hack from
+;;
+;;   https://emacs.stackexchange.com/questions/74289/emacs-28-2-error-in-macos-ventura-image-type-invalid-image-type-svg
+;;
+;; c.a 2025-01-08, on my local build of the master branch I keep getting things like
+;;
+;;   use-fancy-splash-screens-p: Invalid format operation %06X; fill: currentColor;" width="%d" height="%d" preserveAspectRatio="none" viewBox="0 0 %f %f"><rect width="100%%" height="100%%" fill="#%06X"/><xi:include href="data:image/svg+xml;base64,%s"></xi:include></svg>
+;;   help-window-display-message: Invalid format operation %06X; fill: currentColor;" width="%d" height="%d" preserveAspectRatio="none" viewBox="0 0 %f %f"><rect width="100%%" height="100%%" fill="#%06X"/><xi:include href="data:image/svg+xml;base64,%s"></xi:include></svg>
+;;
+;; This fixes it for now
+;;
+;; overriding image.el function image-type-available-p
+(defun image-type-available-p (type)
+  "Return t if image type TYPE is available.
+Image types are symbols like `xbm' or `jpeg'."
+  (if (eq 'svg type)
+      nil
+    (and (fboundp 'init-image-library)
+	 (init-image-library type))))
+
 (setq custom-file (locate-user-emacs-file "custom.el"))
 (load custom-file :no-error-if-file-is-missing)
 
