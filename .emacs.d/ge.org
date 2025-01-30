@@ -179,7 +179,6 @@ from your init.el (which you may want to share)
   (setq trashed-date-format "%Y-%m-%d %H:%M:%S"))
 #+end_src
 
-
 ** Editing
 *** Typeing overwrites active region
 #+begin_src emacs-lisp
@@ -216,7 +215,7 @@ from your init.el (which you may want to share)
 (define-key global-map (kbd "C-g") #'prot/keyboard-quit-dwim)
 #+end_src
 
-*** Structure Template
+*** Structure Templates
 #+begin_src elisp
 
 ; With props to Xah Lee (again)...
@@ -237,65 +236,55 @@ from your init.el (which you may want to share)
 
 ** Navigation
 ** Planning
+*** Org Agenda Setup
+
+#+begin_src emacs-lisp
+  (setq org-habit-show-all-today t)
+#+end_src
+
 ** Reading
 ** Writing
 ** Programming
+#+begin_src emacs-lisp
+  (use-package magit
+    :ensure t
+    :config
+    (progn
+      (defalias 'ms 'magit-status)
+    ))
+#+end_src
+
 ** Email
 ** Web Borwsing
 ** AI
+#+begin_src emacs-lisp
+(use-package gptel
+  :ensure t
+  :config
+  (progn
+    (global-set-key "\C-xg" 'gptel-send)))	
+#+end_src
+
 ** Fun and Games
 ** Experimental
+
+#+begin_src emacs-lisp
+  (use-package denote
+    :ensure t
+    )
+#+end_src
+
+
+
 ** Configs that have to load late
 ; 
 * All's Well That Ends Well, YOW !!!
 
-* Move these up
 
 
-# (use-package magit
-#   :ensure t
-#   :config
-#   (progn
-#     ;; config magit
-#     (message "config magit")
-#     (defalias 'ms2 'magit-status)
-#   ))
 
 
-# (use-package denote
-#   :ensure t
-#   :init
-#   (progn
-#     ;; Code that runs before package is loaded
-#     (message "init package denote")
-#     )
-#   :config
-#   (progn
-#     ;; Code that runs after package is loaded
-#     (message "config package denote")
-#     ))
 
-
-# ;;
-# ;; Org Agenda Setup
-# ;;
-
-# (setq org-habit-show-all-today t)
-
-# ; The fun starts here !!!
-# ; pull in my main .org init file.
-# ;
-# ;; (org-babel-load-file "~/.emacs.d/george.org")
-
-# (use-package gptel
-#   :ensure t
-#   :config
-#   (progn
-#     (message "config gptel")
-#     (message "Setting \C-xg")
-#     (global-set-key "\C-xg" 'gptel-send)
-#     )
-# )	
 
 
 (message "init.el finished.")
