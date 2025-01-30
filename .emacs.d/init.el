@@ -228,33 +228,6 @@ Image types are symbols like `xbm' or `jpeg'."
 
 
 
-;; ;; ;;
-;; ;; ;; ergo-emacs-mode setup
-;; ;; ;;
-
-;; ;; (add-to-list 'load-path "~/.emacs.d/ergoemacs-mode")
-;; ;; (require 'ergoemacs-mode)
-
-;; ;; ;; (setq ergoemacs-theme nil) ;; Uses Standard Ergoemacs keyboard theme
-;; ;; ;; (setq ergoemacs-keyboard-layout "us") ;; Assumes QWERTY keyboard layout
-;; ;; (ergoemacs-mode 1)
-
-;; ;;
-;; ;; Configure xah fly keys
-;; ;;
-
-;; (add-to-list 'load-path "~/.emacs.d/lisp/")
-;; (setq xah-fly-use-control-key t)
-;; (require 'xah-fly-keys)
-;; ;; specify a layout
-;; (xah-fly-keys-set-layout "qwerty")
-;; (xah-fly-keys 1)
-
-
-;; ;; TODO Fix this.   In insert mode with ergoemacs this still
-;; ;;      goes to beginning of line.
-;; (global-set-key (kbd "<home>") 'xah-fly-insert-mode-activate)
-
 ;; ;;
 ;; ;; Org Agenda Setup
 ;; ;;
