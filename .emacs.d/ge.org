@@ -1,4 +1,21 @@
+#TITLE: George Jones' emacs config, 2025 edition
+# Updated: <2025-01-30 12:07:47 Thursday>
+#+CAPTION: Text Colored Glasses
+#+BEGIN_EXAMPLE
+						     __
+						    /  \ "I'll see you on __
+			    /\                     /   /  the text side  /  \
+			   /  \                   /       of the moon"  /   /
+	    -------R------/    \                _/_____       _______  /
+	    -------G-----/    --\-----W------- /       \ / \ /       \/
+	    -------B----/        \            |   Org   |   |  Mode   |
+		       /          \            \_______/     \_______/
+		      -------------
+
+#+END_EXAMPLE
+
 #+PROPERTY: header-args :results silent :exports code
+
 * Prolog
 ** About This file
 
