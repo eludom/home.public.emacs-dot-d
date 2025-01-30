@@ -1,6 +1,6 @@
 <<babel-init>>
 #TITLE: George Jones' emacs config, 2025 edition
-# Updated: <2025-01-30 05:06:38 Thursday>
+# Updated: <2025-01-30 05:32:30 Thursday>
 #+CAPTION: Text Colored Glasses
 #+BEGIN_EXAMPLE
 						     __
@@ -385,61 +385,58 @@
     M-x (more keystrokes, somewhat awkward)
 
     #+BEGIN_SRC emacs-lisp :exports code
-      (defalias 'yes-or-no-p 'y-or-n-p) ; y or n is enough
-      (defalias 'list-buffers 'ibuffer) ; always use ibuffer
-      ;(defalias 'perl-mode 'cperl-mode) ; always use cperl-mode
+         (defalias 'yes-or-no-p 'y-or-n-p) ; y or n is enough
+         (defalias 'list-buffers 'ibuffer) ; always use ibuffer
 
-      ;; make frequently used commands short
-      (defalias 'qrr 'query-replace-regexp)
-      (defalias 'lml 'list-matching-lines)
-      (defalias 'dml 'delete-matching-lines)
-      (defalias 'dnml 'delete-non-matching-lines)
-      (defalias 'dtw 'delete-trailing-whitespace)
-      (defalias 'sl 'sort-lines)
-      (defalias 'rr 'reverse-region)
-      (defalias 'rs 'replace-string)
+         ;; make frequently used commands short
+         (defalias 'ms 'magit-status)
+         (defalias 'qrr 'query-replace-regexp)
+         (defalias 'lml 'list-matching-lines)
+         (defalias 'dml 'delete-matching-lines)
+         (defalias 'dnml 'delete-non-matching-lines)
+         (defalias 'dtw 'delete-trailing-whitespace)
+         (defalias 'sl 'sort-lines)
+         (defalias 'rr 'reverse-region)
+         (defalias 'rs 'replace-string)
 
-      (defalias 'g 'grep)
-      (defalias 'gf 'grep-find)
-      (setq grep-find-command
-	    '("find -L . -type f -mtime -21 -name \\*.org -exec grep -E -i --color -nH --null -e  \\{\\} +" . 80))
+         (defalias 'g 'grep)
+         (defalias 'gf 'grep-find)
+         (setq grep-find-command
+         	    '("find -L . -type f -mtime -21 -name \\*.org -exec grep -E -i --color -nH --null -e  \\{\\} +" . 80))
 
-      (defalias 'fd 'find-dired)
+         (defalias 'fd 'find-dired)
 
-      (defalias 'rb 'revert-buffer)
+         (defalias 'rb 'revert-buffer)
 
-      (defalias 'sh 'shell)
-      ;(defalias 'ps 'powershell)
-      (defalias 'fb 'flyspell-buffer)
-      (defalias 'sbc 'set-background-color)
-      (defalias 'rof 'recentf-open-files)
-      (defalias 'lcd 'list-colors-display)
-      (defalias 'cc 'calc)
+         (defalias 'sh 'shell)
+         (defalias 'fb 'flyspell-buffer)
+         (defalias 'sbc 'set-background-color)
+         (defalias 'rof 'recentf-open-files)
+         (defalias 'lcd 'list-colors-display)
+         (defalias 'cc 'calc)
 
-      ; elisp
-      (defalias 'eb 'eval-buffer)
-      (defalias 'er 'eval-region)
-      (defalias 'ed 'eval-defun)
-      (defalias 'eis 'elisp-index-search)
-      (defalias 'lf 'load-file)
+         ; elisp
+         (defalias 'eb 'eval-buffer)
+         (defalias 'er 'eval-region)
+         (defalias 'ed 'eval-defun)
+         (defalias 'eis 'elisp-index-search)
+         (defalias 'lf 'load-file)
 
-      ; major modes
-      (defalias 'hm 'html-mode)
-      (defalias 'tm 'text-mode)
-      (defalias 'elm 'emacs-lisp-mode)
-      (defalias 'om 'org-mode)
-      (defalias 'gm 'go-mode)
-      (defalias 'lim 'lisp-interaction-mode)
-      ;(defalias 'ssm 'shell-script-mode)
-      ;(defalias 'html6-mode 'xah-html6-mode)
+         ; major modes
+         (defalias 'hm 'html-mode)
+         (defalias 'tm 'text-mode)
+         (defalias 'elm 'emacs-lisp-mode)
+         (defalias 'om 'org-mode)
+         (defalias 'gm 'go-mode)
+         (defalias 'lim 'lisp-interaction-mode)
 
-      ; minor modes
-      (defalias 'wsm 'whitespace-mode)
-      (defalias 'gwsm 'global-whitespace-mode)
-      (defalias 'dsm 'desktop-save-mode)
-      (defalias 'acm 'auto-complete-mode)
-      (defalias 'vlm 'visual-line-mode)
-      (defalias 'glm 'global-linum-mode)
+         ; minor modes
+         (defalias 'wsm 'whitespace-mode)
+         (defalias 'gwsm 'global-whitespace-mode)
+         (defalias 'dsm 'desktop-save-mode)
+         (defalias 'acm 'auto-complete-mode)
+         (defalias 'vlm 'visual-line-mode)
+         (defalias 'glm 'global-linum-mode)
 
 	#+END_SRC
 
@@ -448,20 +445,11 @@
 
 *** My alias
 #     #+BEGIN_SRC emacs-lisp :exports code
-# (defalias 'ib 'ispell-buffer)
-# (defalias 'nm 'notmuch)
-# (defalias 'mbo 'menu-bar-open) ; why use the mouse if it's not necessary?
-# (defalias 'of 'xah-open-file-at-cursor)
-# (defalias 'w 'eww) ; Because sometimes, you just want to open that URL as mostly text...
-# (defalias 'slack 'slack-select-rooms)
-
-# (defalias 'pscp 'password-store-copy)
-# (defalias 'psed 'password-store-edit)
-# (defalias 'psge 'password-store-generate)
-# (defalias 'psin 'password-store-insert)
-# (defalias 'psrm 'password-store-remove)
-# (defalias 'psmv 'password-store-rename)
-# (defalias 'psur 'password-store-url)
+(defalias 'ib 'ispell-buffer)
+(defalias 'nm 'notmuch)
+(defalias 'mbo 'menu-bar-open) ; why use the mouse if it's not necessary?
+(defalias 'of 'xah-open-file-at-cursor)
+(defalias 'w 'eww) ; Because sometimes, you just want to open that URL as mostly text...
 
 #     #+END_SRC
 
