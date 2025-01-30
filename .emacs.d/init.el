@@ -41,9 +41,9 @@ Image types are symbols like `xbm' or `jpeg'."
     (package-install 'use-package)))
 
 (add-to-list 'display-buffer-alist
-             '("\\`\\*\\(Warnings\\|Compile-Log\\)\\*\\'"
-               (display-buffer-no-window)
-               (allow-no-window . t)))
+	     '("\\`\\*\\(Warnings\\|Compile-Log\\)\\*\\'"
+	       (display-buffer-no-window)
+	       (allow-no-window . t)))
 
 ;;; Basic behaviour
 
@@ -193,6 +193,16 @@ The DWIM behaviour of this command is as follows:
   (setq trashed-sort-key '("Date deleted" . t))
   (setq trashed-date-format "%Y-%m-%d %H:%M:%S"))
 
+(use-package denote
+  :ensure t
+  : config
+  (message "config package denote")
+
+)
+
+(use-package magit
+  :ensure t
+)
 
 ;; ;;
 ;; ;; ergo-emacs-mode setup
@@ -233,4 +243,3 @@ The DWIM behaviour of this command is as follows:
 (org-babel-load-file "~/.emacs.d/george.org")
 
 (message "init.el finished.")
-
