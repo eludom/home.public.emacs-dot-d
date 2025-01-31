@@ -1,6 +1,6 @@
 <<babel-init>>
 #TITLE: George Jones' emacs config, 2025 edition
-# Updated: <2025-01-30 11:45:12 Thursday>
+# Updated: <2025-01-31 08:39:05 Friday>
 #+CAPTION: Text Colored Glasses
 #+BEGIN_EXAMPLE
 						     __
@@ -446,7 +446,7 @@
 *** TODO My alias
 #     #+BEGIN_SRC emacs-lisp :exports code
 (defalias 'ib 'ispell-buffer)
-(defalias 'nm 'notmuch)
+# (defalias 'nm 'notmuch)
 (defalias 'mbo 'menu-bar-open) ; why use the mouse if it's not necessary?
 (defalias 'of 'xah-open-file-at-cursor)
 (defalias 'w 'eww) ; Because sometimes, you just want to open that URL as mostly text...
@@ -1151,8 +1151,9 @@
 
 #+END_SRC
 
-*** TODO Org email and contacts settings
+*** IN-PROGRESS Org email and contacts settings
 
+- State "IN-PROGRESS" from "TODO"       [2025-01-31 Fri 06:28]
 # #+BEGIN_SRC emacs-lisp :exports code
 
 #   ;(require 'org-mime)
@@ -1254,7 +1255,8 @@
 #     (setq python-shell-interpreter "python3")
 #     #+end_src
 ** TODO Email Config
-*** TODO Message mode for sending mail
+*** DONE Message mode for sending mail
+- State "DONE"       from "TODO"       [2025-01-31 Fri 08:38]
 # #+BEGIN_SRC emacs-lisp
 # (setq mm-discouraged-alternatives '("text/html" "text/richtext"))
 # (global-set-key "\C-Xm" 'compose-mail-other-window)
@@ -1262,7 +1264,9 @@
 # # *** Notmuch Address Completion Using Notmuch database
 
 *** TODO Notmuch for reading mail
-**** TODO Use new-and-improved notmuch address expansion
+**** CANCELED Use new-and-improved notmuch address expansion
+- State "CANCELED"   from "IN-PROGRESS" [2025-01-31 Fri 08:38]
+- State "IN-PROGRESS" from "TODO"       [2025-01-31 Fri 06:59]
 # #+begin_src emacs-lisp
 # (require 'notmuch-addr)
 # (with-eval-after-load 'notmuch-address
@@ -1322,7 +1326,8 @@
 
 # #    #+end_src
 
-** TODO AI
+** CANCELED AI
+- State "CANCELED"   from "TODO"       [2025-01-31 Fri 06:29]
 # #+begin_src elisp
 # ;;
 # (add-to-list 'load-path "/home/gmj/.emacs.d/elpa/org-ai-20230511.247")
