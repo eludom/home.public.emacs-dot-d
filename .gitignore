@@ -1,0 +1,15 @@
+*~
+*#
+.emacs.d/abbrev_defs
+.emacs.d/bookmarks
+.emacs.d/elpa/
+.emacs.d/ergoemacs-mode/
+.emacs.d/ge.el
+.emacs.d/george.el
+.emacs.d/history
+.emacs.d/recentf
+.emacs.d/temp/
+.emacs.d/tramp
+.emacs.d/transient/
+.emacs.d/url/
+.emacs.d/xah-fly-startup.el.OLD
