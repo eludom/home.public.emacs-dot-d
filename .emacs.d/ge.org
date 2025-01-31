@@ -1,5 +1,5 @@
 #TITLE: George Jones' emacs config, 2025 edition
-# Updated: <2025-01-30 12:07:47 Thursday>
+# Updated: <2025-01-31 09:07:43 Friday>
 #+CAPTION: Text Colored Glasses
 #+BEGIN_EXAMPLE
 						     __
@@ -31,6 +31,40 @@ This is my GE.org - George's Emacs ORG config
 ** Prereqs
 ** Conventions
 * Configurations
+*** Load custom .el or .org files from ~/elisp-*
+
+This loads any custom code snippits I've written or borrowed
+from
+
+   ~/elisp-{public,private,secret}
+
+    #+BEGIN_SRC emacs-lisp :exports code
+
+      ; Load up all .org files in ~/elisp*
+
+       (dolist (word  (directory-files (expand-file-name "~/") t "^elisp*"))
+      	(if (file-exists-p word)
+      	  (progn
+      	    (setq elisp-dir word)
+      	    (add-to-list 'load-path word)
+      	    (message (format "org-bable-load directory: %s"  elisp-dir))
+      	    (mapc #'org-babel-load-file (directory-files elisp-dir t "\\.org$"))
+
+      	     ; Load up everything in the ~/elisp
+
+      	     ; http://stackoverflow.com/questions/18706250/emacs-require-all-files-in-a-directory
+
+      	     (let ((loaded  (mapcar #'car load-history)))
+      	       (dolist (file  (directory-files elisp-dir t ".+\\.elc?$"))
+      		 (unless (catch 'foo
+      			   (dolist (done  loaded)
+      			     (when (equal file done) (throw 'foo t)))
+      			   nil)
+      		   (load (file-name-sans-extension file))
+      		   (push file loaded))))
+      		 )))
+    #+END_SRC
+
 ** General Emacs Configs
 *** Things That Have To Load Early
 **** Org Babel Languages
@@ -53,9 +87,6 @@ Xah fly Keys is my native editor these days.
 I /can/ still use basic emacs, but it feels so 1979....
 
 #+BEGIN_SRC emacs-lisp
-
-
-
   (use-package xah-fly-keys
     :ensure t
     :init
@@ -397,7 +428,7 @@ from your init.el (which you may want to share)
   ;
   ; Matches these format:
 
-  (setq time-stamp-pattern  "8/[Dd][Aa][Tt][Ee][Dd]?:[ \t]+\\\\?[\"<]+%:y-%02m-%02d %02H:%02M:%02S %:a\\\\?[\">]")
+  (setq time-stamp-pattern  "8/[Dd][Aa][Tt][Ee][Dd]?:[ \t]+\\\\?[\"<]+%:Y-%02m-%02d %02H:%02M:%02S %:a\\\\?[\">]")
   (add-hook 'before-save-hook 'time-stamp)
 #+END_SRC
 ** Navigation
@@ -446,6 +477,38 @@ from your init.el (which you may want to share)
 
 ** Reading
 ** Writing
+** Communication
+*** Email
+**** Notmuch and friends
+#+BEGIN_SRC emacs-lisp
+   (use-package notmuch
+     :ensure t
+     ;; :init
+     ;; (ignore "foo")
+     :config
+     (defalias 'nm 'notmuch)
+     (setq mm-discouraged-alternatives '("text/html" "text/richtext"))
+     (global-set-key "\C-Xm" 'compose-mail-other-window)
+     )
+
+   (use-package notmuch-addr
+     :ensure t
+     ;; :init
+     ;; (ignore "foo")
+     ;; :config
+     ;; (ignore "foo")
+     )
+
+   (use-package ol-notmuch
+     :ensure t
+     ;; :init
+     ;; (ignore "foo")
+     ;; :config
+     ;; (ignore "foo")
+     )  
+#+END_SRC
+
+
 ** Programming
 #+begin_src emacs-lisp
   (use-package magit
@@ -456,8 +519,7 @@ from your init.el (which you may want to share)
     ))
 #+end_src
 
-** Email
-** Web Borwsing
+** Web Browsing
 ** AI
 #+begin_src emacs-lisp
 (use-package gptel
@@ -475,7 +537,6 @@ from your init.el (which you may want to share)
     :ensure t
     )
 #+end_src
-
 
 
 ** Configs that have to load late
