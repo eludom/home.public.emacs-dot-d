@@ -1,6 +1,6 @@
 <<babel-init>>
 #TITLE: George Jones' emacs config, 2025 edition
-# Updated: <2025-01-30 05:32:30 Thursday>
+# Updated: <2025-02-09 08:03:15 Sunday>
 #+CAPTION: Text Colored Glasses
 #+BEGIN_EXAMPLE
 						     __
@@ -1275,10 +1275,10 @@
 
 ** Web Browsing
 *** org-web-tools
-#     #+begin_src emacs-lisp
-# ;; 2022-12-09
-# (require 'org-web-tools)
-# (defalias 'owr  'org-web-tools-read-url-as-org)
+    #+begin_src emacs-lisp
+;; 2022-12-09
+(require 'org-web-tools)
+(defalias 'owr  'org-web-tools-read-url-as-org)
 
 # #+end_src
 

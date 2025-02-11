@@ -1,5 +1,5 @@
 #TITLE: George Jones' emacs config, 2025 edition
-# Updated: <2025-01-31 09:07:43 Friday>
+# Updated: <2025-02-11 07:36:42 Tuesday>
 #+CAPTION: Text Colored Glasses
 #+BEGIN_EXAMPLE
 						     __
@@ -95,8 +95,10 @@ I /can/ still use basic emacs, but it feels so 1979....
     (xah-fly-keys-set-layout "qwerty")
     (xah-fly-keys 1)
     (global-set-key (kbd "<home>") 'xah-fly-insert-mode-activate)
+    (global-set-key (kbd "<f7>") 'xah-open-in-external-app)
     )
 #+END_SRC
+
 
 **** Where do customizations land?
 
@@ -242,7 +244,101 @@ from your init.el (which you may want to share)
 
 	#+END_SRC
 
+*** Aliases
+
+Aliases, mostly borrowed from Xah Lee
+
+
+    #+BEGIN_SRC emacs-lisp :exports code
+      (defalias 'yes-or-no-p 'y-or-n-p) ; y or n is enough
+      (defalias 'list-buffers 'ibuffer) ; always use ibuffer
+
+      ;; make frequently used commands short
+      (defalias 'qrr 'query-replace-regexp)
+      ;; (defalias 'lml 'list-matching-lines)
+      ;; (defalias 'dml 'delete-matching-lines)
+      ;; (defalias 'dnml 'delete-non-matching-lines)
+      ;; (defalias 'dtw 'delete-trailing-whitespace)
+      ;; (defalias 'sl 'sort-lines)
+      ;; (defalias 'rr 'reverse-region)
+      ;; (defalias 'rs 'replace-string)
+
+      (defalias 'g 'grep)
+      (defalias 'gf 'grep-find)
+      (setq grep-find-command
+      	    '("find -L . -type f -mtime -21 -name \\*.org -exec grep -E -i --color -nH --null -e  \\{\\} +" . 80))
+
+      (defalias 'fd 'find-dired)
+
+      (defalias 'rb 'revert-buffer)
+
+      (defalias 'sh 'shell)
+      (defalias 'fb 'flyspell-buffer)
+      ;; (defalias 'sbc 'set-background-color)
+      ;; (defalias 'rof 'recentf-open-files)
+      (defalias 'lcd 'list-colors-display)
+      ;; (defalias 'cc 'calc)
+
+      ; elisp
+      (defalias 'eb 'eval-buffer)
+      (defalias 'er 'eval-region)
+      ;; (defalias 'ed 'eval-defun)
+      ;; (defalias 'eis 'elisp-index-search)
+      (defalias 'lf 'load-file)
+
+      ; major modes
+      (defalias 'hm 'html-mode)
+      (defalias 'tm 'text-mode)
+      (defalias 'elm 'emacs-lisp-mode)
+      (defalias 'om 'org-mode)
+      ;; (defalias 'gm 'go-mode)
+      (defalias 'lim 'lisp-interaction-mode)
+
+      ; minor modes
+      (defalias 'wsm 'whitespace-mode)
+      (defalias 'gwsm 'global-whitespace-mode)
+      (defalias 'dsm 'desktop-save-mode)
+      (defalias 'acm 'auto-complete-mode)
+      (defalias 'vlm 'visual-line-mode)
+      (defalias 'glm 'global-linum-mode)
+
+	#+END_SRC
+
+*** TODO My keybindings from eons past
+
+#       Some of these may date to TECO based TOPS20 emacs, Multics emacs, FINE (Tops 10), mg or similar museum pieces.
+
+#       As a note, you can get a Free TOPS20 account and run the original (TECO based) Emacs at http://twenex.org/~eludom
+#       I find I can still edit files in it, but it is mostly unrecognizable to the modern GNU Emacs user....
+
+#+BEGIN_SRC emacs-lisp :exports code
+  (global-set-key "\C-Xd" 'insert-date)
+  (global-set-key "\C-\\" 'compile) ; normally toggle input method, I mean, I *might* want in input Sumarian script...
+  ;; (global-set-key "\C-]" 'call-last-kbd-macro)
+  ;; (global-set-key "\eq" 'query-replace)
+  ;; (global-set-key "\er" 'replace-string)
+  (global-set-key "\em" 'set-mark-command)
+  ;(global-set-key "\e " 'set-mark-command)
+  ;; (global-set-key "\e#" 'what-line)
+  ;; (global-set-key "\eg" 'goto-line)
+  ;; (global-set-key "\ei" 'ispell-buffer)
+  ;(global-set-key "\C-X\C-K" 'bury-buffer)
+  (global-set-key "\C-he" 'emacs-version)
+  (global-set-key "\C-hg" 'org-version); OK, so this one is not acient as of
+  (global-set-key "\ep" 'set-fill-prefix)
+  (global-set-key "\C-Xp" 'fill-paragraph)
+  (global-set-key "\C-Xc" 'copy-region-as-kill)
+  (global-set-key "\C-X!" 'compile)
+  ;(global-unset-key "\C-X\C-l")
+ #+END_SRC
 ** General Org Mode Configs
+#+BEGIN_SRC emacs-lisp :exports code
+  ; gneral org mode settings
+  (setq org-directory "~/Org")
+  (setq org-return-follows-link t)
+  (setq org-use-property-inheritance t)
+  (global-set-key "\C-cl" 'org-store-link)
+#+END_SRC
 *** Define custom task states
 #+BEGIN_SRC emacs-lisp
   (setq org-agenda-include-diary t)
@@ -431,6 +527,32 @@ from your init.el (which you may want to share)
   (setq time-stamp-pattern  "8/[Dd][Aa][Tt][Ee][Dd]?:[ \t]+\\\\?[\"<]+%:Y-%02m-%02d %02H:%02M:%02S %:a\\\\?[\">]")
   (add-hook 'before-save-hook 'time-stamp)
 #+END_SRC
+** TODO Atomic Chrome
+ #+begin_src emacs-lisp
+   ;; EmacsConf 2020 Talk on using Atomic Chrome and GhostText to edit jupyter notebooks
+   ;; https://emacsconf.org/2022/talks/jupyter/
+   ;;
+   ;; https://github.com/alpha22jp/atomic-chrome
+   ;; https://chrome.google.com/webstore/detail/ghosttext/godiecgffnchndlihlpaajjcplehddca/related
+
+    ;; 2022-12-07
+
+    (use-package atomic-chrome
+      :ensure t
+      ;; :init
+      ;; (ignore "foo")
+      :config
+      (atomic-chrome-start-server)
+      (setq atomic-chrome-default-major-mode 'org-mode)
+      (setq atomic-chrome-buffer-open-style 'frame)
+      (setq atomic-chrome-url-major-mode-alist
+   	 '(("localhost" . python-mode)
+              ("fastmail.com" . org-mode)))
+      )
+
+  #+end_src
+
+
 ** Navigation
 ** Planning
 *** Org Agenda Setup
@@ -476,6 +598,22 @@ from your init.el (which you may want to share)
 #+end_src
 
 ** Reading
+** TODO Web Browsing
+*** TODO org-web-tools
+    #+begin_src emacs-lisp
+       ;; 2022-12-09
+       (use-package org-web-tools
+      :ensure t
+      ;; :init
+      ;; (ignore "foo")
+      :config
+      (defalias 'owr  'org-web-tools-read-url-as-org)
+      )
+       
+
+#+end_src
+
+
 ** Writing
 ** Communication
 *** Email

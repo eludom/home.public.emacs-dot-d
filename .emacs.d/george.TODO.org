@@ -1,6 +1,6 @@
 <<babel-init>>
 #TITLE: George Jones' emacs config, 2025 edition
-# Updated: <2025-01-31 08:39:05 Friday>
+# Updated: <2025-02-03 05:48:39 Monday>
 #+CAPTION: Text Colored Glasses
 #+BEGIN_EXAMPLE
 						     __
@@ -321,7 +321,8 @@
 #       (global-set-key (kbd "<f8>") 'xah-open-file-at-cursor)
 #       #+END_SRC
 
-**** TODO Misc things from Xah Lee
+**** DONE Misc things from Xah Lee
+- State "DONE"       from "TODO"       [2025-02-01 Sat 07:30]
       #+BEGIN_SRC emacs-lisp :exports code
       (global-set-key (kbd "<f7>") 'xah-open-in-external-app)
       #+END_SRC
