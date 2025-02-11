@@ -1,5 +1,5 @@
 #TITLE: George Jones' emacs config, 2025 edition
-# Updated: <2025-02-11 07:36:42 Tuesday>
+# Updated: <2025-02-11 10:27:25 Tuesday>
 #+CAPTION: Text Colored Glasses
 #+BEGIN_EXAMPLE
 						     __
@@ -615,6 +615,11 @@ Aliases, mostly borrowed from Xah Lee
 
 
 ** Writing
+*** TODO Flyspell
+#+BEGIN_SRC emacs-lisp :exports code
+  (dolist (hook '(text-mode-hook))
+    (add-hook hook (lambda () (flyspell-mode 1))))
+#+END_SRC
 ** Communication
 *** Email
 **** Notmuch and friends
