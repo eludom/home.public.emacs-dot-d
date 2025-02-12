@@ -1,5 +1,5 @@
 #TITLE: George Jones' emacs config, 2025 edition
-# Updated: <2025-02-11 10:27:25 Tuesday>
+# Updated: <2025-02-12 17:27:58 Wednesday>
 #+CAPTION: Text Colored Glasses
 #+BEGIN_EXAMPLE
 						     __
@@ -624,31 +624,32 @@ Aliases, mostly borrowed from Xah Lee
 *** Email
 **** Notmuch and friends
 #+BEGIN_SRC emacs-lisp
-   (use-package notmuch
-     :ensure t
-     ;; :init
-     ;; (ignore "foo")
-     :config
-     (defalias 'nm 'notmuch)
-     (setq mm-discouraged-alternatives '("text/html" "text/richtext"))
-     (global-set-key "\C-Xm" 'compose-mail-other-window)
-     )
+  (use-package notmuch
+    :ensure t
+    ;; :init
+    ;; (ignore "foo")
+    :config
+    (defalias 'nm 'notmuch)
+    (setq mm-discouraged-alternatives '("text/html" "text/richtext"))
+    (setq message-default-headers "Bcc: gmj@pobox.com")
+    (global-set-key "\C-Xm" 'compose-mail-other-window)
+    )
 
-   (use-package notmuch-addr
-     :ensure t
-     ;; :init
-     ;; (ignore "foo")
-     ;; :config
-     ;; (ignore "foo")
-     )
+  (use-package notmuch-addr
+    :ensure t
+    ;; :init
+    ;; (ignore "foo")
+    ;; :config
+    ;; (ignore "foo")
+    )
 
-   (use-package ol-notmuch
-     :ensure t
-     ;; :init
-     ;; (ignore "foo")
-     ;; :config
-     ;; (ignore "foo")
-     )  
+  (use-package ol-notmuch
+    :ensure t
+    ;; :init
+    ;; (ignore "foo")
+    ;; :config
+    ;; (ignore "foo")
+    )  
 #+END_SRC
 
 
