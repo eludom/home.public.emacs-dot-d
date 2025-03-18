@@ -350,6 +350,7 @@ Aliases, mostly borrowed from Xah Lee
 #+begin_src emacs-lisp
   (define-key org-mode-map (kbd "C-c w") 'org-refile)
   (define-key org-mode-map (kbd "C-c W") 'org-refile-copy)
+  (setq org-refile-targets '((org-agenda-files :maxlevel . 3))) ;; Allows refiling to any files in your agenda
 #+end_src
 *** Org capture templtes
 
@@ -527,7 +528,7 @@ Aliases, mostly borrowed from Xah Lee
   (setq time-stamp-pattern  "8/[Dd][Aa][Tt][Ee][Dd]?:[ \t]+\\\\?[\"<]+%:Y-%02m-%02d %02H:%02M:%02S %:a\\\\?[\">]")
   (add-hook 'before-save-hook 'time-stamp)
 #+END_SRC
-** TODO Atomic Chrome
+*** TODO Atomic Chrome
  #+begin_src emacs-lisp
    ;; EmacsConf 2020 Talk on using Atomic Chrome and GhostText to edit jupyter notebooks
    ;; https://emacsconf.org/2022/talks/jupyter/
