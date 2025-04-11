@@ -1,5 +1,10 @@
+#+title:      ge.org
+#+date:       [2025-02-20 Thu 11:26]
+#+filetags:   :emacs:
+#+identifier: 20250220T112622
+
 #TITLE: George Jones' emacs config, 2025 edition
-# Updated: <2025-02-12 17:27:58 Wednesday>
+# Updated: <2025-04-11 08:19:39 Friday>
 #+CAPTION: Text Colored Glasses
 #+BEGIN_EXAMPLE
 						     __
@@ -89,14 +94,14 @@ I /can/ still use basic emacs, but it feels so 1979....
 #+BEGIN_SRC emacs-lisp
   (use-package xah-fly-keys
     :ensure t
-    :init
-    (setq xah-fly-use-control-key t)
-    :config
-    (xah-fly-keys-set-layout "qwerty")
-    (xah-fly-keys 1)
-    (global-set-key (kbd "<home>") 'xah-fly-insert-mode-activate)
-    (global-set-key (kbd "<f7>") 'xah-open-in-external-app)
-    )
+     :init
+     (setq xah-fly-use-control-key t)
+     :config
+     (xah-fly-keys-set-layout "qwerty")
+     (xah-fly-keys 1)
+     (global-set-key (kbd "<home>") 'xah-fly-insert-mode-activate)
+     (global-set-key (kbd "<f7>") 'xah-open-in-external-app)
+  )
 #+END_SRC
 
 
@@ -152,6 +157,15 @@ from your init.el (which you may want to share)
   :hook
   (dired-mode . nerd-icons-dired-mode))
 #+end_src
+
+*** Visual
+
+# =visual-line-mode= is so much better than =auto-fill-mode=. It doesn't actually break the text into multiple lines - it only looks that way.
+
+#+BEGIN_SRC emacs-lisp :exports code
+(remove-hook 'text-mode-hook #'turn-on-auto-fill)
+(add-hook 'text-mode-hook 'turn-on-visual-line-mode)
+#+END_SRC
 
 *** Configure the minibuffer and completions
 #+begin_src emacs-lisp
@@ -553,7 +567,11 @@ Aliases, mostly borrowed from Xah Lee
 
   #+end_src
 
-
+*** Linenumber mode
+#+begin_src elisp
+(global-display-line-numbers-mode)
+(global-display-fill-column-indicator-mode)
+#+end_src 
 ** Navigation
 ** Planning
 *** Org Agenda Setup
@@ -675,7 +693,6 @@ Aliases, mostly borrowed from Xah Lee
     )  
 #+END_SRC
 
-
 ** Programming
 #+begin_src emacs-lisp
   (use-package magit
@@ -690,10 +707,10 @@ Aliases, mostly borrowed from Xah Lee
 ** AI
 #+begin_src emacs-lisp
 (use-package gptel
-  :ensure t
-  :config
-  (progn
-    (global-set-key "\C-xg" 'gptel-send)))	
+ :ensure t
+ :config
+ (progn
+   (global-set-key "\C-xg" 'gptel-send)))	
 #+end_src
 
 ** Fun and Games
