@@ -4,7 +4,7 @@
 #+identifier: 20250220T112622
 
 #TITLE: George Jones' emacs config, 2025 edition
-# Updated: <2025-09-13 06:42:28 Saturday>
+# Updated: <2025-10-27 14:48:44 Monday>
 #+CAPTION: Text Colored Glasses
 #+BEGIN_EXAMPLE
 						     __
@@ -131,11 +131,11 @@ from your init.el (which you may want to share)
     (set-face-attribute 'variable-pitch nil :family proportionately-spaced-font :height 1.0))
 
   (set-face-attribute 'default nil :height 200)
-  
-  (use-package modus-themes
-    :ensure t
-    :config
-    (load-theme 'modus-vivendi-tinted :no-confirm-loading))
+
+  ;; (use-package modus-themes
+    ;; :ensure t
+    ;; :config
+    ;; (load-theme 'modus-vivendi-tinted :no-confirm-loading))
 
   ;; Remember to do M-x and run `nerd-icons-install-fonts' to get the
   ;; font files.  Then restart Emacs to see the effect.

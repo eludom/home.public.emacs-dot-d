@@ -4,8 +4,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes '(whiteboard))
+ '(custom-enabled-themes nil)
  '(font-use-system-font t)
+ '(global-display-line-numbers-mode t)
  '(gptel-model 'gpt-4o)
  '(notmuch-saved-searches
    '((:name "inbox " :query "tag:inbox and not tag:unsubscribe" :key
