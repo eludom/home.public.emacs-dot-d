@@ -26,11 +26,14 @@
      (:name "replied" :query "tag:replied")))
  '(notmuch-search-oldest-first nil)
  '(package-selected-packages
-   '(atomic-chrome corfu denote dired-subtree gptel magit marginalia
-		   markdown-mode modus-themes nerd-icons-completion
-		   nerd-icons-corfu nerd-icons-dired notmuch
-		   notmuch-addr ol-notmuch orderless org-web-tools
-		   trashed undo-tree vertico xah-fly-keys)))
+   '(atomic-chrome corfu denote dired-subtree elfeed elfeed-org emojify
+		   gptel magit marginalia markdown-mode mode-icons
+		   modus-themes nerd-icons-completion nerd-icons-corfu
+		   nerd-icons-dired notmuch-addr ol-notmuch orderless
+		   org-social org-web-tools ox-hugo ox-rss trashed
+		   undo-tree vertico xah-fly-keys))
+ '(package-vc-selected-packages
+   '((org-social :url "https://github.com/tanrax/org-social.el"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
