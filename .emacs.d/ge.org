@@ -4,7 +4,7 @@
 #+identifier: 20250220T112622
 
 #TITLE: George Jones' emacs config, 2025 edition
-# Updated: <2025-04-11 08:19:39 Friday>
+# Updated: <2025-09-13 06:42:28 Saturday>
 #+CAPTION: Text Colored Glasses
 #+BEGIN_EXAMPLE
 						     __
@@ -116,46 +116,48 @@ from your init.el (which you may want to share)
 #+END_SRC
 *** Appearance
 #+begin_src emacs-lisp
-;; Those three belong in the early-init.el, but I am putting them here
-;; for convenience.  If the early-init.el exists in the same directory
-;; as the init.el, then Emacs will read+evaluate it before moving to
-;; the init.el.
-(menu-bar-mode 1)
-(scroll-bar-mode 1)
-(tool-bar-mode 1)
+  ;; Those three belong in the early-init.el, but I am putting them here
+  ;; for convenience.  If the early-init.el exists in the same directory
+  ;; as the init.el, then Emacs will read+evaluate it before moving to
+  ;; the init.el.
+  (menu-bar-mode 1)
+  (scroll-bar-mode 1)
+  (tool-bar-mode 1)
 
-(let ((mono-spaced-font "Monospace")
-      (proportionately-spaced-font "Sans"))
-  (set-face-attribute 'default nil :family mono-spaced-font :height 100)
-  (set-face-attribute 'fixed-pitch nil :family mono-spaced-font :height 1.0)
-  (set-face-attribute 'variable-pitch nil :family proportionately-spaced-font :height 1.0))
+  (let ((mono-spaced-font "Monospace")
+        (proportionately-spaced-font "Sans"))
+    (set-face-attribute 'default nil :family mono-spaced-font :height 100)
+    (set-face-attribute 'fixed-pitch nil :family mono-spaced-font :height 1.0)
+    (set-face-attribute 'variable-pitch nil :family proportionately-spaced-font :height 1.0))
 
-(use-package modus-themes
-  :ensure t
-  :config
-  (load-theme 'modus-vivendi-tinted :no-confirm-loading))
+  (set-face-attribute 'default nil :height 200)
+  
+  (use-package modus-themes
+    :ensure t
+    :config
+    (load-theme 'modus-vivendi-tinted :no-confirm-loading))
 
-;; Remember to do M-x and run `nerd-icons-install-fonts' to get the
-;; font files.  Then restart Emacs to see the effect.
-(use-package nerd-icons
-  :ensure t)
+  ;; Remember to do M-x and run `nerd-icons-install-fonts' to get the
+  ;; font files.  Then restart Emacs to see the effect.
+  (use-package nerd-icons
+    :ensure t)
 
-(use-package nerd-icons-completion
-  :ensure t
-  :after marginalia
-  :config
-  (add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup))
+  (use-package nerd-icons-completion
+    :ensure t
+    :after marginalia
+    :config
+    (add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup))
 
-(use-package nerd-icons-corfu
-  :ensure t
-  :after corfu
-  :config
-  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+  (use-package nerd-icons-corfu
+    :ensure t
+    :after corfu
+    :config
+    (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 
-(use-package nerd-icons-dired
-  :ensure t
-  :hook
-  (dired-mode . nerd-icons-dired-mode))
+  (use-package nerd-icons-dired
+    :ensure t
+    :hook
+    (dired-mode . nerd-icons-dired-mode))
 #+end_src
 
 *** Visual
@@ -470,6 +472,20 @@ Aliases, mostly borrowed from Xah Lee
 (add-hook 'org-capture-after-finalize-hook #'my/org-capture-goto-new-entry)
 #+end_src
 
+*** Xah Fly Key Org mappings
+    Make "SPC p" run org-set-property when in xah-fly-keys command mode.
+    Should probably further restrict it to org mode.
+
+#+begin_src emacs-lisp    
+   (with-eval-after-load 'xah-fly-keys
+     (define-key xah-fly-command-map (kbd "SPC p") 'org-set-property))
+#+end_src
+
+3. Save your configuration file.
+
+4. Restart Emacs or   evaluate the new code to apply it immediately.
+
+
 ** Editing
 *** Typeing overwrites active region
 #+begin_src emacs-lisp
@@ -573,6 +589,9 @@ Aliases, mostly borrowed from Xah Lee
 (global-display-fill-column-indicator-mode)
 #+end_src 
 ** Navigation
+#+begin_src emacs-lisp
+(global-set-key "\C-x\C-x" 'exchange-point-and-mark)
+#+end_src
 ** Planning
 *** Org Agenda Setup
 
