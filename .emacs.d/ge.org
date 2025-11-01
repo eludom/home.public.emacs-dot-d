@@ -4,7 +4,7 @@
 #+identifier: 20250220T112622
 
 #TITLE: George Jones' emacs config, 2025 edition
-# Updated: <2025-10-27 14:48:44 Monday>
+# Updated: <2025-10-30 07:53:41 Thursday>
 #+CAPTION: Text Colored Glasses
 #+BEGIN_EXAMPLE
 						     __
@@ -485,7 +485,6 @@ Aliases, mostly borrowed from Xah Lee
 
 4. Restart Emacs or   evaluate the new code to apply it immediately.
 
-
 ** Editing
 *** Typeing overwrites active region
 #+begin_src emacs-lisp
@@ -679,7 +678,12 @@ Aliases, mostly borrowed from Xah Lee
 #+BEGIN_SRC emacs-lisp :exports code
   (dolist (hook '(text-mode-hook))
     (add-hook hook (lambda () (flyspell-mode 1))))
-#+END_SRC
+    #+END_SRC
+*** Allow Markdown export
+    #+begin_src emacs-lisp :exports code
+    (require 'ox-md)
+    #+end_src
+
 ** Communication
 *** Org Social
 #+BEGIN_SRC emacs-lisp
