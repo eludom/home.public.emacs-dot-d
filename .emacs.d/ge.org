@@ -4,7 +4,7 @@
 #+identifier: 20250220T112622
 
 #TITLE: George Jones' emacs config, 2025 edition
-# Updated: <2025-10-30 07:53:41 Thursday>
+# Updated: <2025-11-01 09:54:22 Saturday>
 #+CAPTION: Text Colored Glasses
 #+BEGIN_EXAMPLE
 						     __
@@ -773,13 +773,33 @@ Aliases, mostly borrowed from Xah Lee
 
 ** Fun and Games
 ** Experimental
-
+*** denote
 #+begin_src emacs-lisp
   (use-package denote
     :ensure t
     )
 #+end_src
-
+*** elfeed
+#+begin_src emacs-lisp
+;; Elfeed + feeds in an Org file
+(use-package elfeed
+  :ensure t
+  :bind (("C-x w" . elfeed)            ;; open Elfeed
+         ("C-x W" . elfeed-update))    ;; fetch new entries
+  :custom
+  (elfeed-db-directory "~/elisp-private/elfeed")
+  (elfeed-search-filter "@6-months-ago +unread")  ;; default search view
+  :config
+  (use-package elfeed-org
+    :ensure t
+    :after elfeed
+    :custom
+    ;; Point to your Org file(s) of feeds
+    (rmh-elfeed-org-files '("~/elisp-private/elfeed.org"))
+    :config
+    ;; Parse the Org file and load feeds into Elfeed
+    (elfeed-org)))
+#+end_src
 
 ** Configs that have to load late
 ; 
