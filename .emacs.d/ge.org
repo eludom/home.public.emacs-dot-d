@@ -4,7 +4,7 @@
 #+identifier: 20250220T112622
 
 #TITLE: George Jones' emacs config, 2025 edition
-# Updated: <2025-11-01 09:54:22 Saturday>
+# Updated: <2025-11-02 15:01:07 Sunday>
 #+CAPTION: Text Colored Glasses
 #+BEGIN_EXAMPLE
 						     __
@@ -635,6 +635,29 @@ Aliases, mostly borrowed from Xah Lee
 #+end_src
 
 ** Reading
+*** IN-PROGRESS elfeed for reading rss
+- State "IN-PROGRESS" from              [2025-11-02 Sun 15:00]
+#+begin_src emacs-lisp
+;; Elfeed + feeds in an Org file
+(use-package elfeed
+  :ensure t
+  :bind (("C-x w" . elfeed)            ;; open Elfeed
+         ("C-x W" . elfeed-update))    ;; fetch new entries
+  :custom
+  (elfeed-db-directory "~/private/rss/elfeed")
+  (elfeed-search-filter "@6-months-ago +unread +person")  ;; default search view
+  :config
+  (use-package elfeed-org
+    :ensure t
+    :after elfeed
+    :custom
+    ;; Point to your Org file(s) of feeds
+    (rmh-elfeed-org-files '("~/private/rss/elfeed.org"))
+    :config
+    ;; Parse the Org file and load feeds into Elfeed
+    (elfeed-org)))
+#+end_src
+
 ** TODO Web Browsing
 *** TODO org-web-tools
     #+begin_src emacs-lisp
