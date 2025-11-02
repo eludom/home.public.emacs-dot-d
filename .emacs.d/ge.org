@@ -4,7 +4,7 @@
 #+identifier: 20250220T112622
 
 #TITLE: George Jones' emacs config, 2025 edition
-# Updated: <2025-11-02 15:19:54 Sunday>
+# Updated: <2025-11-02 16:14:27 Sunday>
 #+CAPTION: Text Colored Glasses
 #+BEGIN_EXAMPLE
 						     __
@@ -808,15 +808,32 @@ Aliases, mostly borrowed from Xah Lee
   [[elfeed:taonaw.com#http://jtr.micro.blog/2025/10/27/emacs-and-mental-challanges.html][Emacs and mental challanges]]
   https://github.com/tecosaur/emacs-everywhere
 ** Configs that have to load late
-; 
 * All's Well That Ends Well, YOW !!!
+   Because, well, you've got to be able to M-x psychoanalyze-pinhead
+   to fill a buffer and pass the time....
 
+   Discussion of the demise of zippy in Emacs here:
+    - http://forums.fedoraforum.org/showthread.php?t=302313
 
+   You'll need a coupy of the zippy quotes.  I pulled from here LONG ago..
+   https://github.com/shentonfreude/dot-emacs/blob/master/yow.lines
 
+#+BEGIN_SRC emacs-lisp :exports code
+  (message "init.el finished. Yow !")
+  (setq yow-file "~/.emacs.d/etc/yow.lines")
+  (global-set-key "\ey" 'yow)		; my ANCIENT keybinding
 
+  ;; This function gives me a zippy quote on the status line after 
+  ;; everything else in the config has settled down.
+  ;; I'm sure there are better/cleaner ways...
+  (defun display-yow-in-status-line ()
+    "Display the result of yow in the status line once after 1 second of idle time."
+    (interactive)
+    (run-with-idle-timer 1 nil
+                         (lambda ()
+                           (let ((yow-output (yow)))
+                             (message "%s" yow-output)))))
+  (display-yow-in-status-line)
 
-
-
-
-(message "init.el finished.")
+  #+END_SRC
 
