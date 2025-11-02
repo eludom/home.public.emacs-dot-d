@@ -4,7 +4,7 @@
 #+identifier: 20250220T112622
 
 #TITLE: George Jones' emacs config, 2025 edition
-# Updated: <2025-11-02 15:04:51 Sunday>
+# Updated: <2025-11-02 15:19:54 Sunday>
 #+CAPTION: Text Colored Glasses
 #+BEGIN_EXAMPLE
 						     __
@@ -802,6 +802,11 @@ Aliases, mostly borrowed from Xah Lee
     :ensure t
     )
 #+end_src
+** Emacs things to try
+*** TODO Try Emacs Everwyere
+  [2025-11-02 Sun 15:17]
+  [[elfeed:taonaw.com#http://jtr.micro.blog/2025/10/27/emacs-and-mental-challanges.html][Emacs and mental challanges]]
+  https://github.com/tecosaur/emacs-everywhere
 ** Configs that have to load late
 ; 
 * All's Well That Ends Well, YOW !!!
