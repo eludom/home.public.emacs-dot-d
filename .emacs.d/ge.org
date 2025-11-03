@@ -321,6 +321,17 @@ Aliases, mostly borrowed from Xah Lee
 
 	#+END_SRC
 
+*** random cusotmizations
+#+BEGIN_SRC emacs-lisp :exports code
+  ;(tool-bar-mode -1)
+  (global-hl-line-mode)
+  (setq visible-bell t)
+  (setq require-final-newline t
+        default-major-mode 'org-mode
+        initial-major-mode 'org-mode
+        text-mode-hook 'turn-on-auto-fill
+        describe-function-show-arglist t)
+#+END_SRC
 *** TODO My keybindings from eons past
 
 #       Some of these may date to TECO based TOPS20 emacs, Multics emacs, FINE (Tops 10), mg or similar museum pieces.
