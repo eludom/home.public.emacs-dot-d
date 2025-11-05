@@ -1,10 +1,10 @@
-#+title:      ge.org
-#+date:       [2025-02-20 Thu 11:26]
+#TITLE: GE.ORG - GEORGe Jones' emacs config, 2025 edition
+# Updated: <2025-11-05 08:36:52 Wednesday>
 #+filetags:   :emacs:
 #+identifier: 20250220T112622
-
-#TITLE: George Jones' emacs config, 2025 edition
-# Updated: <2025-11-03 07:44:54 Monday>
+#+PROPERTY: header-args :results silent :exports code
+* Prolog
+** Artwork
 #+CAPTION: Text Colored Glasses
 #+BEGIN_EXAMPLE
 						     __
@@ -19,9 +19,6 @@
 
 #+END_EXAMPLE
 
-#+PROPERTY: header-args :results silent :exports code
-
-* Prolog
 ** About This file
 
 This is my GE.org - George's Emacs ORG config
