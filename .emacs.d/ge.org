@@ -121,6 +121,7 @@ from your init.el (which you may want to share)
   (menu-bar-mode 1)
   (scroll-bar-mode 1)
   (tool-bar-mode 1)
+  (set-frame-parameter nil 'fullscreen 'maximized)
 
   (let ((mono-spaced-font "Monospace")
         (proportionately-spaced-font "Sans"))
