@@ -1,8 +1,9 @@
 #TITLE: GE.ORG - GEORGe Jones' emacs config, 2025 edition
-# Updated: <2025-11-05 08:36:52 Wednesday>
-#+filetags:   :emacs:
+# Updated: <2025-11-05 15:24:37 Wednesday>
+#+file tags:   :emacs:
 #+identifier: 20250220T112622
 #+PROPERTY: header-args :results silent :exports code
+#+PROPERTY: header-args:elisp :lexical t
 * Prolog
 ** Artwork
 #+CAPTION: Text Colored Glasses
@@ -669,24 +670,36 @@ Aliases, mostly borrowed from Xah Lee
 *** IN-PROGRESS elfeed for reading rss
 - State "IN-PROGRESS" from              [2025-11-02 Sun 15:00]
 #+begin_src emacs-lisp
-;; Elfeed + feeds in an Org file
-(use-package elfeed
-  :ensure t
-  :bind (("C-x w" . elfeed)            ;; open Elfeed
-         ("C-x W" . elfeed-update))    ;; fetch new entries
-  :custom
-  (elfeed-db-directory "~/private/rss/elfeed")
-  (elfeed-search-filter "@6-months-ago +unread +person")  ;; default search view
-  :config
-  (use-package elfeed-org
+
+  ;; Elfeed + feeds in an Org file
+  (use-package elfeed
     :ensure t
-    :after elfeed
+    :bind (("C-x w" . elfeed)            ;; open Elfeed
+           ("C-x W" . elfeed-update))    ;; fetch new entries
     :custom
-    ;; Point to your Org file(s) of feeds
-    (rmh-elfeed-org-files '("~/private/rss/elfeed.org"))
+    (elfeed-db-directory "~/private/rss/elfeed")
+    (elfeed-search-filter "@6-months-ago +person +unread")  ;; default search view
     :config
-    ;; Parse the Org file and load feeds into Elfeed
-    (elfeed-org)))
+    
+    (use-package elfeed-org
+      :ensure t
+      :after elfeed
+      :custom
+      ;; Point to your Org file(s) of feeds
+      (rmh-elfeed-org-files '("~/private/rss/elfeed.org"))
+      :config
+      ;; Parse the Org file and load feeds into Elfeed
+      (elfeed-org)))
+
+  (use-package elfeed-score
+  :ensure t
+  :config
+  ;; (setq elfeed-score-score-file "~/private/rss/elfeed.score")
+  ;; (setq elfeed-score-rule-stats-file "~/private/rss/elfeed.stats")
+  ;(setq elfeed-score-serde-score-file "~/private/rss/elfeed.score")  
+  (progn
+    (elfeed-score-enable)
+    (define-key elfeed-search-mode-map "=" elfeed-score-map)))
 #+end_src
 
 ** TODO Web Browsing
