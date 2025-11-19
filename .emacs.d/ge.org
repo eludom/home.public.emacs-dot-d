@@ -1,5 +1,5 @@
 #TITLE: GE.ORG - GEORGe Jones' emacs config, 2025 edition
-# Updated: <2025-11-05 15:24:37 Wednesday>
+# Updated: <2025-11-19 06:00:47 Wednesday>
 #+file tags:   :emacs:
 #+identifier: 20250220T112622
 #+PROPERTY: header-args :results silent :exports code
@@ -101,7 +101,6 @@ I /can/ still use basic emacs, but it feels so 1979....
      (global-set-key (kbd "<f7>") 'xah-open-in-external-app)
   )
 #+END_SRC
-
 
 **** Where do customizations land?
 
@@ -383,126 +382,128 @@ Aliases, mostly borrowed from Xah Lee
 
 #+begin_src emacs-lisp
 
-         (message "set C-cc - ONE")
-         (global-set-key (kbd "\C-cc") 'org-capture)
+          (message "set C-cc - ONE")
+          (global-set-key (kbd "\C-cc") 'org-capture)
 
-       ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, and org-protocol
-       (setq org-capture-templates
-  	(quote (("t" "TODO (no link)" entry (file "~/Org/refile.org")
-  		 "* TODO %?\n  %U\n" :clock-in nil :clock-resume nil)
-  		("T" "TODO (store link)" entry (file "~/Org/refile.org")
-  		 "* TODO %?\n  %U\n  %a\n" :clock-in nil :clock-resume nil)
-  		 ;; ("d" "daily todo" entry (file+datetree "~/Org/daily.org")
-  		 ;; "* TODO %?\n  %U\n")
-  		("s" "Schedule" entry (file+datetree "~/Org/schedule.org")
-  		 "*  %?\n%(format-time-string \"<%Y-%m-%d %H:00-%H:00>\")\n")
+        ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, and org-protocol
+        (setq org-capture-templates
+   	(quote (("t" "TODO (no link)" entry (file "~/Org/refile.org")
+   		 "* TODO %?\n  %U\n" :clock-in nil :clock-resume nil)
+   		("T" "TODO (store link)" entry (file "~/Org/refile.org")
+   		 "* TODO %?\n  %U\n  %a\n" :clock-in nil :clock-resume nil)
+   		 ;; ("d" "daily todo" entry (file+datetree "~/Org/daily.org")
+   		;; "* TODO %?\n  %U\n")
+  		("S" "Schedule" entry (file+datetree "~/Org/schedule.org")
+  		 "*  %?\n%(format-time-string \"<%<%Y-%m-%d %H:00>--<%<%Y-%m-%d %H:00>>\")\n")  		
+   		("s" "Schedule" entry (file+datetree "~/Org/schedule.org")
+   		 "*  %?\n%(format-time-string \"<%Y-%m-%d %H:00-%H:00>\")\n")
 
-  		;;
-  		;; Capture a post for micro.blog
-  		;;
-  		;; This captures a file in ~/micro.blog/YYYY-MM-DD_subject.org
-  		;; with #+TITLE: {title} and #+DATE: current-date.
-  		;; The intent is then to export to markdown and post on micro.blog
-  		;;
-  		;; There is a glitch here that I have not been able to solve.
-  		;; I want to prompt for the subject once and use it for both
-  		;; the subject in the filname and the #+TITLE: subject.
-  		;; Solution TBD. Probably need to learn a litte more elisp...
-  		;;   --- gmj 2025-11-03 
-  		;; 
-  		("m" "Microblog" plain
-  		 (file (lambda () 
-                 (let* ((date (format-time-string "%Y-%m-%d_"))
-                        (subject (read-string "Subject For Filename: ")))
-                   (expand-file-name (concat date (replace-regexp-in-string " " "-" subject) ".org") "~/micro.blog/"))))
-         "#+TITLE: %^{title}\n#+DATE: %T\n\n%?"
-         :empty-lines 0)
+   		;;
+   		;; Capture a post for micro.blog
+   		;;
+   		;; This captures a file in ~/micro.blog/YYYY-MM-DD_subject.org
+   		;; with #+TITLE: {title} and #+DATE: current-date.
+   		;; The intent is then to export to markdown and post on micro.blog
+   		;;
+   		;; There is a glitch here that I have not been able to solve.
+   		;; I want to prompt for the subject once and use it for both
+   		;; the subject in the filname and the #+TITLE: subject.
+   		;; Solution TBD. Probably need to learn a litte more elisp...
+   		;;   --- gmj 2025-11-03 
+   		;; 
+   		("m" "Microblog" plain
+   		 (file (lambda () 
+                  (let* ((date (format-time-string "%Y-%m-%d_"))
+                         (subject (read-string "Subject For Filename: ")))
+                    (expand-file-name (concat date (replace-regexp-in-string " " "-" subject) ".org") "~/micro.blog/"))))
+          "#+TITLE: %^{title}\n#+DATE: %T\n\n%?"
+          :empty-lines 0)
 
-  	       ("h" "hugo blog" entry (file "~/blog/drafts/drafts.org")
-    "*** TODO %^{title}		:100DaysToOffload:
-    :PROPERTIES:
-    :EXPORT_FILE_NAME: %(format-time-string \"%Y-%m-%d\")
-    :EXPORT_HUGO_PUBLISHDATE: %(format-time-string \"%Y-%m-%d\"):
-    :END:
+   	       ("h" "hugo blog" entry (file "~/blog/drafts/drafts.org")
+     "*** TODO %^{title}		:100DaysToOffload:
+     :PROPERTIES:
+     :EXPORT_FILE_NAME: %(format-time-string \"%Y-%m-%d\")
+     :EXPORT_HUGO_PUBLISHDATE: %(format-time-string \"%Y-%m-%d\"):
+     :END:
 
-    The short story ..
+     The short story ..
 
-    ,#+caption: [[https://FOO.COM/BAR/BAZ.JPG][\"Name of work\" by WHO is licensed under cc by 2.0]]
-    ,#+attr_html: :width 200px
-    [[file:images/BAZ.JPG]]
+     ,#+caption: [[https://FOO.COM/BAR/BAZ.JPG][\"Name of work\" by WHO is licensed under cc by 2.0]]
+     ,#+attr_html: :width 200px
+     [[file:images/BAZ.JPG]]
 
-    ,#+hugo: more
+     ,#+hugo: more
 
-    The long story...
+     The long story...
 
-    #nn of #100DaysToOffload take 2.1, https://100daystooffload.com/
-  "		 )
-  		 ;; ("r" "respond" entry (file "~/Org/refile.org")
-  		  ;; "* TODO Respond to %:from on %:subject\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
-  		;; ("n" "note" entry (file "~/Org/refile.org")
-  		 ;; "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
-  		;;
-  		;; OpenAI query log
-  		;;
-  		("O" "OpenAI (store link)" entry (file+datetree "~/private/conversations/gpt.org")
-  		 "* %?\n  %U\n  %a\nQuery:")
-  		;; ("o" "Journal (no link)" entry (file+datetree "~/private/conversations/gpt.org")
-  		 ;; "* %?\n  %U\nQuery: ")
-  		("o" "OpenAI (no link)" entry (file+datetree "~/private/conversations/gpt.org")
-   "* %?\n  %U\nQuery: \n\nChatGPT sez:" :jump-to-capture t)
-  		("J" "Journal (store link)" entry (file+datetree "~/Org/diary.org")
-  		 "* %?\n  %U\n  %a\n")
-  		("j" "Journal (no link)" entry (file+datetree "~/Org/diary.org")
-  		 "* %?\n  %U\n")
-  		;;
-  		;; Paper filing
-  		;;
-  		("p" "paper doc log" entry (file+datetree "~/docs/paper-docs-log.org")
-  "* INFO %^{DocID|YYYY-MM-DD-##} - %^{brief description} :%^g
-    %U
-    :PROPERTIES:
-    :what: %^{What|Receipt|Bill|Statement|Form|MedicalRecords}
-    :amount: %^{ammount}
-    :why: %^{Why|Financial|Medical|House|Food|Charity}
-    :where:%^{Where|paper-files-monthly|paper-files-tax|paper-files-medical-OOP-2025|paper-files-medical-steph|paper-files-medical-george|business-inbox}
-    :END:\n%?"
-  		)
+     #nn of #100DaysToOffload take 2.1, https://100daystooffload.com/
+   "		 )
+   		 ;; ("r" "respond" entry (file "~/Org/refile.org")
+   		  ;; "* TODO Respond to %:from on %:subject\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
+   		;; ("n" "note" entry (file "~/Org/refile.org")
+   		 ;; "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+   		;;
+   		;; OpenAI query log
+   		;;
+   		("O" "OpenAI (store link)" entry (file+datetree "~/private/conversations/gpt.org")
+   		 "* %?\n  %U\n  %a\nQuery:")
+   		;; ("o" "Journal (no link)" entry (file+datetree "~/private/conversations/gpt.org")
+   		 ;; "* %?\n  %U\nQuery: ")
+   		("o" "OpenAI (no link)" entry (file+datetree "~/private/conversations/gpt.org")
+    "* %?\n  %U\nQuery: \n\nChatGPT sez:" :jump-to-capture t)
+   		("J" "Journal (store link)" entry (file+datetree "~/Org/diary.org")
+   		 "* %?\n  %U\n  %a\n")
+   		("j" "Journal (no link)" entry (file+datetree "~/Org/diary.org")
+   		 "* %?\n  %U\n")
+   		;;
+   		;; Paper filing
+   		;;
+   		("p" "paper doc log" entry (file+datetree "~/docs/paper-docs-log.org")
+   "* INFO %^{DocID|YYYY-MM-DD-##} - %^{brief description} :%^g
+     %U
+     :PROPERTIES:
+     :what: %^{What|Receipt|Bill|Statement|Form|MedicalRecords}
+     :amount: %^{ammount}
+     :why: %^{Why|Financial|Medical|House|Food|Charity}
+     :where:%^{Where|paper-files-monthly|paper-files-tax|paper-files-medical-OOP-2025|paper-files-medical-steph|paper-files-medical-george|business-inbox}
+     :END:\n%?"
+   		)
 
-  		("w" "org-protocol" entry (file "~/Org/refile.org")
-  		 "* TODO Review %c\n%U\n" :immediate-finish t)
-  		;; ("p" "Phone call" entry (file "~/Org/refile.org")
-  		;;  "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
-  		;; ("m" "Meeting" entry (file "~/git/org/refile.org")
-  		;; "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
-  		("b" "Habit" entry (file "~/Org/refile.org")
-  		 "* TODO %?\n%U\n%a\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:END:\n")
-  		;; ("r" "respond" entry (file "~/Org/refile.org")
-  		   ;; "* TODO Respond to %:from on %:subject\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
-      ;;              ("n" "note" entry (file "~/Org/refile.org")
-      ;;               "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
-  		  ("n" "note" entry (file "~/Org/refile.org")
-  		   "* %? :NOTE:\n%U\n%a\n")
-  		   )))
+   		("w" "org-protocol" entry (file "~/Org/refile.org")
+   		 "* TODO Review %c\n%U\n" :immediate-finish t)
+   		;; ("p" "Phone call" entry (file "~/Org/refile.org")
+   		;;  "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
+   		;; ("m" "Meeting" entry (file "~/git/org/refile.org")
+   		;; "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
+   		("b" "Habit" entry (file "~/Org/refile.org")
+   		 "* TODO %?\n%U\n%a\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:END:\n")
+   		;; ("r" "respond" entry (file "~/Org/refile.org")
+   		   ;; "* TODO Respond to %:from on %:subject\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
+       ;;              ("n" "note" entry (file "~/Org/refile.org")
+       ;;               "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+   		  ("n" "note" entry (file "~/Org/refile.org")
+   		   "* %? :NOTE:\n%U\n%a\n")
+   		   )))
 
-      ;; (add-to-list 'org-capture-templates
-      ;;              '("c" "Contacts" entry (file "~/Org/contacts.org")
-      ;;              "* %(org-contacts-template-name)
-      ;;   :PROPERTIES:
-      ;;   :EMAIL: %(org-contacts-template-email)
-      ;;   :END:"))
+       ;; (add-to-list 'org-capture-templates
+       ;;              '("c" "Contacts" entry (file "~/Org/contacts.org")
+       ;;              "* %(org-contacts-template-name)
+       ;;   :PROPERTIES:
+       ;;   :EMAIL: %(org-contacts-template-email)
+       ;;   :END:"))
 
 
-  ;; Define a hook to go to the gpt journal after capture
+   ;; Define a hook to go to the gpt journal after capture
 
-  (defun my/org-capture-goto-new-entry ()
-    "Go to the most recent entry in the capture target."
-    (let ((file "~/private/conversations/gpt.org"))
-      (with-current-buffer (find-file file)
-        (goto-char (point-max))
-        (gmj-backward-whitespace)
-  )))
+   (defun my/org-capture-goto-new-entry ()
+     "Go to the most recent entry in the capture target."
+     (let ((file "~/private/conversations/gpt.org"))
+       (with-current-buffer (find-file file)
+         (goto-char (point-max))
+         (gmj-backward-whitespace)
+   )))
 
-  (add-hook 'org-capture-after-finalize-hook #'my/org-capture-goto-new-entry)
+   (add-hook 'org-capture-after-finalize-hook #'my/org-capture-goto-new-entry)
 #+end_src
 
 *** Xah Fly Key Org mappings

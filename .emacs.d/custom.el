@@ -5,6 +5,24 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes nil)
+ '(elfeed-feeds
+   '("https://relay.org-social.org/rss.xml"
+     ("https://www.fastmail.com/blog/feed.xml" blog tech)
+     ("https://www.lrb.co.uk/feeds/rss" longform culture)
+     ("https://www.theatlantic.com/feed/all/" longform culture)
+     ("https://reason.com/latest/feed/" longform culture)
+     ("https://humbledollar.com/feed/" longform finance)
+     ("https://lwn.net/headlines/newrss" tech tech)
+     ("https://www.fauquiernow.com/search/?q=&t=article&f=rss" tech
+      culture)
+     ("https://mstdn.social/@hkrn.rss" tech)
+     ("https://www.trailjournals.com/journal/rss/28396/xml" person
+      blog culture)
+     ("https://fosstodon.org/deck/@eludom.rss" person social)
+     ("https://curious.port111.com/feed.xml" person blog tech)
+     ("https://sachachua.com/blog/category/emacs/feed/" person blog
+      tech)
+     ("https://taonaw.com/feed.xml" person blog tech)))
  '(font-use-system-font t)
  '(global-display-line-numbers-mode t)
  '(gptel-model 'gpt-4o)
