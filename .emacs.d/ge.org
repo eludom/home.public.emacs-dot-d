@@ -1,5 +1,5 @@
 #TITLE: GE.ORG - GEORGe Jones' emacs config, 2025 edition
-# Updated: <2025-11-19 06:00:47 Wednesday>
+# Updated: <2025-11-20 07:49:49 Thursday>
 #+file tags:   :emacs:
 #+identifier: 20250220T112622
 #+PROPERTY: header-args :results silent :exports code
@@ -90,16 +90,37 @@ Xah fly Keys is my native editor these days.
 I /can/ still use basic emacs, but it feels so 1979....
 
 #+BEGIN_SRC emacs-lisp
-  (use-package xah-fly-keys
-    :ensure t
-     :init
-     (setq xah-fly-use-control-key t)
-     :config
-     (xah-fly-keys-set-layout "qwerty")
-     (xah-fly-keys 1)
-     (global-set-key (kbd "<home>") 'xah-fly-insert-mode-activate)
-     (global-set-key (kbd "<f7>") 'xah-open-in-external-app)
-  )
+    (use-package xah-fly-keys
+      :ensure t
+       :init
+       (setq xah-fly-use-control-key t)
+       :config
+       (xah-fly-keys-set-layout "qwerty")
+       (xah-fly-keys 1)
+       (global-set-key (kbd "<home>") 'xah-fly-insert-mode-activate)
+       (global-set-key (kbd "<f7>") 'xah-open-in-external-app)
+       )
+
+  					; I want *Org Agenda* to be a "User Buffer".
+  					; Overwrite default
+  
+    (defun xah-user-buffer-p ()
+    "Return t if current buffer is a user buffer, else nil.
+  A user buffer has buffer name NOT starts with * or space, and is not dired mode, help mode, etc.
+  This function is used by buffer switching command and close buffer command, so that next buffer shown is a user buffer.
+  You can override this function to get your idea of “user buffer”.
+  URL `http://xahlee.info/emacs/emacs/elisp_next_prev_user_buffer.html'
+  Created: 2016-06-18
+  Version: 2025-09-05
+  Customized: 2025-11-20"
+    (interactive)
+    (cond
+     ((string-equal "*Org Agenda*" (buffer-name)) t)
+     ((string-match "^\*" (buffer-name)) nil)
+     ;; ((eq major-mode 'dired-mode) nil)
+     ;; ((eq major-mode 'eww-mode) nil)
+     ;; ((eq major-mode 'help-mode) nil)
+     (t t)))
 #+END_SRC
 
 **** Where do customizations land?
