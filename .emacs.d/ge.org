@@ -1,5 +1,5 @@
 #TITLE: GE.ORG - GEORGe Jones' emacs config, 2025 edition
-# Updated: <2025-11-20 07:49:49 Thursday>
+# Updated: <2025-12-11 13:55:12 Thursday>
 #+file tags:   :emacs:
 #+identifier: 20250220T112622
 #+PROPERTY: header-args :results silent :exports code
@@ -865,9 +865,12 @@ Aliases, mostly borrowed from Xah Lee
 ** Experimental
 *** denote
 #+begin_src emacs-lisp
-  (use-package denote
-    :ensure t
-    )
+    (use-package denote
+      :ensure t
+      )
+
+  ; backup-by-copying to avoid breaking hard links
+  (setq backup-by-copying t)  
 #+end_src
 ** Emacs things to try
 *** TODO Try Emacs Everwyere
