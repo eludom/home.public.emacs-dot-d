@@ -1,9 +1,12 @@
+
 #TITLE: GE.ORG - GEORGe Jones' emacs config, 2025 edition
-# Updated: <2025-12-11 13:55:12 Thursday>
+# Updated: <2025-12-15 04:39:02 Monday>
 #+file tags:   :emacs:
 #+identifier: 20250220T112622
 #+PROPERTY: header-args :results silent :exports code
 #+PROPERTY: header-args:elisp :lexical t
+#+last_saved: 2025-12-15 04:39
+
 * Prolog
 ** Artwork
 #+CAPTION: Text Colored Glasses
@@ -43,7 +46,10 @@ from
 
     #+BEGIN_SRC emacs-lisp :exports code
 
+      ;; -*- lexical-binding: t; -*-
       ; Load up all .org files in ~/elisp*
+      (setq debug-on-error t)
+
 
        (dolist (word  (directory-files (expand-file-name "~/") t "^elisp*"))
       	(if (file-exists-p word)
@@ -475,7 +481,7 @@ Aliases, mostly borrowed from Xah Lee
    		("J" "Journal (store link)" entry (file+datetree "~/Org/diary.org")
    		 "* %?\n  %U\n  %a\n")
    		("j" "Journal (no link)" entry (file+datetree "~/Org/diary.org")
-   		 "* %?\n  %U\n")
+   		 "* %?	:%<%Y>\n  %U\n")
    		;;
    		;; Paper filing
    		;;
@@ -776,40 +782,29 @@ Aliases, mostly borrowed from Xah Lee
 
 ** Communication
 *** Org Social
+See https://github.com/tanrax/org-social.el
 #+BEGIN_SRC emacs-lisp
-          ;; (use-package request)
-          ;; (use-package org-social
-            ;; :vc ( :url "https://github.com/tanrax/org-social.el"
-                  ;; :rev :newest))
+  (use-package request)
+  (use-package org-social
+    :ensure t
+    :config
+    (setq org-social-file "/home/gmj/stow/org-social/social.org")
+    (setq org-social-my-public-url "https://codeberg.org/eludom/org-social/raw/branch/main/social.org")  ;; Your public URL
+    ;; Hide Reply, Vote, and Profile buttons for a cleaner timeline view. Change to 't' to hide them. Keyboard shortcuts 'r', 'v', and 'P' still work
+    (setq org-social-hide-post-buttons nil)
 
-        (use-package request)
-        (use-package org-social
-          ;; :vc ( :url "https://github.com/tanrax/org-social.el"
-          ;; :rev "develop")
-  	)
-
-          ;; Set the path to your social feed file
-          (setq org-social-file "/home/gmj/stow/org-social/social.org")
-
-          ;;(setq org-social-file "~/social.org")  ;; Path to your local file
-          ;;(setq org-social-relay "https://org-social-relay.andros.dev/")  ;; Relay server
-          (setq org-social-my-public-url "https://codeberg.org/eludom/org-social/raw/branch/main/social.org")  ;; Your public URL
-            
-          ;; Hide Reply, Vote, and Profile buttons for a cleaner timeline view. Change to 't' to hide them. Keyboard shortcuts 'r', 'v', and 'P' still work
-          (setq org-social-hide-post-buttons nil)
-
-          ;; Optionally, configure global keybindings
-          (keymap-global-set "C-c s t" 'org-social-timeline)
-          (keymap-global-set "C-c s n" 'org-social-new-post)
-          (keymap-global-set "C-c s o" 'org-social-open-file)
-          (keymap-global-set "C-c s p" 'org-social-new-poll)
-          (keymap-global-set "C-c s m" 'org-social-mention-user)  
-
-    ;; Use emojify package
-
-      (use-package emojify
-        :hook (after-init . global-emojify-mode))
-    #+END_SRC	
+    ;; Optionally, configure global keybindings
+    (keymap-global-set "C-c s t" 'org-social-timeline)
+    (keymap-global-set "C-c s n" 'org-social-new-post)
+    (keymap-global-set "C-c s o" 'org-social-open-file)
+    (keymap-global-set "C-c s p" 'org-social-new-poll)
+    (keymap-global-set "C-c s m" 'org-social-mention-user)  
+    )
+  ;; Use emojify package
+    (use-package emojify
+      :hook (after-init . global-emojify-mode))
+      #+END_SRC
+      
 *** Email
 **** Notmuch and friends
 #+BEGIN_SRC emacs-lisp
@@ -867,11 +862,18 @@ Aliases, mostly borrowed from Xah Lee
 #+begin_src emacs-lisp
     (use-package denote
       :ensure t
+      :config
+      (setq denote-prompts '(subdirectory title keywords))
+      ; (setq debug-on-error t)
+      ; (setq gptel-expert-commands t) ;; I can't get transient menu working at all
+      (setq gptel-org-branching-context t)
+      (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@user\n")
+      (setf (alist-get 'org-mode gptel-response-prefix-alist) "@assistant\n")
       )
 
-  ; backup-by-copying to avoid breaking hard links
-  (setq backup-by-copying t)  
-#+end_src
+#   ; backup-by-copying to avoid breaking hard links
+#   (setq backup-by-copying t)  
+# #+end_src
 ** Emacs things to try
 *** TODO Try Emacs Everwyere
   [2025-11-02 Sun 15:17]
