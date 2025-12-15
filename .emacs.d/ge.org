@@ -849,11 +849,16 @@ See https://github.com/tanrax/org-social.el
 ** Web Browsing
 ** AI
 #+begin_src emacs-lisp
-(use-package gptel
- :ensure t
- :config
- (progn
-   (global-set-key "\C-xg" 'gptel-send)))	
+  (use-package gptel
+     :ensure t
+     :config
+        ; (setq debug-on-error t)
+        ; (setq gptel-expert-commands t) ;; I can't get transient menu working at all
+        ;; (setq gptel-org-branching-context t)
+        ;; (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@user\n")
+        ;; (setf (alist-get 'org-mode gptel-response-prefix-alist) "@assistant\n")
+     (progn
+       (global-set-key "\C-xg" 'gptel-send)))	
 #+end_src
 
 ** Fun and Games
@@ -864,11 +869,6 @@ See https://github.com/tanrax/org-social.el
       :ensure t
       :config
       (setq denote-prompts '(subdirectory title keywords))
-      ; (setq debug-on-error t)
-      ; (setq gptel-expert-commands t) ;; I can't get transient menu working at all
-      (setq gptel-org-branching-context t)
-      (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@user\n")
-      (setf (alist-get 'org-mode gptel-response-prefix-alist) "@assistant\n")
       )
 
 #   ; backup-by-copying to avoid breaking hard links
