@@ -1,10 +1,10 @@
 #TITLE: ge.org - GEORGe's emacs config
-# Updated: <2025-12-15 08:03:17 Monday>
+# Updated: <2025-12-15 16:32:35 Monday>
 #+file tags:   :emacs:
 #+identifier: 20250220T112622
 #+PROPERTY: header-args :results silent :exports code
 #+PROPERTY: header-args:elisp :lexical t
-#+last_saved: 2025-12-15 08:03
+#+last_saved: 2025-12-15 16:32
 
 * Prolog
 ** Artwork
@@ -922,6 +922,7 @@ See https://github.com/tanrax/org-social.el
     (use-package denote
       :ensure t
       :config
+      (setq denote-directory '("~/notes/" "~/notes/gpt/"))
       (setq denote-prompts '(subdirectory title keywords))
       )
 
