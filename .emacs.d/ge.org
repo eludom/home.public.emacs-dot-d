@@ -1,10 +1,10 @@
 #TITLE: ge.org - GEORGe's emacs config
-# Updated: <2025-12-15 06:58:54 Monday>
+# Updated: <2025-12-15 08:03:17 Monday>
 #+file tags:   :emacs:
 #+identifier: 20250220T112622
 #+PROPERTY: header-args :results silent :exports code
 #+PROPERTY: header-args:elisp :lexical t
-#+last_saved: 2025-12-15 06:58
+#+last_saved: 2025-12-15 08:03
 
 * Prolog
 ** Artwork
@@ -35,15 +35,21 @@ my two sons who, to the best of my knowledge, don't use Emacs)
 
 And, speaking of cruft, here's [[http://port111.com/george/.emacs.uu][my .emacs file from 2001]].
 
-** Acknowlegements
-*** Recent/Current Borrowings
+** My Emacs Config Acknowlegements
+
+Across the last 40+ years I've run into a lot of interesting people
+and code.  I've "stolen" (the sincerest form of flattery) liberally.
+Here are acknowledgments of /some/ of those people.  It takes a
+village. 
+
+*** Recent/Current Config Borrowings
 - Sacha Chua :: There are heavy borrowings from [[https://github.com/sachac/.emacs.d][Sacha Chua]]'s config.  Thanks, Sacha.
 - Xah Lee ::  I use Xah Lee's [[http://xahlee.info/emacs/misc/xah-fly-keys.html][Xah Fly Keys]].  That and the [[https://kinesis-ergo.com/shop/advantage2/][Knesis Advantage 2
   Keyboard]] saved me from nascent carpal tunnel syndrome.  Thanks, Xah.
   + To say that I'm using "Emacs" anymore is a bit of a stretch if by
     "Emacs" you mean any of the historic set of key-bindings by
     rms,Guy Steele, etc.  Xah Fly Keys is a completely new set of
-    bindings developed ground up using statistical analysis of editor
+    bindings developed ground up.  It's design involved statistical analysis of editor
     functions, placing the most common actions on the strongest digits
     on the hand.  It is probably more accurate to say I am using AN
     editor implemented in the emacs lisp development environment. 
@@ -51,13 +57,27 @@ And, speaking of cruft, here's [[http://port111.com/george/.emacs.uu][my .emacs 
   https://protesilaos.com/codelog/2024-11-28-basic-emacs-configuration/#h:1e4fde73-a2a2-4dc5-82ad-02cf3884ece6.
   I think denote and gtpel are going to completely change my workflow.
 - gptel :: [[https://github.com/karthink]] and 100+ friends have created
-  gptel.  That and the AIs that it front ends (and denote) are
+  gptel.  That and the Ads that it front ends (and denote) are
   creating completely new workflows for me (after 45 years in emacs...)
-*** Historic Borrowings
-litterate- Karl Kleinpaste
-- Michael Lamoreaux
-- Steve Wilhite
-- David Conroy
+*** Historic Config Borrowings
+- Karl Kleinpaste :: In the mid to late 80s as GNU emacs was coming
+  out I borrowed a lot form Karl's configs.  He drew me into the GNUs
+  world for a while (back when "News readers were real _news_ readers"
+  and email just looked like a funny version of news. 
+- Michael Lamoreaux :: Michael was at UUNET (and later MITRE) with me
+  providing enough local lisp expertise that I crawled back inside
+  GNUs again for a while.
+- [[http://curious.galthub.com/blog/2022-03-24/][Steve Wilhite]] :: [[http://curious.galthub.com/blog/steve/][Wilhite (he of GIF fame)]] hired me out of college.
+  He developed compilers and programming tools.  He had a thing for
+  editors including Emacs (and Brief).  Thanks to him (and my brother
+  who had co-oped for him) [[https://github.com/PDP-10/fine][FINE (Fine Is Not Emacs)]] was waiting for me
+  when I started. We later collaborated to create what became
+  MicroEmacs/mg. [[https://groups.google.com/g/net.sources/c/qraqnOktgdI?pli=1][I posted it to the USENET group net.sources.]]
+  Carsten Dominik (below) used it for a while and rumor
+  has it Linus Torvalds does to this day.
+- David Conroy :: David Conroy was the original author of MicroEmacs.
+  I found it on the floppy disks that came with the Marc Williams C
+  compiler for the early IBM PC. 
 
 *** Sine Non Qua - Those "without whom there is nothing" 
 - rms :: "Let there be Emacs and free software"
