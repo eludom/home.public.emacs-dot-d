@@ -43,7 +43,13 @@
      (:name "sent" :query "from:gmj")
      (:name "replied" :query "tag:replied")))
  '(notmuch-search-oldest-first nil)
- '(package-selected-packages nil)
+ '(package-selected-packages
+   '(atomic-chrome corfu denote dired-subtree elfeed-org elfeed-score
+		   gptel magit marginalia markdown-mode mode-icons
+		   modus-themes nerd-icons-completion nerd-icons-corfu
+		   nerd-icons-dired notmuch-addr ol-notmuch orderless
+		   org-social org-web-tools ox-hugo ox-rss ripgrep
+		   trashed undo-tree vertico xah-fly-keys))
  '(package-vc-selected-packages
    '((org-social :url "https://github.com/tanrax/org-social.el"))))
 (custom-set-faces
