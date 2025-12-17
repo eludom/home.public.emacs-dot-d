@@ -1,10 +1,10 @@
 #TITLE: ge.org - GEORGe's emacs config
-# Updated: <2025-12-15 16:32:35 Monday>
+# Updated: <2025-12-17 07:56:30 Wednesday>
 #+file tags:   :emacs:
 #+identifier: 20250220T112622
 #+PROPERTY: header-args :results silent :exports code
 #+PROPERTY: header-args:elisp :lexical t
-#+last_saved: 2025-12-15 16:32
+#+last_saved: 2025-12-17 07:56
 
 * Prolog
 ** Artwork
@@ -919,16 +919,32 @@ See https://github.com/tanrax/org-social.el
 ** Experimental
 *** denote
 #+begin_src emacs-lisp
-    (use-package denote
-      :ensure t
-      :config
-      (setq denote-directory '("~/notes/" "~/notes/gpt/"))
-      (setq denote-prompts '(subdirectory title keywords))
-      )
+   (use-package denote
+     :ensure t
+     :config
+     (setq denote-directory '("~/notes/private/" "~/notes/private/gpt/"))
+     (setq denote-prompts '(subdirectory title keywords))
+     )
 
-#   ; backup-by-copying to avoid breaking hard links
-#   (setq backup-by-copying t)  
-# #+end_src
+  ; backup-by-copying to avoid breaking hard links
+  (setq backup-by-copying t)
+
+
+  ;; Set up a few denote templates
+  ;;  gpt - capture for gptel queries
+  ;;      TODO Substitute TITLE under basic question
+  ;;      TODO automatically tag "gpt"
+  ;;      TODO default to ~/notes/gpt
+  ;; memo - placeholder for blog entries, etc
+
+  (setq denote-templates
+      `((gpt . "* BASIC QUESTION\n\n** Context\n\n** Examples\n\n** Questions") 
+        (memo . ,(concat "* Some memo heading" ; expand this `concat' into a string
+                         "\n\n"
+                         "* Another memo heading"
+                         "\n\n"))))
+
+ #+end_src
 ** Emacs things to try
 *** TODO Try Emacs Everwyere
   [2025-11-02 Sun 15:17]
