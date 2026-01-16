@@ -1,10 +1,10 @@
-#TITLE: ge.org - GEORGe's emacs config
-# Updated: <2025-12-17 07:56:30 Wednesday>
+#+TITLE: ge.org - GEORGe's emacs config
+# Updated: <2026-01-14 16:24:58 Wednesday>
 #+file tags:   :emacs:
 #+identifier: 20250220T112622
 #+PROPERTY: header-args :results silent :exports code
 #+PROPERTY: header-args:elisp :lexical t
-#+last_saved: 2025-12-17 07:56
+#+last_saved: 2026-01-14 16:24
 
 * Prolog
 ** Artwork
@@ -951,6 +951,17 @@ See https://github.com/tanrax/org-social.el
   [[elfeed:taonaw.com#http://jtr.micro.blog/2025/10/27/emacs-and-mental-challanges.html][Emacs and mental challanges]]
   https://github.com/tecosaur/emacs-everywhere
 ** Configs that have to load late
+* Meetings
+
+
+
+** TODO Org Meetup (Monthly) - 11:00-13:00 EST
+   <%%(diary-float t 3 2)>
+
+   See 
+   https://orgmode.org/worg/orgmeetup.html for BBB and/or Jitsi links
+
+   
 * All's Well That Ends Well, YOW !!!
    Because, well, you've got to be able to M-x psychoanalyze-pinhead
    to fill a buffer and pass the time....
