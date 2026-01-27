@@ -514,8 +514,6 @@ Aliases, mostly borrowed from Xah Lee
    		 "* TODO %?\n  %U\n" :clock-in nil :clock-resume nil)
    		("T" "TODO (store link)" entry (file "~/Org/refile.org")
    		 "* TODO %?\n  %U\n  %a\n" :clock-in nil :clock-resume nil)
-   		 ;; ("d" "daily todo" entry (file+datetree "~/Org/daily.org")
-   		;; "* TODO %?\n  %U\n")
   		("S" "Schedule" entry (file+datetree "~/Org/schedule.org")
   		 "*  %?\n%(format-time-string \"<%<%Y-%m-%d %H:00>--<%<%Y-%m-%d %H:00>>\")\n")  		
    		("s" "Schedule" entry (file+datetree "~/Org/schedule.org")
@@ -561,19 +559,6 @@ Aliases, mostly borrowed from Xah Lee
 
      #nn of #100DaysToOffload take 2.1, https://100daystooffload.com/
    "		 )
-   		 ;; ("r" "respond" entry (file "~/Org/refile.org")
-   		  ;; "* TODO Respond to %:from on %:subject\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
-   		;; ("n" "note" entry (file "~/Org/refile.org")
-   		 ;; "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
-   		;;
-   		;; OpenAI query log
-   		;;
-   		("O" "OpenAI (store link)" entry (file+datetree "~/private/conversations/gpt.org")
-   		 "* %?\n  %U\n  %a\nQuery:")
-   		;; ("o" "Journal (no link)" entry (file+datetree "~/private/conversations/gpt.org")
-   		 ;; "* %?\n  %U\nQuery: ")
-   		("o" "OpenAI (no link)" entry (file+datetree "~/private/conversations/gpt.org")
-    "* %?\n  %U\nQuery: \n\nChatGPT sez:" :jump-to-capture t)
    		("J" "Journal (store link)" entry (file+datetree "~/Org/diary.org")
    		 "* %?\n  %U\n  %a\n")
    		("j" "Journal (no link)" entry (file+datetree "~/Org/diary.org")
@@ -594,16 +579,8 @@ Aliases, mostly borrowed from Xah Lee
 
    		("w" "org-protocol" entry (file "~/Org/refile.org")
    		 "* TODO Review %c\n%U\n" :immediate-finish t)
-   		;; ("p" "Phone call" entry (file "~/Org/refile.org")
-   		;;  "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
-   		;; ("m" "Meeting" entry (file "~/git/org/refile.org")
-   		;; "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
    		("b" "Habit" entry (file "~/Org/refile.org")
    		 "* TODO %?\n%U\n%a\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:END:\n")
-   		;; ("r" "respond" entry (file "~/Org/refile.org")
-   		   ;; "* TODO Respond to %:from on %:subject\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
-       ;;              ("n" "note" entry (file "~/Org/refile.org")
-       ;;               "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
    		  ("n" "note" entry (file "~/Org/refile.org")
    		   "* %? :NOTE:\n%U\n%a\n")
    		   )))
