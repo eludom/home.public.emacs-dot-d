@@ -436,6 +436,23 @@ Aliases, mostly borrowed from Xah Lee
         ;; text-mode-hook 'turn-on-auto-fill
         describe-function-show-arglist t)
 #+END_SRC
+*** Don't leave clutter in directories when editing
+
+
+#+BEGIN_SRC emacs-lisp :exports code
+  ;; save backups
+
+  (setq backup-directory-alist `(("." . "~/.emacs.d/backups/"))
+      backup-by-copying t    ; Don't delink hardlinks
+      version-control t      ; Use version numbers on backups
+      delete-old-versions t  ; Automatically delete excess backups
+      kept-new-versions 6    ; Number of newest versions to keep
+      kept-old-versions 2)   ; Number of oldest versions to keep
+
+  ;; don't cluter dirs with lockfiles
+  
+  (setq create-lockfiles nil)
+#+END_SRC
 *** TODO My keybindings from eons past
 
 #       Some of these may date to TECO based TOPS20 emacs, Multics emacs, FINE (Tops 10), mg or similar museum pieces.
