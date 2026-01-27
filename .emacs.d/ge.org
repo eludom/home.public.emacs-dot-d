@@ -799,7 +799,7 @@ Aliases, mostly borrowed from Xah Lee
            ("C-x W" . elfeed-update))    ;; fetch new entries
     :custom
     (elfeed-db-directory "~/private/rss/elfeed")
-    (elfeed-search-filter "@6-months-ago +person +unread")  ;; default search view
+    (elfeed-search-filter "@3-days-ago +person +unread")  ;; default search view
     :config
     
     (use-package elfeed-org
