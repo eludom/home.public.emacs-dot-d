@@ -257,20 +257,20 @@ from your init.el (which you may want to share)
 
 *** Line wrapping 
 
-#+BEGIN_SRC emacs-lisp :exports code
-  (remove-hook 'text-mode-hook #'turn-on-auto-fill)
-  (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
 
-  (require 'visual-fill-column)
+#+begin_src emacs-lisp
+(remove-hook 'text-mode-hook #'turn-on-auto-fill)
 
-  ;; Add visual-line-mode and visual-fill-column-mode to text-mode-hook
-  (add-hook 'text-mode-hook (lambda ()
-                              (visual-line-mode 1)
-                              (visual-fill-column-mode 1)))
+(require 'visual-fill-column)
 
-  ;; Set the desired wrap width
-  (setq-default visual-fill-column-width 75) ;; because 80 character terminals were a thing?
-  (visual-fill-column-toggle-center-text)
+;; Add visual-line-mode and visual-fill-column-mode to text-mode-hook
+(add-hook 'text-mode-hook (lambda ()
+                            (visual-line-mode 1)
+                            (visual-fill-column-mode 1)
+                            (visual-fill-column-toggle-center-text)))
+
+;; Set the desired wrap width
+(setq-default visual-fill-column-width 120) ;; because 80 character terminals were a thing?
 #+end_src
 
 *** Configure the minibuffer and completions
