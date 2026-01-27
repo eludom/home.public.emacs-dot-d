@@ -960,19 +960,17 @@ See https://github.com/tanrax/org-social.el
    (use-package denote
      :ensure t
      :config
-     (setq denote-directory '("~/notes/private/" "~/notes/private/gpt/"))
+     (setq denote-directory '("~/notes/"))
      (setq denote-prompts '(subdirectory title keywords))
+     (setq denote-excluded-files-regexp "\\(\\.#\\|#.*#\\|.*~\\)")
      )
-
-  ; backup-by-copying to avoid breaking hard links
-  (setq backup-by-copying t)
 
 
   ;; Set up a few denote templates
   ;;  gpt - capture for gptel queries
   ;;      TODO Substitute TITLE under basic question
   ;;      TODO automatically tag "gpt"
-  ;;      TODO default to ~/notes/gpt
+  ;;      TODO default to ~/notes/ai
   ;; memo - placeholder for blog entries, etc
 
   (setq denote-templates
