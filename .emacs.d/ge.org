@@ -942,45 +942,39 @@ See https://github.com/tanrax/org-social.el
 ** AI
 #+begin_src emacs-lisp
   (use-package gptel
-     :ensure t
-     :config
-        ; (setq debug-on-error t)
-        (setq gptel-expert-commands t) ;; I can't get transient menu working at all
-        ;; (setq gptel-org-branching-context t)
-        ;; (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@user\n")
-        ;; (setf (alist-get 'org-mode gptel-response-prefix-alist) "@assistant\n")
-     (progn
-       (global-set-key "\C-xg" 'gptel-send)))	
+    :ensure t
+    :config
+    ;; (setq debug-on-error t)
+    (setq gptel-expert-commands t) 
+    (setq gptel-org-branching-context nil)
+    ;; (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@user\n")
+    ;; (setf (alist-get 'org-mode gptel-response-prefix-alist) "@assistant\n")
+    (progn
+         (global-set-key "\C-xg" 'gptel-send)))	
+
+  (setq gptel-backend
+        (gptel-make-anthropic "Claude"
+          :stream t
+          :key (lambda ()
+  	       ;; pull api key from .authinfo.gpg
+                 (auth-source-pick-first-password
+                  :host "api.anthropic.com"
+                  :user "apikey"))))
+
+  ;; select model
+  (setq gptel-model 'claude-opus-4-5-20251101)  ;; or whichever model you want
+
 #+end_src
 
 ** Fun and Games
 ** Experimental
 *** denote
+
 #+begin_src emacs-lisp
-   (use-package denote
-     :ensure t
-     :config
-     (setq denote-directory '("~/notes/"))
-     (setq denote-prompts '(subdirectory title keywords))
-     (setq denote-excluded-files-regexp "\\(\\.#\\|#.*#\\|.*~\\)")
-     )
+(setq org-startup-indented t)
+#+end_src 
 
 
-  ;; Set up a few denote templates
-  ;;  gpt - capture for gptel queries
-  ;;      TODO Substitute TITLE under basic question
-  ;;      TODO automatically tag "gpt"
-  ;;      TODO default to ~/notes/ai
-  ;; memo - placeholder for blog entries, etc
-
-  (setq denote-templates
-      `((gpt . "* BASIC QUESTION\n\n** Context\n\n** Examples\n\n** Questions") 
-        (memo . ,(concat "* Some memo heading" ; expand this `concat' into a string
-                         "\n\n"
-                         "* Another memo heading"
-                         "\n\n"))))
-
- #+end_src
 ** Emacs things to try
 *** TODO Try Emacs Everwyere
   [2025-11-02 Sun 15:17]

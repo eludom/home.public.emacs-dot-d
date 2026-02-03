@@ -25,7 +25,7 @@
      ("https://taonaw.com/feed.xml" person blog tech)))
  '(font-use-system-font t)
  '(global-display-line-numbers-mode t)
- '(gptel-model 'gpt-4o)
+ '(gptel-model 'claude-opus-4-5-20251101)
  '(notmuch-saved-searches
    '((:name "inbox " :query "tag:inbox and not tag:unsubscribe" :key
 	    [105] :search-type tree)
