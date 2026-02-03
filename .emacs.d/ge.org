@@ -505,107 +505,129 @@ Aliases, mostly borrowed from Xah Lee
 
 #+begin_src emacs-lisp
 
-          (message "set C-cc - ONE")
-          (global-set-key (kbd "\C-cc") 'org-capture)
+           (message "set C-cc - ONE")
+           (global-set-key (kbd "\C-cc") 'org-capture)
 
-        ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, and org-protocol
-        (setq org-capture-templates
-   	(quote (("t" "TODO (no link)" entry (file "~/Org/refile.org")
-   		 "* TODO %?\n  %U\n" :clock-in nil :clock-resume nil)
-   		("T" "TODO (store link)" entry (file "~/Org/refile.org")
-   		 "* TODO %?\n  %U\n  %a\n" :clock-in nil :clock-resume nil)
-  		("S" "Schedule" entry (file+datetree "~/Org/schedule.org")
-  		 "*  %?\n%(format-time-string \"<%<%Y-%m-%d %H:00>--<%<%Y-%m-%d %H:00>>\")\n")  		
-   		("s" "Schedule" entry (file+datetree "~/Org/schedule.org")
-   		 "*  %?\n%(format-time-string \"<%Y-%m-%d %H:00-%H:00>\")\n")
+         ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, and org-protocol
+         (setq org-capture-templates
+    	(quote (("t" "TODO (no link)" entry (file "~/Org/refile.org")
+    		 "* TODO %?\n  %U\n" :clock-in nil :clock-resume nil)
+    		("T" "TODO (store link)" entry (file "~/Org/refile.org")
+    		 "* TODO %?\n  %U\n  %a\n" :clock-in nil :clock-resume nil)
+    		("S" "Schedule" entry (file+datetree "~/Org/schedule.org")
+    		 "*  %?\n%(format-time-string \"<%<%Y-%m-%d %H:00>--<%<%Y-%m-%d %H:00>>\")\n")  		
+    		("s" "Schedule" entry (file+datetree "~/Org/schedule.org")
+    		 "*  %?\n%(format-time-string \"<%Y-%m-%d %H:00-%H:00>\")\n")
+  		;; Added day planning per https://mentat.za.net/blog/2026/01/27/org-mode-time-blocks/?utm_source=atom_feed
+  ("d" "Day Planner" entry (file+olp+datetree "~/org/2026.org")
+   "** %u
+     baz
 
-   		;;
-   		;; Capture a post for micro.blog
-   		;;
-   		;; This captures a file in ~/micro.blog/YYYY-MM-DD_subject.org
-   		;; with #+TITLE: {title} and #+DATE: current-date.
-   		;; The intent is then to export to markdown and post on micro.blog
-   		;;
-   		;; There is a glitch here that I have not been able to solve.
-   		;; I want to prompt for the subject once and use it for both
-   		;; the subject in the filname and the #+TITLE: subject.
-   		;; Solution TBD. Probably need to learn a litte more elisp...
-   		;;   --- gmj 2025-11-03 
-   		;; 
-   		("m" "Microblog" plain
-   		 (file (lambda () 
-                  (let* ((date (format-time-string "%Y-%m-%d_"))
-                         (subject (read-string "Subject For Filename: ")))
-                    (expand-file-name (concat date (replace-regexp-in-string " " "-" subject) ".org") "~/micro.blog/"))))
-          "#+TITLE: %^{title}\n#+DATE: %T\n\n%?"
-          :empty-lines 0)
+  - [ ] Scan [[notmuch-search:tag:unread][Notmuch search: tag:unread]] for new tasks (max 10 mins)
+  - [ ] Review Org Agenda for old tasks (max 10 mins)
 
-   	       ("h" "hugo blog" entry (file "~/blog/drafts/drafts.org")
-     "*** TODO %^{title}		:100DaysToOffload:
-     :PROPERTIES:
-     :EXPORT_FILE_NAME: %(format-time-string \"%Y-%m-%d\")
-     :EXPORT_HUGO_PUBLISHDATE: %(format-time-string \"%Y-%m-%d\"):
-     :END:
+  ,*** Plan
+  ,**** 
+  ,**** Lunch + walk <%<%Y-%m-%d %a 13:00-13:45>>
+  ,**** 
+  ,**** Wrap up and review <%<%Y-%m-%d %a 16:45-17:00>>
 
-     The short story ..
+  ,*** Notes
+  ,*** End of day review
+      - What went well ::
+      - What could improve :: 
+      - Priority for tomorrow :: 
 
-     ,#+caption: [[https://FOO.COM/BAR/BAZ.JPG][\"Name of work\" by WHO is licensed under cc by 2.0]]
-     ,#+attr_html: :width 200px
-     [[file:images/BAZ.JPG]]
+  ")
+    		;;
+    		;; Capture a post for micro.blog
+    		;;
+    		;; This captures a file in ~/micro.blog/YYYY-MM-DD_subject.org
+    		;; with #+TITLE: {title} and #+DATE: current-date.
+    		;; The intent is then to export to markdown and post on micro.blog
+    		;;
+    		;; There is a glitch here that I have not been able to solve.
+    		;; I want to prompt for the subject once and use it for both
+    		;; the subject in the filname and the #+TITLE: subject.
+    		;; Solution TBD. Probably need to learn a litte more elisp...
+    		;;   --- gmj 2025-11-03 
+    		;; 
+    		("m" "Microblog" plain
+    		 (file (lambda () 
+                   (let* ((date (format-time-string "%Y-%m-%d_"))
+                          (subject (read-string "Subject For Filename: ")))
+                     (expand-file-name (concat date (replace-regexp-in-string " " "-" subject) ".org") "~/micro.blog/"))))
+           "#+TITLE: %^{title}\n#+DATE: %T\n\n%?"
+           :empty-lines 0)
 
-     ,#+hugo: more
+    	       ("h" "hugo blog" entry (file "~/blog/drafts/drafts.org")
+      "*** TODO %^{title}		:100DaysToOffload:
+      :PROPERTIES:
+      :EXPORT_FILE_NAME: %(format-time-string \"%Y-%m-%d\")
+      :EXPORT_HUGO_PUBLISHDATE: %(format-time-string \"%Y-%m-%d\"):
+      :END:
 
-     The long story...
+      The short story ..
 
-     #nn of #100DaysToOffload take 2.1, https://100daystooffload.com/
-   "		 )
-   		("J" "Journal (store link)" entry (file+datetree "~/Org/diary.org")
-   		 "* %?\n  %U\n  %a\n")
-   		("j" "Journal (no link)" entry (file+datetree "~/Org/diary.org")
-   		 "* %?	:%<%Y>\n  %U\n")
-   		;;
-   		;; Paper filing
-   		;;
-   		("p" "paper doc log" entry (file+datetree "~/docs/paper-docs-log.org")
-   "* INFO %^{DocID|YYYY-MM-DD-##} - %^{brief description} :%^g
-     %U
-     :PROPERTIES:
-     :what: %^{What|Receipt|Bill|Statement|Form|MedicalRecords}
-     :amount: %^{ammount}
-     :why: %^{Why|Financial|Medical|House|Food|Charity}
-     :where:%^{Where|paper-files-monthly|paper-files-tax|paper-files-medical-OOP-2025|paper-files-medical-steph|paper-files-medical-george|business-inbox}
-     :END:\n%?"
-   		)
+      ,#+caption: [[https://FOO.COM/BAR/BAZ.JPG][\"Name of work\" by WHO is licensed under cc by 2.0]]
+      ,#+attr_html: :width 200px
+      [[file:images/BAZ.JPG]]
 
-   		("w" "org-protocol" entry (file "~/Org/refile.org")
-   		 "* TODO Review %c\n%U\n" :immediate-finish t)
-   		("b" "Habit" entry (file "~/Org/refile.org")
-   		 "* TODO %?\n%U\n%a\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:END:\n")
-   		  ("n" "note" entry (file "~/Org/refile.org")
-   		   "* %? :NOTE:\n%U\n%a\n")
-   		   )))
+      ,#+hugo: more
 
-       ;; (add-to-list 'org-capture-templates
-       ;;              '("c" "Contacts" entry (file "~/Org/contacts.org")
-       ;;              "* %(org-contacts-template-name)
-       ;;   :PROPERTIES:
-       ;;   :EMAIL: %(org-contacts-template-email)
-       ;;   :END:"))
+      The long story...
+
+      #nn of #100DaysToOffload take 2.1, https://100daystooffload.com/
+    "		 )
+    		("J" "Journal (store link)" entry (file+datetree "~/Org/diary.org")
+    		 "* %?\n  %U\n  %a\n")
+    		("j" "Journal (no link)" entry (file+datetree "~/Org/diary.org")
+    		 "* %?	:%<%Y>\n  %U\n")
+    		;;
+    		;; Paper filing
+    		;;
+    		("p" "paper doc log" entry (file+datetree "~/docs/paper-docs-log.org")
+    "* INFO %^{DocID|YYYY-MM-DD-##} - %^{brief description} :%^g
+      %U
+      :PROPERTIES:
+      :what: %^{What|Receipt|Bill|Statement|Form|MedicalRecords}
+      :amount: %^{ammount}
+      :why: %^{Why|Financial|Medical|House|Food|Charity}
+      :where:%^{Where|paper-files-monthly|paper-files-tax|paper-files-medical-OOP-2025|paper-files-medical-steph|paper-files-medical-george|business-inbox}
+      :END:\n%?"
+    		)
+
+    		
+    		("w" "org-protocol" entry (file "~/Org/refile.org")
+    		 "* TODO Review %c\n%U\n" :immediate-finish t)
+    		("b" "Habit" entry (file "~/Org/refile.org")
+    		 "* TODO %?\n%U\n%a\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:END:\n")
+    		  ("n" "note" entry (file "~/Org/refile.org")
+    		   "* %? :NOTE:\n%U\n%a\n")
+    		   )))
+
+        ;; (add-to-list 'org-capture-templates
+        ;;              '("c" "Contacts" entry (file "~/Org/contacts.org")
+        ;;              "* %(org-contacts-template-name)
+        ;;   :PROPERTIES:
+        ;;   :EMAIL: %(org-contacts-template-email)
+        ;;   :END:"))
 
 
-   ;; Define a hook to go to the gpt journal after capture
 
-   (defun my/org-capture-goto-new-entry ()
-     "Go to the most recent entry in the capture target."
-     (let ((file "~/private/conversations/gpt.org"))
-       (with-current-buffer (find-file file)
-         (goto-char (point-max))
-         (gmj-backward-whitespace)
-   )))
+    ;; Define a hook to go to the gpt journal after capture
 
-   (add-hook 'org-capture-after-finalize-hook #'my/org-capture-goto-new-entry)
+    (defun my/org-capture-goto-new-entry ()
+      "Go to the most recent entry in the capture target."
+      (let ((file "~/private/conversations/gpt.org"))
+        (with-current-buffer (find-file file)
+          (goto-char (point-max))
+          (gmj-backward-whitespace)
+    )))
+
+    (add-hook 'org-capture-after-finalize-hook #'my/org-capture-goto-new-entry)
 #+end_src
-
+*** 
 *** Xah Fly Key Org mappings
     Make "SPC p" run org-set-property when in xah-fly-keys command mode.
     Should probably further restrict it to org mode.
