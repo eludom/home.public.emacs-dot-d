@@ -862,6 +862,20 @@ Aliases, mostly borrowed from Xah Lee
     #+end_src
 
 ** Writing
+*** Denote
+
+#+begin_src emacs-lisp
+  (use-package denote
+    :ensure t
+    :config
+    (setq denote-directory '("~/notes/" "/home/gmj/money/taxes/2025"))
+    (setq denote-prompts '(subdirectory title keywords))
+    (setq denote-excluded-files-regexp "\\(\\.#\\|#.*#\\|.*~\\)")
+    )
+
+  ;; Make dired denote friendly
+    (add-hook 'dired-mode-hook #'denote-dired-mode) 
+ #+end_src
 *** TODO Flyspell
 #+BEGIN_SRC emacs-lisp :exports code
   (dolist (hook '(text-mode-hook))
