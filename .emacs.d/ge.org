@@ -4,7 +4,7 @@
 #+identifier: 20250220T112622
 #+PROPERTY: header-args :results silent :exports code
 #+PROPERTY: header-args:elisp :lexical t
-#+last_saved: 2026-01-27 06:27
+#+last_saved: 2026-02-05 08:42
 
 * Prolog
 ** Artwork
@@ -519,27 +519,6 @@ Aliases, mostly borrowed from Xah Lee
     		 "*  %?\n%(format-time-string \"<%<%Y-%m-%d %H:00>--<%<%Y-%m-%d %H:00>>\")\n")  		
     		("s" "Schedule" entry (file+datetree "~/Org/schedule.org")
     		 "*  %?\n%(format-time-string \"<%Y-%m-%d %H:00-%H:00>\")\n")
-  		;; Added day planning per https://mentat.za.net/blog/2026/01/27/org-mode-time-blocks/?utm_source=atom_feed
-  ("d" "Day Planner" entry (file+olp+datetree "~/org/2026.org")
-   "** %u
-     baz
-
-  - [ ] Scan [[notmuch-search:tag:unread][Notmuch search: tag:unread]] for new tasks (max 10 mins)
-  - [ ] Review Org Agenda for old tasks (max 10 mins)
-
-  ,*** Plan
-  ,**** 
-  ,**** Lunch + walk <%<%Y-%m-%d %a 13:00-13:45>>
-  ,**** 
-  ,**** Wrap up and review <%<%Y-%m-%d %a 16:45-17:00>>
-
-  ,*** Notes
-  ,*** End of day review
-      - What went well ::
-      - What could improve :: 
-      - Priority for tomorrow :: 
-
-  ")
     		;;
     		;; Capture a post for micro.blog
     		;;
