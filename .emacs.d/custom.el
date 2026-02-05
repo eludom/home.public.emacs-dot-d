@@ -43,6 +43,7 @@
      (:name "sent" :query "from:gmj")
      (:name "replied" :query "tag:replied")))
  '(notmuch-search-oldest-first nil)
+ '(org-export-with-broken-links 'mark)
  '(package-selected-packages
    '(atomic-chrome corfu denote denote-menu denote-org dired-subtree
 		   elfeed-org elfeed-score gptel magit marginalia
