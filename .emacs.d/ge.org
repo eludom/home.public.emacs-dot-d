@@ -177,6 +177,7 @@ I /can/ still use basic emacs, but it feels so 1979....
     (cond
      ((string-equal "*elfeed-search*" (buffer-name)) t)
      ((string-equal "*notmuch-hello*" (buffer-name)) t)
+     ((string-match "notmuch-search" (buffer-name)) t)
      ((string-equal "*Org Social Timeline*" (buffer-name)) t)
      ((string-equal "*Org Agenda*" (buffer-name)) t)
      ((string-match "^\*" (buffer-name)) nil)
