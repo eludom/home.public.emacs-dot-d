@@ -598,7 +598,6 @@ Aliases, mostly borrowed from Xah Lee
 
   ;; (add-hook 'org-capture-after-finalize-hook #'my/org-capture-goto-new-entry)
 #+end_src
-*** 
 *** Xah Fly Key Org mappings
     Make "SPC p" run org-set-property when in xah-fly-keys command mode.
     Should probably further restrict it to org mode.
@@ -710,7 +709,6 @@ Aliases, mostly borrowed from Xah Lee
   #+end_src
 
   
-
 
 ** Navigation
 #+begin_src emacs-lisp
@@ -975,12 +973,6 @@ See https://github.com/tanrax/org-social.el
 
 ** Fun and Games
 ** Experimental
-*** denote
-
-#+begin_src emacs-lisp
-(setq org-startup-indented t)
-#+end_src 
-
 
 ** Emacs things to try
 *** TODO Try Emacs Everwyere
@@ -989,8 +981,6 @@ See https://github.com/tanrax/org-social.el
   https://github.com/tecosaur/emacs-everywhere
 ** Configs that have to load late
 * Meetings
-
-
 
 ** TODO Org Meetup (Monthly) - 11:00-13:00 EST
    <%%(diary-float t 3 2)>
