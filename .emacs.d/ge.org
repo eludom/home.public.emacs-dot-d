@@ -483,10 +483,10 @@ Aliases, mostly borrowed from Xah Lee
  #+END_SRC
 ** General Org Mode Configs
 #+BEGIN_SRC emacs-lisp :exports code
-  ; gneral org mode settings
   (setq org-directory "~/Org")
   (setq org-return-follows-link t)
   (setq org-use-property-inheritance t)
+  (setq org-startup-indented t)
   (global-set-key "\C-cl" 'org-store-link)
 #+END_SRC
 *** Define custom task states
