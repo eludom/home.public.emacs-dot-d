@@ -1,10 +1,10 @@
 #+TITLE: ge.org - GEORGe's emacs config
-#-Updated:-<2026-01-16 07:12:58 Friday>
+#+Updated:-<2026-01-16 07:12:58 Friday>
 #+file tags:   :emacs:
 #+identifier: 20250220T112622
 #+PROPERTY: header-args :results silent :exports code
 #+PROPERTY: header-args:elisp :lexical t
-#+last_saved: 2026-02-06 08:55
+#+last_saved: 2026-02-12 07:51
 
 * Prolog
 ** Artwork
@@ -594,6 +594,9 @@ Aliases, mostly borrowed from Xah Lee
       (goto-char marker)))
 
     (add-hook 'org-capture-after-finalize-hook #'my/org-capture-goto-new-entry)
+  ;; but 
+  ;;  cryptk@mastodon.social
+  ;; @eludom You can also set the option ":jump-to-captured t" in a specific capture template.
 
 
   ;; (add-hook 'org-capture-after-finalize-hook #'my/org-capture-goto-new-entry)
@@ -707,8 +710,6 @@ Aliases, mostly borrowed from Xah Lee
       )
 
   #+end_src
-
-  
 
 ** Navigation
 #+begin_src emacs-lisp
@@ -862,6 +863,7 @@ Aliases, mostly borrowed from Xah Lee
     (setq denote-directory '("~/notes/" "/home/gmj/money/taxes/2025"))
     (setq denote-prompts '(subdirectory title keywords))
     (setq denote-excluded-files-regexp "\\(\\.#\\|#.*#\\|.*~\\)")
+    (setq denote-sort-dired-extra-prompts '(sort-by-component)) 
     )
 
   ;; Make dired denote friendly
@@ -941,6 +943,10 @@ See https://github.com/tanrax/org-social.el
     (progn
       (defalias 'ms 'magit-status)
     ))
+    #+end_src
+
+#+begin_src emacs-lisp
+  (add-hook 'sh-mode-hook 'electric-pair-mode)
 #+end_src
 
 ** Web Browsing
@@ -951,7 +957,8 @@ See https://github.com/tanrax/org-social.el
     :config
     ;; (setq debug-on-error t)
     (setq gptel-expert-commands t) 
-    (setq gptel-org-branching-context nil)
+    (setq gptel-org-branching-context t)
+    ;; (setq gptel-org-branching-context t)
     ;; (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@user\n")
     ;; (setf (alist-get 'org-mode gptel-response-prefix-alist) "@assistant\n")
     (progn
@@ -973,6 +980,18 @@ See https://github.com/tanrax/org-social.el
 
 ** Fun and Games
 ** Experimental
+#+begin_src elisp
+  (use-package git-auto-commit-mode
+    :ensure t
+    )
+
+  ;; For some reason these do not work as :custom or :config
+  (customize-set-variable 'gac-debounce-interval 20)
+  (customize-set-variable 'gac-automatically-add-new-files-p nil)
+  
+  (add-hook 'org-mode-hook #'git-auto-commit-mode)
+
+#+end_src
 
 ** Emacs things to try
 *** TODO Try Emacs Everwyere
