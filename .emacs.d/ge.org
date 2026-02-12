@@ -4,7 +4,7 @@
 #+identifier: 20250220T112622
 #+PROPERTY: header-args :results silent :exports code
 #+PROPERTY: header-args:elisp :lexical t
-#+last_saved: 2026-02-12 07:51
+#+last_saved: 2026-02-12 08:13
 
 * Prolog
 ** Artwork
@@ -986,7 +986,7 @@ See https://github.com/tanrax/org-social.el
     )
 
   ;; For some reason these do not work as :custom or :config
-  (customize-set-variable 'gac-debounce-interval 20)
+  (customize-set-variable 'gac-debounce-interval 300) ; 5 min
   (customize-set-variable 'gac-automatically-add-new-files-p nil)
   
   (add-hook 'org-mode-hook #'git-auto-commit-mode)
