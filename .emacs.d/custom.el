@@ -46,13 +46,13 @@
  '(org-export-with-broken-links 'mark)
  '(package-selected-packages
    '(atomic-chrome corfu denote denote-menu denote-org dired-subtree
-		   elfeed-org elfeed-score gptel magit marginalia
-		   markdown-mode mode-icons modus-themes
-		   nerd-icons-completion nerd-icons-corfu
-		   nerd-icons-dired notmuch-addr ol-notmuch orderless
-		   org-social org-web-tools ox-hugo ox-rss ripgrep
-		   trashed undo-tree vertico visual-fill-column
-		   xah-fly-keys))
+		   elfeed-org elfeed-score git-auto-commit-mode gptel
+		   magit marginalia markdown-mode mode-icons
+		   modus-themes nerd-icons-completion nerd-icons-corfu
+		   nerd-icons-dired notmuch-addr numeri ol-notmuch
+		   orderless org-ql org-social org-web-tools ox-hugo
+		   ox-rss ripgrep trashed undo-tree vertico
+		   visual-fill-column xah-fly-keys))
  '(package-vc-selected-packages
    '((org-social :url "https://github.com/tanrax/org-social.el"))))
 (custom-set-faces
