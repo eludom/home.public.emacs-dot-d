@@ -372,9 +372,8 @@ Aliases, mostly borrowed from Xah Lee
 
 
     #+BEGIN_SRC emacs-lisp :exports code
-      (defalias 'yes-or-no-p 'y-or-n-p) ; y or n is enough
+  (setq use-short-answers t); for yes-or-no-p
       (defalias 'list-buffers 'ibuffer) ; always use ibuffer
-
       ;; make frequently used commands short
       (defalias 'qrr 'query-replace-regexp)
       ;; (defalias 'lml 'list-matching-lines)
