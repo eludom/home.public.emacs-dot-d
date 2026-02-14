@@ -5,6 +5,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes nil)
+ '(denote-sort-dired-default-sort-component 'last-modified)
  '(elfeed-feeds
    '("https://relay.org-social.org/rss.xml"
      ("https://www.fastmail.com/blog/feed.xml" blog tech)
