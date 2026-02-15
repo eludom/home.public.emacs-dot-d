@@ -4,7 +4,7 @@
 #+identifier: 20250220T112622
 #+PROPERTY: header-args :results silent :exports code
 #+PROPERTY: header-args:elisp :lexical t
-#+last_saved: 2026-02-14 09:09
+#+last_saved: 2026-02-15 06:05
 
 * Prolog
 ** Artwork
@@ -559,9 +559,9 @@ Aliases, mostly borrowed from Xah Lee
       #nn of #100DaysToOffload take 2.1, https://100daystooffload.com/
     "		 )
     		("J" "Journal (store link)" entry (file+datetree "~/Org/diary.org")
-    		 "* %?\n  %U\n  %a\n")
+    		 "* %?\n   %U\n  %a\n")
     		("j" "Journal (no link)" entry (file+datetree "~/Org/diary.org")
-    		 "* %?	:%<%Y>\n  %U\n")
+    		 "* %?\n  %U\n")
     		;;
     		;; Paper filing
     		;;
