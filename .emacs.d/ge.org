@@ -4,7 +4,7 @@
 #+identifier: 20250220T112622
 #+PROPERTY: header-args :results silent :exports code
 #+PROPERTY: header-args:elisp :lexical t
-#+last_saved: 2026-02-15 06:05
+#+last_saved: 2026-02-15 07:14
 
 * Prolog
 ** Artwork
@@ -982,16 +982,16 @@ See https://github.com/tanrax/org-social.el
 #+begin_src elisp
   (use-package git-auto-commit-mode
     :ensure t
-    )
-
+  :config
+  :hook (prog-mode . git-auto-commit-mode)
+  :hook (text-mode . git-auto-commit-mode))
+  
   ;; For some reason these do not work as :custom or :config
   (customize-set-variable 'gac-debounce-interval 300) ; 5 min
   (customize-set-variable 'gac-automatically-add-new-files-p nil)
-  
-  (add-hook 'org-mode-hook #'git-auto-commit-mode)
 
 #+end_src
-
+** 
 ** Emacs things to try
 *** TODO Try Emacs Everwyere
   [2025-11-02 Sun 15:17]
