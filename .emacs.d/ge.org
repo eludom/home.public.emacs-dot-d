@@ -4,7 +4,7 @@
 #+identifier: 20250220T112622
 #+PROPERTY: header-args :results silent :exports code
 #+PROPERTY: header-args:elisp :lexical t
-#+last_saved: 2026-02-15 07:14
+#+last_saved: 2026-02-23 09:34
 
 * Prolog
 ** Artwork
@@ -979,6 +979,26 @@ See https://github.com/tanrax/org-social.el
 
 ** Fun and Games
 ** Experimental
+*** Denote Silos
+#+begin_src elisp
+(use-package denote-silo
+  :ensure t
+  ;; Bind these commands to key bindings of your choice.
+  :commands ( denote-silo-create-note
+              denote-silo-open-or-create
+              denote-silo-select-silo-then-command
+              denote-silo-dired
+              denote-silo-cd )
+  :config
+  ;; Add your silos to this list.  By default, it only includes the
+  ;; value of the variable `denote-directory'.
+  (setq denote-silo-directories
+        (list denote-directory
+              "/home/gmj/home/private/family/geneaology/"
+              "~/secret/money/")))
+  #+end_src
+
+*** Autocommit
 #+begin_src elisp
   (use-package git-auto-commit-mode
     :ensure t
