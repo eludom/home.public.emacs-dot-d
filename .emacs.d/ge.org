@@ -4,7 +4,7 @@
 #+identifier: 20250220T112622
 #+PROPERTY: header-args :results silent :exports code
 #+PROPERTY: header-args:elisp :lexical t
-#+last_saved: 2026-02-23 15:33
+#+last_saved: 2026-02-26 13:16
 
 * Prolog
 ** Artwork
@@ -858,6 +858,7 @@ Aliases, mostly borrowed from Xah Lee
 #+begin_src emacs-lisp
   (use-package denote
     :ensure t
+    :bind (("C-c d w" . gmj/denote-switch-directory))
     :config
     (setq denote-directory '("~/notes/" ))
     (setq denote-prompts '(subdirectory title keywords))
