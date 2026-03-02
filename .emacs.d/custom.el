@@ -5,6 +5,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes nil)
+ '(denote-known-keywords nil)
  '(denote-sort-dired-default-sort-component 'last-modified)
  '(elfeed-feeds
    '("https://relay.org-social.org/rss.xml"
@@ -46,7 +47,7 @@
  '(notmuch-search-oldest-first nil)
  '(org-export-with-broken-links 'mark)
  '(package-selected-packages
-   '(atomic-chrome corfu denote denote-menu denote-org denote-silo
+   '(atomic-chrome citeproc corfu denote denote-menu denote-org
 		   dired-subtree elfeed-org elfeed-score
 		   git-auto-commit-mode gptel magit marginalia
 		   markdown-mode mode-icons modus-themes
