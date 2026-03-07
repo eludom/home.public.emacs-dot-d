@@ -4,7 +4,7 @@
 #+identifier: 20250220T112622
 #+PROPERTY: header-args :results silent :exports code
 #+PROPERTY: header-args:elisp :lexical t
-#+last_saved: 2026-03-07 09:15
+#+last_saved: 2026-03-07 09:22
 
 * Prolog
 ** Artwork
@@ -877,22 +877,22 @@ Aliases, mostly borrowed from Xah Lee
 *** HTML Export - Title, Name, email, date at top 
 #+begin_src elisp
 
-  ; Customize
-  ;
-  ;   org-export-with-title
-  ;
-  ; Set to nil
+    ; Customize
+    ;
+    ;   org-export-with-title
+    ;
+    ; Set to nil
 
-;; <h3 class=\"title\">%t foo</h3>
-   (setq org-html-preamble-format
-         '(("en"
-             <p class=\"subtitle\">%s</p>
-             <br>
-             <p class=\"subtitle\">%a</p>
-             <p class=\"subtitle\">%e</p>
-             <p class=\"subtitle\">%d</p>")))
+     (setq org-html-preamble-format
+           '(("en"
+  	     <h1 class=\"title\">%t</h1>
+               <p class=\"subtitle\">%s</p>
+               <br>
+               <p class=\"subtitle\">%a</p>
+               <p class=\"subtitle\">%e</p>
+               <p class=\"subtitle\">%d</p>")))
 
-   (setq org-html-postamble nil)
+     (setq org-html-postamble nil)
 #+end_src
 *** Allow Markdown export
     #+begin_src emacs-lisp :exports code
