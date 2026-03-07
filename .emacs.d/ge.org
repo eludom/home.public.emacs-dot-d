@@ -4,7 +4,7 @@
 #+identifier: 20250220T112622
 #+PROPERTY: header-args :results silent :exports code
 #+PROPERTY: header-args:elisp :lexical t
-#+last_saved: 2026-03-07 09:22
+#+last_saved: 2026-03-07 11:02
 
 * Prolog
 ** Artwork
@@ -874,25 +874,41 @@ Aliases, mostly borrowed from Xah Lee
   (dolist (hook '(text-mode-hook))
     (add-hook hook (lambda () (flyspell-mode 1))))
     #+END_SRC
-*** HTML Export - Title, Name, email, date at top 
+*** HTML Export - Title, Name, email, date at top
+
+To get reasonable export (title, author, email, date up at at
+start in both LaTeX and HTML export do something like this:
+
+The key is the macro that sets title:t or title:nil
+and the org-html-preamble-format that prints the title
+etc as desired.   The rest are reasonable defaults
+#+begin_example
+
+#Reasonable defaults
+
+,#+OPTIONS: author:t date:t email:t
+,#+OPTIONS: html-postamble:nil
+,#+latex_class: report
+,#+latex_class_options: [titlepage]
+
+# Macro to set title option as required per backend
+ 
+,#+MACRO: conditional-title (eval (if (org-export-derived-backend-p org-export-current-backend 'latex) "#+OPTIONS: title:t" "#+OPTIONS: title:nil"))
+{{{conditional-title}}}
+#+end_example
+
+
 #+begin_src elisp
 
-    ; Customize
-    ;
-    ;   org-export-with-title
-    ;
-    ; Set to nil
+  (setq org-html-preamble-format
+        '(("en"
+  	 "<h1 class=\"title\">%t</h1>
+            <p class=\"subtitle\">%s</p>
+            <br>
+            <p class=\"subtitle\">%a</p>
+            <p class=\"subtitle\">%e</p>
+            <p class=\"subtitle\">%d</p>")))
 
-     (setq org-html-preamble-format
-           '(("en"
-  	     <h1 class=\"title\">%t</h1>
-               <p class=\"subtitle\">%s</p>
-               <br>
-               <p class=\"subtitle\">%a</p>
-               <p class=\"subtitle\">%e</p>
-               <p class=\"subtitle\">%d</p>")))
-
-     (setq org-html-postamble nil)
 #+end_src
 *** Allow Markdown export
     #+begin_src emacs-lisp :exports code
