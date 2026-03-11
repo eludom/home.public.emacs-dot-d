@@ -53,8 +53,9 @@
 		   markdown-mode mode-icons modus-themes
 		   nerd-icons-completion nerd-icons-corfu
 		   nerd-icons-dired notmuch-addr numeri ol-notmuch
-		   orderless org-ql org-social org-web-tools ox-hugo
-		   ox-rss ripgrep trashed undo-tree vertico
+		   orderless org-protocol org-protocol-capture-html
+		   org-ql org-social org-web-tools ox-hugo ox-rss
+		   ripgrep trashed undo-tree vertico
 		   visual-fill-column xah-fly-keys))
  '(package-vc-selected-packages
    '((org-social :url "https://github.com/tanrax/org-social.el"))))
