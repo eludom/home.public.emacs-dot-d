@@ -4,7 +4,7 @@
 #+identifier: 20250220T112622
 #+PROPERTY: header-args :results silent :exports code
 #+PROPERTY: header-args:elisp :lexical t
-#+last_saved: 2026-03-11 17:21
+#+last_saved: 2026-03-12 10:44
 
 * Prolog
 ** Artwork
@@ -487,6 +487,7 @@ Aliases, mostly borrowed from Xah Lee
   (setq org-use-property-inheritance t)
   (setq org-startup-indented t)
   (global-set-key "\C-cl" 'org-store-link)
+  (setq org-startup-folded 'overview)
 #+END_SRC
 *** Define custom task states
 #+BEGIN_SRC emacs-lisp
