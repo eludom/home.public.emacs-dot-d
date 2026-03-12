@@ -4,7 +4,7 @@
 #+identifier: 20250220T112622
 #+PROPERTY: header-args :results silent :exports code
 #+PROPERTY: header-args:elisp :lexical t
-#+last_saved: 2026-03-12 12:03
+#+last_saved: 2026-03-12 12:43
 
 * Prolog
 ** Artwork
@@ -1020,6 +1020,7 @@ See https://github.com/tanrax/org-social.el
 #+END_SRC
 
 ** Programming
+*** Magit
 #+begin_src emacs-lisp
   (use-package magit
     :ensure t
@@ -1028,11 +1029,25 @@ See https://github.com/tanrax/org-social.el
       (defalias 'ms 'magit-status)
     ))
     #+end_src
+*** Git autocommit
+#+begin_src elisp
+  (use-package git-auto-commit-mode
+    :ensure t
+  :config
+  :hook (prog-mode . git-auto-commit-mode)
+  :hook (text-mode . git-auto-commit-mode))
 
+  ;; For some reason these do not work as :custom or :config
+  (customize-set-variable 'gac-debounce-interval 300) ; 5 min
+  (customize-set-variable 'gac-automatically-add-new-files-p nil)
+  (customize-set-variable 'gac-automatically-add-new-files-p nil)
+  (customize-set-variable 'gac-ask-for-summary-p t)
+
+#+end_src
+*** pair matching
 #+begin_src emacs-lisp
   (add-hook 'sh-mode-hook 'electric-pair-mode)
 #+end_src
-
 ** Web Browsing
 ** AI
 #+begin_src emacs-lisp
@@ -1064,19 +1079,6 @@ See https://github.com/tanrax/org-social.el
 
 ** Fun and Games
 ** Experimental
-*** Autocommit
-#+begin_src elisp
-  (use-package git-auto-commit-mode
-    :ensure t
-  :config
-  :hook (prog-mode . git-auto-commit-mode)
-  :hook (text-mode . git-auto-commit-mode))
-  
-  ;; For some reason these do not work as :custom or :config
-  (customize-set-variable 'gac-debounce-interval 300) ; 5 min
-  (customize-set-variable 'gac-automatically-add-new-files-p nil)
-
-#+end_src
 *** org-capture
 #+begin_src emacs-lisp
     ;; (use-package org-protocol
