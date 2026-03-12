@@ -4,7 +4,7 @@
 #+identifier: 20250220T112622
 #+PROPERTY: header-args :results silent :exports code
 #+PROPERTY: header-args:elisp :lexical t
-#+last_saved: 2026-03-12 12:43
+#+last_saved: 2026-03-12 13:01
 
 * Prolog
 ** Artwork
@@ -506,143 +506,145 @@ Aliases, mostly borrowed from Xah Lee
 
 #+begin_src emacs-lisp
 
-(message "set C-cc - ONE")
-(global-set-key (kbd "\C-cc") 'org-capture)
+  (message "set C-cc - ONE")
+  (global-set-key (kbd "\C-cc") 'org-capture)
 
 
-    ;; org-capture-templates, with each template in its own block:
-    ;;
-    ;; Initialize empty list
-    (setq org-capture-templates '())
+      ;; org-capture-templates, with each template in its own block:
+      ;;
+      ;; Initialize empty list
+      (setq org-capture-templates '())
 
-    ;; s - Schedule (simple)
+      ;; s - Schedule (simple)
+      (add-to-list 'org-capture-templates
+                   '("s" "Schedule" entry
+                     (file+datetree "~/Org/schedule.org")
+                     "* %?
+      %(format-time-string \"<%Y-%m-%d %H:00-%H:00>\")
+      ")
+                   t)
+
+      ;; S - Schedule (range)
+      (add-to-list 'org-capture-templates
+                   '("S" "Schedule (range)" entry
+                     (file+datetree "~/Org/schedule.org")
+                     "* %?
+      %(format-time-string \"<%Y-%m-%d %H:00>--<%Y-%m-%d %H:00>\")
+      ")
+                   t)
+
+      ;; m - Microblog
+    ;; Creates ~/micro.blog/YYYY-MM-DD_subject.org
     (add-to-list 'org-capture-templates
-                 '("s" "Schedule" entry
-                   (file+datetree "~/Org/schedule.org")
-                   "* %?
-    %(format-time-string \"<%Y-%m-%d %H:00-%H:00>\")
+                 '("m" "Microblog" plain
+                   (file (lambda ()
+                           (let* ((date (format-time-string "%Y-%m-%d_"))
+                                  (subject (read-string "Subject For Filename: ")))
+                             (expand-file-name
+                              (concat date (replace-regexp-in-string " " "-" subject) ".org")
+                              "~/micro.blog/"))))
+                   "#+TITLE: %^{title}
+    ,#+DATE: %T
+
+    %?"
+                   :empty-lines 0)
+                 t)
+
+    ;; h - Hugo blog
+    (add-to-list 'org-capture-templates
+                 '("h" "Hugo blog" entry
+                   (file "~/blog/drafts/drafts.org")
+                   "*** TODO %^{title}		:100DaysToOffload:
+
+    The short story...
+
+    ,,#+caption: [[https://FOO.COM/BAR/BAZ.JPG][\"Name of work\" by WHO is licensed under cc by 2.0]]
+    ,,#+attr_html: :width 200px
+    [[file:images/BAZ.JPG]]
+
+    ,,#+hugo: more
+
+    The long story...
+
+    #nn of #100DaysToOffload take 2.1, https://100daystooffload.com/
     ")
                  t)
 
-    ;; S - Schedule (range)
+    ;; j - Journal (no link)
     (add-to-list 'org-capture-templates
-                 '("S" "Schedule (range)" entry
-                   (file+datetree "~/Org/schedule.org")
-                   "* %?
-    %(format-time-string \"<%Y-%m-%d %H:00>--<%Y-%m-%d %H:00>\")
+                 '("j" "Journal (no link)" entry
+                   (file+datetree "~/Org/diary.org")
+                   "* TODO %?
+    %U
     ")
                  t)
 
-    ;; m - Microblog
-  ;; Creates ~/micro.blog/YYYY-MM-DD_subject.org
+    ;; J - Journal (store link)
+    (add-to-list 'org-capture-templates
+                 '("J" "Journal (store link)" entry
+                   (file+datetree "~/Org/diary.org")
+                   "* TODO %?
+    %U
+    %a
+    ")
+                 t)
+
+    ;; p - Paper doc log
+    (add-to-list 'org-capture-templates
+                 '("p" "Paper doc log" entry
+                   (file+datetree "~/docs/paper-docs-log.org")
+                   "* INFO %^{DocID|YYYY-MM-DD-##} - %^{brief description} :%^g
+    %U
+    :PROPERTIES:
+    :what: %^{What|Receipt|Bill|Statement|Form|MedicalRecords}
+    :amount: %^{ammount}
+    :why: %^{Why|Financial|Medical|House|Food|Charity}
+    :where: %^{Where|paper-files-monthly|paper-files-tax|paper-files-medical-OOP-2025|paper-files-medical-steph|paper-files-medical-george|business-inbox}
+    :END:
+    %?")
+                 t)
+
+    ;; n - Note
+    (add-to-list 'org-capture-templates
+                 '("n" "Note" entry
+                   (file "~/Org/refile.org")
+                   "* %? :NOTE:
+    %U
+    %a
+    ")
+                 t)
+
+    ;; w - Web research (org-protocol)
   (add-to-list 'org-capture-templates
-               '("m" "Microblog" plain
-                 (file (lambda ()
-                         (let* ((date (format-time-string "%Y-%m-%d_"))
-                                (subject (read-string "Subject For Filename: ")))
-                           (expand-file-name
-                            (concat date (replace-regexp-in-string " " "-" subject) ".org")
-                            "~/micro.blog/"))))
-                 "#+TITLE: %^{title}
-  ,#+DATE: %T
-
-  %?"
-                 :empty-lines 0)
+               `("w" "Web research" entry
+                 (file+datetree "~/org/web.org")
+                 ,(concat "* %:description\n"
+                          ":PROPERTIES:\n"
+                          ":URL: %:link\n"
+                          ":END:\n\n"
+  			"** Notes\n"
+  			"%?\n"
+  			"** Excerpt\n"
+                          "#+begin_quote\n"
+                          "%:initial\n"
+                          "#+end_quote\n\n"
+                          "%U\n"))
                t)
+    
+          (defun my/org-capture-goto-new-entry ()
+          "Go to the entry that was just captured."
+          (when-let ((marker org-capture-last-stored-marker)
+                     (buf (marker-buffer marker)))
+            (switch-to-buffer buf)
+            (goto-char marker)))
 
-  ;; h - Hugo blog
-  (add-to-list 'org-capture-templates
-               '("h" "Hugo blog" entry
-                 (file "~/blog/drafts/drafts.org")
-                 "*** TODO %^{title}		:100DaysToOffload:
-
-  The short story...
-
-  ,,#+caption: [[https://FOO.COM/BAR/BAZ.JPG][\"Name of work\" by WHO is licensed under cc by 2.0]]
-  ,,#+attr_html: :width 200px
-  [[file:images/BAZ.JPG]]
-
-  ,,#+hugo: more
-
-  The long story...
-
-  #nn of #100DaysToOffload take 2.1, https://100daystooffload.com/
-  ")
-               t)
-
-  ;; j - Journal (no link)
-  (add-to-list 'org-capture-templates
-               '("j" "Journal (no link)" entry
-                 (file+datetree "~/Org/diary.org")
-                 "* TODO %?
-  %U
-  ")
-               t)
-
-  ;; J - Journal (store link)
-  (add-to-list 'org-capture-templates
-               '("J" "Journal (store link)" entry
-                 (file+datetree "~/Org/diary.org")
-                 "* TODO %?
-  %U
-  %a
-  ")
-               t)
-
-  ;; p - Paper doc log
-  (add-to-list 'org-capture-templates
-               '("p" "Paper doc log" entry
-                 (file+datetree "~/docs/paper-docs-log.org")
-                 "* INFO %^{DocID|YYYY-MM-DD-##} - %^{brief description} :%^g
-  %U
-  :PROPERTIES:
-  :what: %^{What|Receipt|Bill|Statement|Form|MedicalRecords}
-  :amount: %^{ammount}
-  :why: %^{Why|Financial|Medical|House|Food|Charity}
-  :where: %^{Where|paper-files-monthly|paper-files-tax|paper-files-medical-OOP-2025|paper-files-medical-steph|paper-files-medical-george|business-inbox}
-  :END:
-  %?")
-               t)
-
-  ;; n - Note
-  (add-to-list 'org-capture-templates
-               '("n" "Note" entry
-                 (file "~/Org/refile.org")
-                 "* %? :NOTE:
-  %U
-  %a
-  ")
-               t)
-
-  ;; w - Web research (org-protocol)
-(add-to-list 'org-capture-templates
-             `("w" "Web research" entry
-               (file "~/org/web.org")
-               ,(concat "* %:description\n"
-                        ":PROPERTIES:\n"
-                        ":URL: %:link\n"
-                        ":END:\n\n"
-                        "** Excerpt\n"
-                        "#+begin_quote\n"
-                        "%:initial\n"
-                        "#+end_quote\n\n"
-                        "%U\n"))
-             t)
-  
-        (defun my/org-capture-goto-new-entry ()
-        "Go to the entry that was just captured."
-        (when-let ((marker org-capture-last-stored-marker)
-                   (buf (marker-buffer marker)))
-          (switch-to-buffer buf)
-          (goto-char marker)))
-
-        (add-hook 'org-capture-after-finalize-hook #'my/org-capture-goto-new-entry)
-      ;; but 
-      ;;  cryptk@mastodon.social
-      ;; @eludom You can also set the option ":jump-to-captured t" in a specific capture template.
+          (add-hook 'org-capture-after-finalize-hook #'my/org-capture-goto-new-entry)
+        ;; but 
+        ;;  cryptk@mastodon.social
+        ;; @eludom You can also set the option ":jump-to-captured t" in a specific capture template.
 
 
-        ;; (add-hook 'org-capture-after-finalize-hook #'my/org-capture-goto-new-entry)
+          ;; (add-hook 'org-capture-after-finalize-hook #'my/org-capture-goto-new-entry)
         #+end_src
 #+end_src
 *** Xah Fly Key Org mappings
