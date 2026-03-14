@@ -4,7 +4,7 @@
 #+identifier: 20250220T112622
 #+PROPERTY: header-args :results silent :exports code
 #+PROPERTY: header-args:elisp :lexical t
-#+last_saved: 2026-03-12 13:38
+#+last_saved: 2026-03-14 13:34
 
 * Prolog
 ** Artwork
@@ -512,8 +512,10 @@ Aliases, mostly borrowed from Xah Lee
 
       ;; org-capture-templates, with each template in its own block:
       ;;
-      ;; Initialize empty list
-      (setq org-capture-templates '())
+      ;; Initialize list if not already defined.
+      (unless (boundp 'org-capture-templates)
+        (setq org-capture-templates '()))
+
 
       ;; s - Schedule (simple)
       (add-to-list 'org-capture-templates
@@ -533,36 +535,19 @@ Aliases, mostly borrowed from Xah Lee
       ")
                    t)
 
-      ;; m - Microblog
-    ;; Creates ~/micro.blog/YYYY-MM-DD_subject.org
+
+    ;; j - Journal TODO (no link)
     (add-to-list 'org-capture-templates
-                 '("m" "Microblog" plain
-                   (file (lambda ()
-                           (let* ((date (format-time-string "%Y-%m-%d_"))
-                                  (subject (read-string "Subject For Filename: ")))
-                             (expand-file-name
-                              (concat date (replace-regexp-in-string " " "-" subject) ".org")
-                              "~/micro.blog/"))))
-                   "#+TITLE: %^{title}
-    ,#+DATE: %T
-
-    %?"
-                   :empty-lines 0)
-                 t)
-
-
-    ;; j - Journal (no link)
-    (add-to-list 'org-capture-templates
-                 '("j" "Journal (no link)" entry
+                 '("j" "Journal TODO (no link)" entry
                    (file+datetree "~/Org/diary.org")
                    "* TODO %?
     %U
     ")
                  t)
 
-    ;; J - Journal (store link)
+    ;; J - Journal TODO (store link)
     (add-to-list 'org-capture-templates
-                 '("J" "Journal (store link)" entry
+                 '("J" "Journal TODO (store link)" entry
                    (file+datetree "~/Org/diary.org")
                    "* TODO %?
     %U
@@ -585,31 +570,32 @@ Aliases, mostly borrowed from Xah Lee
     %?")
                  t)
 
-    ;; n - Note
-    (add-to-list 'org-capture-templates
-                 '("n" "Note" entry
-                   (file "~/Org/refile.org")
-                   "* %? :NOTE:
-    %U
-    %a
-    ")
-                 t)
+    ;; ;; n - Note
+    ;; (add-to-list 'org-capture-templates
+    ;;              '("n" "Note" entry
+    ;;                (file "~/Org/refile.org")
+    ;;                "* %? :NOTE:
+    ;; %U
+    ;; %a
+    ;; ")
+    ;;              t)
 
     ;; w - Web research (org-protocol)
   (add-to-list 'org-capture-templates
-               `("w" "Web research" entry
+               `("w" "Web Capture (org-protocol)" entry
                  (file+datetree "~/org/web.org")
                  ,(concat "* %:description\n"
                           ":PROPERTIES:\n"
                           ":URL: %:link\n"
+  			":ACCESSED: %U\n"
                           ":END:\n\n"
   			"** Notes\n"
   			"%?\n"
   			"** Excerpt\n"
                           "#+begin_quote\n"
                           "%:initial\n"
-                          "#+end_quote\n\n"
-                          "%U\n"))
+                          "#+end_quote\n"
+                          ))
                t)
     
           (defun my/org-capture-goto-new-entry ()
@@ -886,7 +872,7 @@ Aliases, mostly borrowed from Xah Lee
 #+begin_src emacs-lisp
   (use-package denote
     :ensure t
-    :bind (("C-c d w" . gmj/denote-switch-directory))
+    :bind (("C-c n w" . gmj/denote-switch-directory))
     :config
     (setq denote-directory '("~/notes/" ))
     (setq denote-prompts '(subdirectory title keywords))
