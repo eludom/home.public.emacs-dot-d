@@ -102,6 +102,30 @@ In addition, while we’re here: when we stand on an expression that is only sho
     ;; (setq show-paren-style 'expression)
   #+end_src
 
+*** Appearance
+
+
+#+begin_src emacs-lisp
+(remove-hook 'text-mode-hook #'turn-on-auto-fill)
+
+(require 'visual-fill-column)
+
+;; Add visual-line-mode and visual-fill-column-mode to text-mode-hook
+(add-hook 'text-mode-hook (lambda ()
+                            (visual-line-mode 1)
+                            (visual-fill-column-mode 1)
+                            (visual-fill-column-toggle-center-text)))
+
+;; Set the desired wrap width
+(setq-default visual-fill-column-width 120) ;; because 80 character terminals were a thing?
+#+end_src
+
+ Turn on visual line mode so text lines “wrap” inside the frame and don’t continue beyond the window’s edge. This is essential; I can’t read in Emacs without it. And a newcomer I discovered recently: since Emacs 30, we also have global-visual-wrap-prefix-mode, which preserves indentation on wrapped lines. For example, in a list in org-mode (made of dashes one under the other), a long line of text that wraps will align under its starting point (dash) in the list instead of jumping back to column 0 (the start of the window, to the most left). This has been a huge pet peeve. Finally!
+
+# #+begin_src elisp
+#   (global-visual-line-mode t)
+#   (global-visual-wrap-prefix-mode t)
+# #+end_src
 
 *** File Backup behavior
 
@@ -211,6 +235,13 @@ Why would anybody exit emacs?  Don't do this casually...
 
   ;; (global-unset-key (kbd "C-x C-c"))
   ;; (global-unset-key (kbd "C-z"))
+#+end_src
+**** Visual Bell
+ 
+Turn off the annoying error beep, which I first discovered in SUSE Linux by turning on a visual warning (a flash) instead. This will flash the top and bottom lines of our window instead of going “beep!”
+
+#+begin_src elisp
+(setq visible-bell t)
 #+end_src
 
 ** General Org Mode Configs

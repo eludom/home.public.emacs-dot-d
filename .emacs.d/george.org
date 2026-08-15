@@ -1,6 +1,6 @@
 <<babel-init>>
 #TITLE: George Jones' emacs config, 2025 edition
-# Updated: <2025-02-09 08:03:15 Sunday>
+# Updated: <2026-08-12 08:25:39 Wednesday>
 #+CAPTION: Text Colored Glasses
 #+BEGIN_EXAMPLE
 						     __
@@ -1374,6 +1374,36 @@
 #+end_src
 
 * Experimental/Testing
+** From JTR's config gems
+*** Backups
+#+BEGIN_SRC emacs-lisp :exports code
+  # .local/share/Trash
+  (setq delete-by-moving-to-trash t)
+  (setq dired-recursive-deletes 'always)
+
+  (setq default-frame-alist
+     '((width . 100)
+       (height . 55))
+      )
+
+  (make-directory "~/emacs-bks" t)
+  (setq backup-directory-alist
+        `((".*" . "~/emacs-bks")))
+  (setq auto-save-file-name-transforms
+        `((".*" "~/emacs-bks" t)))
+
+  (auto-save-visited-mode t)
+  (setq auto-save-visited-interval 300)
+  (setq auto-save-interval 100)
+
+  (global-auto-revert-mode t)
+
+  (recentf-mode t)
+  (setq recentf-max-saved-items 30)
+#+END_SRC
+
+#+RESULTS:
+: 30
 
 ** isearch help menu
 #   ; 2023-12-19
