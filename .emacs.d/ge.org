@@ -887,7 +887,7 @@ etc as desired.   The rest are reasonable defaults
     #+end_src
 * Communication
 ** Email
-**** Notmuch and friends
+*** Notmuch and friends
 #+BEGIN_SRC emacs-lisp
   (use-package notmuch
     :ensure t
