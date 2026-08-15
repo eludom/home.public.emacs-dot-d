@@ -6,6 +6,43 @@
 
 
 * Configurations
+** TODO Load custom .el or .org files from ~/elisp-*
+
+This loads any custom code snippits I've written or borrowed
+from
+
+   ~/elisp-{public,private,secret}
+
+    #+BEGIN_SRC emacs-lisp :exports code
+
+      ;; -*- lexical-binding: t; -*-
+      ; Load up all .org files in ~/elisp*
+      (setq debug-on-error t)
+
+
+       (dolist (word  (directory-files (expand-file-name "~/") t "^elisp*"))
+      	(if (file-exists-p word)
+      	  (progn
+      	    (setq elisp-dir word)
+      	    (add-to-list 'load-path word)
+      	    (message (format "org-bable-load directory: %s"  elisp-dir))
+      	    (mapc #'org-babel-load-file (directory-files elisp-dir t "\\.org$"))
+
+      	     ; Load up everything in the ~/elisp
+
+      	     ; http://stackoverflow.com/questions/18706250/emacs-require-all-files-in-a-directory
+
+      	     (let ((loaded  (mapcar #'car load-history)))
+      	       (dolist (file  (directory-files elisp-dir t ".+\\.elc?$"))
+      		 (unless (catch 'foo
+      			   (dolist (done  loaded)
+      			     (when (equal file done) (throw 'foo t)))
+      			   nil)
+      		   (load (file-name-sans-extension file))
+      		   (push file loaded))))
+      		 )))
+    #+END_SRC
+
 * General Emacs Configs
 ** Things That Have To Load Early
 *** Org Babel Languages
@@ -150,6 +187,89 @@ Not anymore! With this little guy, when we kill the line (step 2 above), Emacs â
   (setq time-stamp-pattern  "8/[Dd][Aa][Tt][Ee][Dd]?:[ \t]+\\\\?[\"<]+%:Y-%02m-%02d %02H:%02M:%02S %:a\\\\?[\">]")
   (add-hook 'before-save-hook 'time-stamp)
 #+END_SRC
+** My keybindings from eons past
+
+Some of these may date to TECO based TOPS20 emacs, Multics emacs, FINE (Tops 10), mg or similar museum pieces. As a note, you can get a Free TOPS20 account and run the original (TECO based) Emacs at http://twenex.org/~eludom.   I find I can still edit files in it, but it is mostly unrecognizable to the modern GNU Emacs user....
+
+#+BEGIN_SRC emacs-lisp :exports code
+  (global-set-key "\C-Xd" 'insert-date)a
+  (global-set-key "\C-\\" 'compile) ; normally toggle input method, I mean, I *might* want in input Sumarian script...
+  ;; (global-set-key "\C-]" 'call-last-kbd-macro)
+  ;; (global-set-key "\eq" 'query-replace)
+  ;; (global-set-key "\er" 'replace-string)
+-set-key "\em" 'set-mark-command)
+  ;(global-set-key "\e " 'set-mark-command)
+  ;; (global-set-key "\e#" 'what-line)
+  ;; (global-set-key "\eg" 'goto-line)
+  ;; (global-set-key "\ei" 'ispell-buffer)
+  ;(global-set-key "\C-X\C-K" 'bury-buffer)
+  (global-set-key "\C-he" 'emacs-version)
+  (global-set-key "\C-hg" 'org-version); OK, so this one is not acient as of
+  (global-set-key "\ep" 'set-fill-prefix)
+  (global-set-key "\C-Xp" 'fill-paragraph)
+  (global-set-key "\C-Xc" 'copy-region-as-kill)
+  (global-set-key "\C-X!" 'compile)
+  ;(global-unset-key "\C-X\C-l")
+ #+END_SRC
+** Aliases
+
+Aliases, mostly borrowed from Xah Lee
+
+
+#+BEGIN_SRC emacs-lisp :exports code
+  (setq use-short-answers t); for yes-or-no-p
+  (defalias 'list-buffers 'ibuffer) ; always use ibuffer
+  ;; make frequently used commands short
+  (defalias 'qrr 'query-replace-regexp)
+  ;; (defalias 'lml 'list-matching-lines)
+  ;; (defalias 'dml 'delete-matching-lines)
+  ;; (defalias 'dnml 'delete-non-matching-lines)
+  ;; (defalias 'dtw 'delete-trailing-whitespace)
+  ;; (defalias 'sl 'sort-lines)
+  ;; (defalias 'rr 'reverse-region)
+  ;; (defalias 'rs 'replace-string)
+
+  (defalias 'g 'grep)
+  (defalias 'gf 'grep-find)
+  (setq grep-find-command
+  	    '("find -L . -type f -mtime -21 -name \\*.org -exec grep -E -i --color -nH --null -e  \\{\\} +" . 80))
+
+  (defalias 'fd 'find-dired)
+
+  (defalias 'rb 'revert-buffer)
+
+  (defalias 'sh 'shell)
+  (defalias 'fb 'flyspell-buffer)
+  ;; (defalias 'sbc 'set-background-color)
+  (defalias 'rof 'recentf-open-files)
+  (defalias 'lcd 'list-colors-display)
+  ;; (defalias 'cc 'calc)
+
+  ; elisp
+  (defalias 'eb 'eval-buffer)
+  (defalias 'er 'eval-region)
+  ;; (defalias 'ed 'eval-defun)
+  ;; (defalias 'eis 'elisp-index-search)
+  (defalias 'lf 'load-file)
+
+  ; major modes
+  (defalias 'hm 'html-mode)
+  (defalias 'tm 'text-mode)
+  (defalias 'elm 'emacs-lisp-mode)
+  (defalias 'om 'org-mode)
+  ;; (defalias 'gm 'go-mode)
+  (defalias 'lim 'lisp-interaction-mode)
+
+  ; minor modes
+  (defalias 'wsm 'whitespace-mode)
+  (defalias 'gwsm 'global-whitespace-mode)
+  (defalias 'dsm 'desktop-save-mode)
+  (defalias 'acm 'auto-complete-mode)
+  (defalias 'vlm 'visual-line-mode)
+  (defalias 'glm 'global-linum-mode)
+
+	#+END_SRC
+
 ** Navigation
 #+begin_src emacs-lisp
 (global-set-key "\C-x\C-x" 'exchange-point-and-mark)
@@ -553,7 +673,71 @@ I think I stole these from Prot?
      (define-key xah-fly-command-map (kbd "SPC p") 'org-set-property))
 #+end_src
 * Reading
+*** elfeed for reading rss
+- State "IN-PROGRESS" from              [2025-11-02 Sun 15:00]
+#+begin_src emacs-lisp
+
+  ;; Elfeed + feeds in an Org file
+  (use-package elfeed
+    :ensure t
+    :bind (("C-x w" . elfeed)            ;; open Elfeed
+           ("C-x W" . elfeed-update))    ;; fetch new entries
+    :custom
+    (elfeed-db-directory "~/private/rss/elfeed")
+    (elfeed-search-filter "@3-days-ago +person +unread")  ;; default search view
+    :config
+    
+    (use-package elfeed-org
+      :ensure t
+      :after elfeed
+      :custom
+      ;; Point to your Org file(s) of feeds
+      (rmh-elfeed-org-files '("~/private/rss/elfeed.org"))
+      :config
+      ;; Parse the Org file and load feeds into Elfeed
+      (elfeed-org)))
+
+  (use-package elfeed-score
+  :ensure t
+  :config
+  ;; (setq elfeed-score-score-file "~/private/rss/elfeed.score")
+  ;; (setq elfeed-score-rule-stats-file "~/private/rss/elfeed.stats")
+  ;(setq elfeed-score-serde-score-file "~/private/rss/elfeed.score")  
+  (progn
+    (elfeed-score-enable)
+    (define-key elfeed-search-mode-map "=" elfeed-score-map)))
+#+end_src
+
+**
+*** TODO Reference
+
+    http://ergoemacs.org/emacs/xah-lookup.html
+
+
+    #+begin_src emacs-lisp :exports code
+    (require 'eww)
+    (setq xah-lookup-browser-function 'eww) ; must come before loading xah-lookup
+    (require 'xah-lookup)
+
+    (when (boundp 'xah-fly-h-keymap)
+    (define-key xah-fly-h-keymap (kbd "1") 'xah-lookup-etymology)
+    (define-key xah-fly-h-keymap (kbd "2") 'xah-lookup-word-dict-org)
+    (define-key xah-fly-h-keymap (kbd "3") 'xah-lookup-web)
+    (define-key xah-fly-h-keymap (kbd "4") 'xah-lookup-word-definition)
+    (define-key xah-fly-h-keymap (kbd "5") 'xah-lookup-wikipedia)
+    (define-key xah-fly-h-keymap (kbd "6") 'xah-lookup-wiktionary)
+    (define-key xah-fly-h-keymap (kbd "7") 'xah-lookup-all-dictionaries)
+    (define-key xah-fly-h-keymap (kbd "9") 'xah-lookup-word-definition)
+    ;;
+    )
+    #+end_src
+
 * Writing
+** TODO Flyspell
+#+BEGIN_SRC emacs-lisp :exports code
+  (dolist (hook '(text-mode-hook))
+    (add-hook hook (lambda () (flyspell-mode 1))))
+#+END_SRC
 * AI
 * Experimental
 * All's well that ends well
