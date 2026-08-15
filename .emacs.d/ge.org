@@ -941,7 +941,46 @@ See https://github.com/tanrax/org-social.el
       :hook (after-init . global-emojify-mode))
       #+END_SRC
       
+* Programming
+** Magit
+#+begin_src emacs-lisp
 
+  (use-package magit
+    :ensure t
+    :config
+    (progn
+      (defalias 'ms 'magit-status)
+      )
+    :vc (:url "https://github.com/magit/magit"
+       :rev "c800f79")) ; Can be a commit hash, tag name, or branch
+
+  ;; (use-package magit
+  ;;   :ensure t
+  ;;   :pin melpa-stable
+  ;;   :config
+  ;;   (progn
+  ;;     (defalias 'ms 'magit-status)
+  ;;   ))
+    #+end_src
+** Git autocommit
+#+begin_src elisp
+  (use-package git-auto-commit-mode
+    :ensure t
+  :config
+  :hook (prog-mode . git-auto-commit-mode)
+  :hook (text-mode . git-auto-commit-mode))
+
+  ;; For some reason these do not work as :custom or :config
+  (customize-set-variable 'gac-debounce-interval 300) ; 5 min
+  (customize-set-variable 'gac-automatically-add-new-files-p nil)
+  (customize-set-variable 'gac-automatically-add-new-files-p nil)
+  (customize-set-variable 'gac-ask-for-summary-p t)
+
+#+end_src
+** pair matching
+#+begin_src emacs-lisp
+  (add-hook 'sh-mode-hook 'electric-pair-mode)
+#+end_src
 * AI
 * Experimental
 * All's well that ends well
