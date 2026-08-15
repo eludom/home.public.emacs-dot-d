@@ -98,34 +98,62 @@ In addition, while we’re here: when we stand on an expression that is only sho
 
   #+begin_src elisp
     (show-paren-mode t)
-    (setq show-paren-style 'mixed)
+
     ;; (setq show-paren-style 'expression)
   #+end_src
+**** Fun tricks with the kill ring
 
-*** Appearance
+ Saw this over at https://emacsredux.com/blog/2026/04/07/stealing-from-the-best-emacs-configs/. This is a nice little trick, and it requires a bit of reading to understand what exactly it does: preventing Emacs from deleting whatever we have in the system’s clipboard when we kill a line, so it’s still in the kill ring. Here’s an example to help you grasp the idea and why it’s useful:
 
+We’re visiting a website with our default browser and copy its URL because we want to write about it in Emacs
+We go to Emacs, and we kill the line we’re on because we need some space
+Crap! Now we lost our paste in the clipboard, and we have to go back to the browser and grab that URL again!
+Wait, which tab was it? Did we close it? Should we look in our browsing history? Ugh!
+Not anymore! With this little guy, when we kill the line (step 2 above), Emacs “injects” it into the kill ring. Now, when we yank with C-y, we will still get the last line we killed, yes, butlook up the kill ring with M-y and voilà! Your URL is there. No need to go find that URL again:
 
-#+begin_src emacs-lisp
-(remove-hook 'text-mode-hook #'turn-on-auto-fill)
+#+begin_src elisp
+  (setq save-interprogram-paste-before-kill t)
+#+end_src
+**** Linenumber mode
+#+begin_src elisp
+  (global-display-line-numbers-mode)
+  ;; Because somtimes you want to switch to /bin/ed,
+  ;; and then, where would you be if you could not
+  ;; reference a line number ???
 
-(require 'visual-fill-column)
-
-;; Add visual-line-mode and visual-fill-column-mode to text-mode-hook
-(add-hook 'text-mode-hook (lambda ()
-                            (visual-line-mode 1)
-                            (visual-fill-column-mode 1)
-                            (visual-fill-column-toggle-center-text)))
-
-;; Set the desired wrap width
-(setq-default visual-fill-column-width 120) ;; because 80 character terminals were a thing?
+  (global-display-fill-column-indicator-mode)
+  ; show fill column.  with visual-fill-colum-mode this is useful
+  ; as you can see which long lines are wrapped by the /absence/
+  ; of the fill column indicator at EOL 
 #+end_src
 
- Turn on visual line mode so text lines “wrap” inside the frame and don’t continue beyond the window’s edge. This is essential; I can’t read in Emacs without it. And a newcomer I discovered recently: since Emacs 30, we also have global-visual-wrap-prefix-mode, which preserves indentation on wrapped lines. For example, in a list in org-mode (made of dashes one under the other), a long line of text that wraps will align under its starting point (dash) in the list instead of jumping back to column 0 (the start of the window, to the most left). This has been a huge pet peeve. Finally!
+*** Appearance
+**** Line Wrap
 
-# #+begin_src elisp
-#   (global-visual-line-mode t)
-#   (global-visual-wrap-prefix-mode t)
-# #+end_src
+#+begin_src elisp
+  (remove-hook 'text-mode-hook #'turn-on-auto-fill)
+
+  (require 'visual-fill-column)
+
+  ;; Add visual-line-mode and visual-fill-column-mode to text-mode-hook
+  (add-hook 'text-mode-hook (lambda ()
+                              (visual-line-mode 1)
+                              (visual-fill-column-mode 1)
+                              ;; (visual-fill-column-toggle-center-text)
+  			    )
+                              )
+
+  ;; Set the desired wrap width
+  (setq-default visual-fill-column-width 120) ;; because 80 character terminals were a thing?
+#+end_src
+
+From JTR: https://taonaw.com/2026/08/09/emacs-config-gems-part.html
+
+Winner mode (included in Emacs) is sort of “undo” for changes in windows’ layout in Emacs. C-c ← goes back to our previous setting, and C-c → will “redo” the layout we just left. I use it all the time as in “oops, I closed the wrong window”3.
+
+#+begin_src elisp
+  (winner-mode t)
+#+end_src
 
 *** File Backup behavior
 
@@ -244,6 +272,51 @@ Turn off the annoying error beep, which I first discovered in SUSE Linux by turn
 (setq visible-bell t)
 #+end_src
 
+*** Configure the minibuffer and completions
+
+I think I stole these from Prot?
+
+#+begin_src emacs-lisp
+
+  ;;  This package has some probmes as of emacs 31.0.50
+  ;;  (use-package vertico
+  ;;    :ensure t
+  ;;    :hook (after-init . vertico-mode))
+  ;;
+
+
+    (use-package marginalia
+      :ensure t
+      :hook (after-init . marginalia-mode))
+
+    (use-package orderless
+       :ensure t
+       :config
+       (setq completion-styles '(orderless basic))
+       (setq completion-category-defaults nil)
+       (setq completion-category-overrides nil))
+
+     (use-package savehist
+       :ensure nil ; it is built-in
+       :hook (after-init . savehist-mode))
+
+     (use-package corfu
+       :ensure t
+       :hook (after-init . global-corfu-mode)
+       :bind (:map corfu-map ("<tab>" . corfu-complete))
+       :config
+       (setq tab-always-indent 'complete)
+       (setq corfu-preview-current nil)
+       (setq corfu-min-width 20)
+
+       (setq corfu-popupinfo-delay '(1.25 . 0.5))
+       (corfu-popupinfo-mode 1) ; shows documentation after `corfu-popupinfo-delay'
+
+        ;; Sort by input history (no need to modify `corfu-sort-function').
+       (with-eval-after-load 'savehist
+         (corfu-history-mode 1)
+         (add-to-list 'savehist-additional-variables 'corfu-history)))
+#+end_src
 ** General Org Mode Configs
 #+BEGIN_SRC emacs-lisp :exports code
   (setq org-directory "~/Org")
@@ -387,4 +460,6 @@ Turn off the annoying error beep, which I first discovered in SUSE Linux by turn
    (with-eval-after-load 'xah-fly-keys
      (define-key xah-fly-command-map (kbd "SPC p") 'org-set-property))
 #+end_src
-
+* Reading
+* Writing
+* AI
