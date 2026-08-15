@@ -41,7 +41,9 @@ Image types are symbols like `xbm' or `jpeg'."
 (require 'package)
 (package-initialize)
 
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(setq package-archive-priorities '(("melpa-stable" . 10) ("melpa" . 5)))
 
 (when (< emacs-major-version 29)
   (unless (package-installed-p 'use-package)
