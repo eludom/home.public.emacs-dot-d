@@ -6,7 +6,7 @@
 
 
 * Configurations
-** TODO Load custom .el or .org files from ~/elisp-*
+** Load custom .el or .org files from ~/elisp-*
 
 This loads any custom code snippits I've written or borrowed
 from
@@ -83,7 +83,7 @@ http://xahlee.info/emacs/misc/xah-fly-keys.html
 
   					; I want *Org Agenda* to be a "User Buffer".
   					; Overwrite default
-  
+
     (defun xah-user-buffer-p ()
     "Return t if current buffer is a user buffer, else nil.
   A user buffer has buffer name NOT starts with * or space, and is not dired mode, help mode, etc.
@@ -171,6 +171,8 @@ Not anymore! With this little guy, when we kill the line (step 2 above), Emacs �
 
 
 *** TODO Timestamp files on write
+- Note taken on [2026-08-15 Sat 17:08] \\
+  Not working???
 #+BEGIN_SRC emacs-lisp
   ;
   ; Update DATE timestamps on write
@@ -221,14 +223,6 @@ Aliases, mostly borrowed from Xah Lee
   (defalias 'list-buffers 'ibuffer) ; always use ibuffer
   ;; make frequently used commands short
   (defalias 'qrr 'query-replace-regexp)
-  ;; (defalias 'lml 'list-matching-lines)
-  ;; (defalias 'dml 'delete-matching-lines)
-  ;; (defalias 'dnml 'delete-non-matching-lines)
-  ;; (defalias 'dtw 'delete-trailing-whitespace)
-  ;; (defalias 'sl 'sort-lines)
-  ;; (defalias 'rr 'reverse-region)
-  ;; (defalias 'rs 'replace-string)
-
   (defalias 'g 'grep)
   (defalias 'gf 'grep-find)
   (setq grep-find-command
@@ -240,16 +234,12 @@ Aliases, mostly borrowed from Xah Lee
 
   (defalias 'sh 'shell)
   (defalias 'fb 'flyspell-buffer)
-  ;; (defalias 'sbc 'set-background-color)
   (defalias 'rof 'recentf-open-files)
   (defalias 'lcd 'list-colors-display)
-  ;; (defalias 'cc 'calc)
 
   ; elisp
   (defalias 'eb 'eval-buffer)
   (defalias 'er 'eval-region)
-  ;; (defalias 'ed 'eval-defun)
-  ;; (defalias 'eis 'elisp-index-search)
   (defalias 'lf 'load-file)
 
   ; major modes
@@ -257,7 +247,6 @@ Aliases, mostly borrowed from Xah Lee
   (defalias 'tm 'text-mode)
   (defalias 'elm 'emacs-lisp-mode)
   (defalias 'om 'org-mode)
-  ;; (defalias 'gm 'go-mode)
   (defalias 'lim 'lisp-interaction-mode)
 
   ; minor modes
@@ -293,7 +282,7 @@ Aliases, mostly borrowed from Xah Lee
   ;; Set the desired wrap width
   (setq-default visual-fill-column-width 120) ;; because 80 character terminals were a thing?
 #+end_src
-
+*** Window control
 From JTR: https://taonaw.com/2026/08/09/emacs-config-gems-part.html
 
 Winner mode (included in Emacs) is sort of “undo” for changes in windows’ layout in Emacs. C-c ← goes back to our previous setting, and C-c → will “redo” the layout we just left. I use it all the time as in “oops, I closed the wrong window”3.
@@ -306,13 +295,6 @@ Winner mode (included in Emacs) is sort of “undo” for changes in windows’ 
 - State "WAITING"    from              [2026-08-15 Sat 10:03] \\
   Do I want these?
 #+begin_src emacs-lisp
-  ;; Those three belong in the early-init.el, but I am putting them here
-  ;; for convenience.  If the early-init.el exists in the same directory
-  ;; as the init.el, then Emacs will read+evaluate it before moving to
-  ;; the init.el.
-  ;;(menu-bar-mode 1)
-  ;;(scroll-bar-mode 1)
-  ;; (tool-bar-mode 1)
   (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
   (let ((mono-spaced-font "Monospace")
@@ -322,34 +304,6 @@ Winner mode (included in Emacs) is sort of “undo” for changes in windows’ 
     (set-face-attribute 'variable-pitch nil :family proportionately-spaced-font :height 1.0))
 
   (set-face-attribute 'default nil :height 200)
-
-  ;; (use-package modus-themes
-    ;; :ensure t
-    ;; :config
-    ;; (load-theme 'modus-vivendi-tinted :no-confirm-loading))
-
-  ;; Remember to do M-x and run `nerd-icons-install-fonts' to get the
-  ;; font files.  Then restart Emacs to see the effect.
-  ;; (use-package nerd-icons
-  ;;   :ensure t)
-
-  ;; (use-package nerd-icons-completion
-  ;;   :ensure t
-  ;;   :after marginalia
-  ;;   :config
-  ;;   (add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup))
-
-  ;; (use-package 
-  ;;   nerd-icons-corfu
-  ;;   :ensure t
-  ;;   :after corfu
-  ;;   :config
-  ;;   (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
-
-  ;; (use-package nerd-icons-dired
-  ;;  :ensure t
-  ;;  :hook
-  ;;  (dired-mode . nerd-icons-dired-mode))
 #+end_src
 
 ** File Backup behavior
@@ -727,17 +681,7 @@ I think I stole these from Prot?
     %?")
                  t)
 
-    ;; ;; n - Note
-    ;; (add-to-list 'org-capture-templates
-    ;;              '("n" "Note" entry
-    ;;                (file "~/Org/refile.org")
-    ;;                "* %? :NOTE:
-    ;; %U
-    ;; %a
-    ;; ")
-    ;;              t)
-
-    ;; w - Web research (org-protocol)
+  ;; w - Web research (org-protocol)
   (add-to-list 'org-capture-templates
                `("w" "Web Capture (org-protocol)" entry
                  (file+datetree "~/org/web.org")
@@ -816,7 +760,7 @@ I think I stole these from Prot?
 #+end_src
 
 **
-*** TODO Reference
+*** Reference/Lookup
 
     http://ergoemacs.org/emacs/xah-lookup.html
 
@@ -840,7 +784,7 @@ I think I stole these from Prot?
     #+end_src
 
 * Writing
-** TODO Flyspell
+** Flyspell
 #+BEGIN_SRC emacs-lisp :exports code
   (dolist (hook '(text-mode-hook))
     (add-hook hook (lambda () (flyspell-mode 1))))
@@ -918,6 +862,8 @@ etc as desired.   The rest are reasonable defaults
 #+END_SRC
 
 *** Org Social
+- Note taken on [2026-08-15 Sat 17:18] \\
+  Uptake seems to be laging... :-(
 See https://github.com/tanrax/org-social.el
 #+BEGIN_SRC emacs-lisp :results none
   (use-package request)
@@ -943,8 +889,10 @@ See https://github.com/tanrax/org-social.el
       
 * Programming
 ** Magit
-#+begin_src emacs-lisp
 
+For now I'm pinning 4.5 from github since there were apparent incompatibilities with the latest emacs verion from nightly build (31.0.50).
+
+#+begin_src emacs-lisp
   (use-package magit
     :ensure t
     :config
@@ -953,14 +901,6 @@ See https://github.com/tanrax/org-social.el
       )
     :vc (:url "https://github.com/magit/magit"
        :rev "c800f79")) ; Can be a commit hash, tag name, or branch
-
-  ;; (use-package magit
-  ;;   :ensure t
-  ;;   :pin melpa-stable
-  ;;   :config
-  ;;   (progn
-  ;;     (defalias 'ms 'magit-status)
-  ;;   ))
     #+end_src
 ** Git autocommit
 #+begin_src elisp
