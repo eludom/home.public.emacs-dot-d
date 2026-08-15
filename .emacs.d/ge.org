@@ -1,133 +1,13 @@
-#+TITLE: ge.org - GEORGe's emacs config
+#+TITLE: ge.org - GE.ORG Emacs config
 #+Updated:-<2026-01-16 07:12:58 Friday>
 #+file tags:   :emacs:
 #+identifier: 20250220T112622
 #+PROPERTY: header-args :results silent :exports code
 #+PROPERTY: header-args:elisp :lexical t
-#+last_saved: 2026-03-14 13:34
+#+last_saved: 2026-04-08 13:33
 
-* Prolog
-** Artwork
-#+CAPTION: Text Colored Glasses
-#+BEGIN_EXAMPLE
-						     __
-						    /  \ "I'll see you on __
-			    /\                     /   /  the text side  /  \
-			   /  \                   /       of the moon"  /   /
-	    -------R------/    \                _/_____       _______  /
-	    -------G-----/    --\-----W------- /       \ / \ /       \/
-	    -------B----/        \            |   Org   |   |  Mode   |
-		       /          \            \_______/     \_______/
-		      -------------
 
-#+END_EXAMPLE
-
-** About This file
-This is George Jones' emacs config file.
-
-There is old cruft here,
-some it possibly dating back to TECO emacs on TOPS20 c.a. 1980.
-I've been through several rounds of [[http://www.emacswiki.org/emacs/DotEmacsBankruptcy][dot emacs bankrupcy]].
-This is an attempt to  .org-anize and remove some of the cruft.
-
-This is not your fathers emacs config (unless you happen to be one of
-my two sons who, to the best of my knowledge, don't use Emacs) 
-
-And, speaking of cruft, here's [[http://port111.com/george/.emacs.uu][my .emacs file from 2001]].
-
-** My Emacs Config Acknowlegements
-
-Across the last 40+ years I've run into a lot of interesting people
-and code.  I've "stolen" (the sincerest form of flattery) liberally.
-Here are acknowledgments of /some/ of those people.  It takes a
-village. 
-
-*** Recent/Current Config Borrowings
-- Sacha Chua :: There are heavy borrowings from [[https://github.com/sachac/.emacs.d][Sacha Chua]]'s config.  Thanks, Sacha.
-- Xah Lee ::  I use Xah Lee's [[http://xahlee.info/emacs/misc/xah-fly-keys.html][Xah Fly Keys]].  That and the [[https://kinesis-ergo.com/shop/advantage2/][Knesis Advantage 2
-  Keyboard]] saved me from nascent carpal tunnel syndrome.  Thanks, Xah.
-  + To say that I'm using "Emacs" anymore is a bit of a stretch if by
-    "Emacs" you mean any of the historic set of key-bindings by
-    rms,Guy Steele, etc.  Xah Fly Keys is a completely new set of
-    bindings developed ground up.  It's design involved statistical analysis of editor
-    functions, placing the most common actions on the strongest digits
-    on the hand.  It is probably more accurate to say I am using AN
-    editor implemented in the emacs lisp development environment. 
-- Protesilaos Stavrou :: Recent borrowings from  Protesilaos Stavrou
-  https://protesilaos.com/codelog/2024-11-28-basic-emacs-configuration/#h:1e4fde73-a2a2-4dc5-82ad-02cf3884ece6.
-  I think denote and gtpel are going to completely change my workflow.
-- gptel :: [[https://github.com/karthink]] and 100+ friends have created
-  gptel.  That and the Ads that it front ends (and denote) are
-  creating completely new workflows for me (after 45 years in emacs...)
-*** Historic Config Borrowings
-- Karl Kleinpaste :: In the mid to late 80s as GNU emacs was coming
-  out I borrowed a lot form Karl's configs.  He drew me into the GNUs
-  world for a while (back when "News readers were real _news_ readers"
-  and email just looked like a funny version of news. 
-- Michael Lamoreaux :: Michael was at UUNET (and later MITRE) with me
-  providing enough local lisp expertise that I crawled back inside
-  GNUs again for a while.
-- [[http://curious.galthub.com/blog/2022-03-24/][Steve Wilhite]] :: [[http://curious.galthub.com/blog/steve/][Wilhite (he of GIF fame)]] hired me out of college.
-  He developed compilers and programming tools.  He had a thing for
-  editors including Emacs (and Brief).  Thanks to him (and my brother
-  who had co-oped for him) [[https://github.com/PDP-10/fine][FINE (Fine Is Not Emacs)]] was waiting for me
-  when I started. We later collaborated to create what became
-  MicroEmacs/mg. [[https://groups.google.com/g/net.sources/c/qraqnOktgdI?pli=1][I posted it to the USENET group net.sources.]]
-  Carsten Dominik (below) used it for a while and rumor
-  has it Linus Torvalds does to this day.
-- David Conroy :: David Conroy was the original author of MicroEmacs.
-  I found it on the floppy disks that came with the Marc Williams C
-  compiler for the early IBM PC. 
-
-*** Sine Non Qua - Those "without whom there is nothing" 
-- rms :: "Let there be Emacs and free software"
-- Guy Steele :: "Let there be Emacs, and CommonLisp, Java and C standards"
-- Carsten Dominik ::   [[https://orgmode.org/][Org Mode]].  Org gave new life to emacs after a
-  long period of dormancy.  To say that org is "[My] life in plain
-  text" today would be an understatement. 
-- [[https://eschulte.github.io/][Eric Shulte]] :: Org babel. Brought literate program to emacs/org.
-- Donald Knuth :: Literate Programming (tangle/web/weave).  TeX.  The
-  Art of Computer Programming.
-
-** Prereqs
 * Configurations
-** Load custom .el or .org files from ~/elisp-*
-
-This loads any custom code snippits I've written or borrowed
-from
-
-   ~/elisp-{public,private,secret}
-
-    #+BEGIN_SRC emacs-lisp :exports code
-
-      ;; -*- lexical-binding: t; -*-
-      ; Load up all .org files in ~/elisp*
-      (setq debug-on-error t)
-
-
-       (dolist (word  (directory-files (expand-file-name "~/") t "^elisp*"))
-      	(if (file-exists-p word)
-      	  (progn
-      	    (setq elisp-dir word)
-      	    (add-to-list 'load-path word)
-      	    (message (format "org-bable-load directory: %s"  elisp-dir))
-      	    (mapc #'org-babel-load-file (directory-files elisp-dir t "\\.org$"))
-
-      	     ; Load up everything in the ~/elisp
-
-      	     ; http://stackoverflow.com/questions/18706250/emacs-require-all-files-in-a-directory
-
-      	     (let ((loaded  (mapcar #'car load-history)))
-      	       (dolist (file  (directory-files elisp-dir t ".+\\.elc?$"))
-      		 (unless (catch 'foo
-      			   (dolist (done  loaded)
-      			     (when (equal file done) (throw 'foo t)))
-      			   nil)
-      		   (load (file-name-sans-extension file))
-      		   (push file loaded))))
-      		 )))
-    #+END_SRC
-
 ** General Emacs Configs
 *** Things That Have To Load Early
 **** Org Babel Languages
@@ -146,8 +26,13 @@ This allows elisp code blocks below to execute
 
 **** Xah Fly Keys
 
-Xah fly Keys is my native editor these days.
-I /can/ still use basic emacs, but it feels so 1979....
+I use Xah Fly Keys.  This, and the Knesis Advantage II keyboard
+averted carple tunnel syndrome for me...  Thanks Xah !
+
+Xah Fly keys is a complete re-binding of the editing functions
+(and everything else).   It's not /really/ emacs anymore...
+
+http://xahlee.info/emacs/misc/xah-fly-keys.html
 
 #+BEGIN_SRC emacs-lisp
     (use-package xah-fly-keys
@@ -186,300 +71,148 @@ I /can/ still use basic emacs, but it feels so 1979....
      ;; ((eq major-mode 'help-mode) nil)
      (t t)))
 #+END_SRC
+*** Editing
+**** Structure Templates
+#+begin_src elisp :results none
 
-**** Where do customizations land?
+; With props to Xah Lee (again)...
+; http://xahlee.info/emacs/emacs/emacs_set_keys_for_major_mode.html
+(when (fboundp 'org-mode)
+  (defun gmj-org-config ()
+    "For use in `org-mode-hook'."
+    (local-set-key (kbd "C-c s") 'org-insert-structure-template)
+    (message "C-c s bound to org-insert-structure-template for org mode")
+    ;; more stuff here
+    )
 
-This segregates customizatons (which you man not want to share)
-from your init.el (which you may want to share)
-
-#+BEGIN_SRC emacs-lisp
-(setq custom-file (locate-user-emacs-file "custom.el"))
-(load custom-file :no-error-if-file-is-missing)
-#+END_SRC
-*** Appearance
-#+begin_src emacs-lisp
-  ;; Those three belong in the early-init.el, but I am putting them here
-  ;; for convenience.  If the early-init.el exists in the same directory
-  ;; as the init.el, then Emacs will read+evaluate it before moving to
-  ;; the init.el.
-  (menu-bar-mode 1)
-  (scroll-bar-mode 1)
-  (tool-bar-mode 1)
-  (add-to-list 'default-frame-alist '(fullscreen . maximized))
-
-  (let ((mono-spaced-font "Monospace")
-        (proportionately-spaced-font "Sans"))
-    (set-face-attribute 'default nil :family mono-spaced-font :height 100)
-    (set-face-attribute 'fixed-pitch nil :family mono-spaced-font :height 1.0)
-    (set-face-attribute 'variable-pitch nil :family proportionately-spaced-font :height 1.0))
-
-  (set-face-attribute 'default nil :height 200)
-
-  ;; (use-package modus-themes
-    ;; :ensure t
-    ;; :config
-    ;; (load-theme 'modus-vivendi-tinted :no-confirm-loading))
-
-  ;; Remember to do M-x and run `nerd-icons-install-fonts' to get the
-  ;; font files.  Then restart Emacs to see the effect.
-  (use-package nerd-icons
-    :ensure t)
-
-  (use-package nerd-icons-completion
-    :ensure t
-    :after marginalia
-    :config
-    (add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup))
-
-  (use-package nerd-icons-corfu
-    :ensure t
-    :after corfu
-    :config
-    (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
-
-  (use-package nerd-icons-dired
-    :ensure t
-    :hook
-    (dired-mode . nerd-icons-dired-mode))
+  (add-hook 'org-mode-hook 'gmj-org-config))
 #+end_src
 
-*** Linenumber mode
+**** Parens
+
+https://taonaw.com/2026/08/05/emacs-config-gems-part.html
+
+Lisp is full of parentheses, and it’s easy to lose track. Turning show-paren-mode on means that standing on an open or closed parentheses highlights its matching counterpart, which is handy.
+
+In addition, while we’re here: when we stand on an expression that is only showing a portion of an expression (meaning, we need to scroll down to see the rest) Emacs can highlight the expression for us to make sure we don’t get confused — this is the mixed option below for show-paren-style. If you want to see the whole expression highlighted every time you’re on it, there’s the option expression, which I’m leaving here for reference for myself. For now, I think it’s too much visual noise, especially since we’re using org-edit-special, which also highlights what we’re working on.
+
+  #+begin_src elisp
+    (show-paren-mode t)
+    (setq show-paren-style 'mixed)
+    ;; (setq show-paren-style 'expression)
+  #+end_src
+
+
+*** File Backup behavior
+
+From JTR: https://taonaw.com/2026/08/09/emacs-config-gems-part.html
+
+#+begin_src elisp :results none
+(setq delete-by-moving-to-trash t)
+(setq dired-recursive-deletes 'always)
+#+end_src
+
+We might want to move Emacs’ backup files and temp files (those are the ones with ~ and #)2 to a different dedicated folder (emacs-bks) instead of the main Emacs folder. Since Emacs won’t just create the directory for us, let’s ask it to do so3. It won’t throw an error if we already have it.
+
+#+begin_src elisp :results none
+  (make-directory "~/emacs-bks" t)
+  (setq backup-directory-alist
+        `((".*" . "~/emacs-bks")))
+  (setq auto-save-file-name-transforms
+        `((".*" "~/emacs-bks" t)))
+#+end_src
+
+Now, let’s turn on the option to automatically save files we are working on inside Emacs, and set how long Emacs needs to be idle before auto-save kicks in. In my case, 300 seconds (= 5 minutes) is good enough for idle time. Importantly, I want to emphasize again, idle time. It will not auto-save the file as long as you type, so if you type non-stop for an hour and suddenly lose power, this will not save you, since Emacs didn’t get the chance to be idle for 5 minutes (or even 30 seconds, which is the default). For this, we have auto-save-interval, which auto-saves every 300 characters (globally in Emacs) by default. In my case, I’m lowering it here to 100, since I write plenty of quick notes (using org-add-note, C-c C-z), and it’s common for me to keep using Emacs between those without hitting the 300 mark. Both of those are described in the manual under auto-saving.
+
+#+begin_src elisp :results none
+  (auto-save-visited-mode t)
+  (setq auto-save-visited-interval 300)
+  (setq auto-save-interval 100)
+#+end_src
+
+Auto-revert checks the buffer we’re visiting against the saved file itself. If the buffer has no changes, but the saved file does have changes, it loads those changes into the buffer silently. However, if the buffer has changes (meaning, we’re writing something into the file and we haven’t saved yet), it won’t do a thing and won’t say anything. Since my particular setup means that all of my org files are inside a folder synced by Syncthing, this is ideal: if I save changes to a file on my Mac, when I switch to my Linux desktop I’ll have the file and the buffer visiting it refreshed and ready to go, provided of course that Syncthing is working and the sync is complete4.
+
+#+begin_src elisp :results none
+  (global-auto-revert-mode t)
+#+end_src
+
+Activate recentf mode, so Emacs has a list of the recent files we worked on last time, up to 30 by my config. 10 is too little; 50 starts to feel more like “everything I opened this month,” which defeats the purpose. Useful when we don’t want to navigate to the same file each time, and we don’t want to have a bookmark. Note: since I’m using consult, recent files are integrated and show under the file header in the consult minibuffer, and can be quickly viewed with f while visiting the consult minibuffer.
+
+#+begin_src elisp :results none
+(recentf-mode t)
+(setq recentf-max-saved-items 30)
+#+end_src
+
+*** Window and frame config
+
+From JTR: https://taonaw.com/2026/08/09/emacs-config-gems-part.html
+
+Let’s set the frame Emacs starts with to be a bit bigger. In Emacs, these measurements are in lines and columns (character width), so we’re basically saying: “make the default frame 100 characters wide and 55 lines high.”1
+
 #+begin_src elisp
-  (global-display-line-numbers-mode)
-  ;; Because somtimes you want to switch to /bin/ed,
-  ;; and then, where would you be if you could not
-  ;; reference a line number ???
-
-  (global-display-fill-column-indicator-mode)
-  ; show fill column.  with visual-fill-colum-mode this is useful
-  ; as you can see which long lines are wrapped by the /absence/
-  ; of the fill column indicator at EOL 
+(setq default-frame-alist
+   '((width . 100)
+     (height . 55))
+    )
 #+end_src
 
-*** Line wrapping 
+*** Emacs Help
 
+From
 
-#+begin_src emacs-lisp
-(remove-hook 'text-mode-hook #'turn-on-auto-fill)
+ https://taonaw.com/2026/08/05/emacs-config-gems-part.html
 
-(require 'visual-fill-column)
+ Most Emacs folks with a config file like this like to kill the toolbar, scrollbar, and menu bar. I find that the menu bar makes Emacs look more like the other programs, especially in macOS1. Besides, it’s nice to look every now and then and be reminded of good Emacs kung-fu I forgot exists (org-sort, I’m sorry my friend, I’ll keep saying hi more often).
 
-;; Add visual-line-mode and visual-fill-column-mode to text-mode-hook
-(add-hook 'text-mode-hook (lambda ()
-                            (visual-line-mode 1)
-                            (visual-fill-column-mode 1)
-                            (visual-fill-column-toggle-center-text)))
-
-;; Set the desired wrap width
-(setq-default visual-fill-column-width 120) ;; because 80 character terminals were a thing?
-#+end_src
-
-*** Configure the minibuffer and completions
-#+begin_src emacs-lisp
-(use-package vertico
-  :ensure t
-  :hook (after-init . vertico-mode))
-
-(use-package marginalia
-  :ensure t
-  :hook (after-init . marginalia-mode))
-
-(use-package orderless
-  :ensure t
-  :config
-  (setq completion-styles '(orderless basic))
-  (setq completion-category-defaults nil)
-  (setq completion-category-overrides nil))
-
-(use-package savehist
-  :ensure nil ; it is built-in
-  :hook (after-init . savehist-mode))
-
-(use-package corfu
-  :ensure t
-  :hook (after-init . global-corfu-mode)
-  :bind (:map corfu-map ("<tab>" . corfu-complete))
-  :config
-  (setq tab-always-indent 'complete)
-  (setq corfu-preview-current nil)
-  (setq corfu-min-width 20)
-
-  (setq corfu-popupinfo-delay '(1.25 . 0.5))
-  (corfu-popupinfo-mode 1) ; shows documentation after `corfu-popupinfo-delay'
-
-  ;; Sort by input history (no need to modify `corfu-sort-function').
-  (with-eval-after-load 'savehist
-    (corfu-history-mode 1)
-    (add-to-list 'savehist-additional-variables 'corfu-history)))
-#+end_src
-
-*** The file manager (Dired)
-
-#+begin_src emacs-lisp
-  (use-package dired
-    :ensure nil
-    :commands (dired)
-    :hook
-    (;(dired-mode . dired-hide-details-mode)
-     (dired-mode . hl-line-mode))
-    :config
-    (setq dired-listing-switches "-laht" )
-    (setq dired-recursive-copies 'always)
-    (setq dired-recursive-deletes 'always)
-    (setq delete-by-moving-to-trash t)
-    (setq dired-dwim-target t))
-
-  (use-package dired-subtree
-    :ensure t
-    :after dired
-    :bind
-    ( :map dired-mode-map
-      ("<tab>" . dired-subtree-toggle)
-      ("TAB" . dired-subtree-toggle)
-      ("<backtab>" . dired-subtree-remove)
-      ("S-TAB" . dired-subtree-remove))
-    :config
-    (setq dired-subtree-use-backgrounds nil))
-
-  (use-package trashed
-    :ensure t
-    :commands (trashed)
-    :config
-    (setq trashed-action-confirmer 'y-or-n-p)
-    (setq trashed-use-header-line t)
-    (setq trashed-sort-key '("Date deleted" . t))
-    (setq trashed-date-format "%Y-%m-%d %H:%M:%S"))
-#+end_src
+ This is why the menu-bar is commented out in my config; I want it, but I also want to remember I could turn it off if I wanted:
  
-*** Exit Emacs.  Don't do this casually !!!
-#     \C-x\C-c is just to easy to type.   And, I mean, really, who wants
-#     to exit Emacs?  Keep calm.  Think it over before taking any rash
-#     action.
+ #+begin_src elisp
+   (tool-bar-mode -1)
+   (scroll-bar-mode -1)
+   (menu-bar-mode t) 
+ #+end_src
 
-	#+BEGIN_SRC emacs-lisp :exports code
-	  (defun dont-kill-emacs ()
-	    (interactive)
-	    (error (substitute-command-keys "I'm sorry, Dave.  I'm afraid I can't do that. To exit emacs: \\[save-buffers-kill-terminal].  Bound to C-X \"")))
+ By default, help commands2 display the help buffer in a new window without selecting it. I find this annoying: if I bring up the help window, it’s usually because I want to scroll down to find something or copy (yank) something. On the other hand, if I just want to skim quickly in the help buffer, it’s helpful that the marker is on it for a quick q for quit.
 
-	  (global-set-key "\C-x\C-c" 'dont-kill-emacs)
-	  (global-set-key "\C-x\"" 'save-buffers-kill-terminal)
+In addition, we want to be able to navigate help menus as Emacs intended if we follow the links in a help buffer. help-window-keep-selected allows us to keep help in its own dedicated window, so it won’t open in a separate window once we follow a link. Going back to the original is the same as we do in other browser-like buffers in Emacs, with l (like in Eww, for example). Likewise, we can go forward with r. I should also expand here on various help options; they definitely deserve a mention, but this is another huge topic (you can get an idea from the footer) that will take a couple of weeks. I will come back to this someday.
 
-	#+END_SRC
+#+begin_src elisp
+  (setq help-window-select t)
+  (setq help-window-keep-selected t)
+#+end_src
 
-*** Aliases
+*** Misc Emacs Behaviors
+**** short answers
+https://taonaw.com/2026/08/05/emacs-config-gems-part.html
 
-Aliases, mostly borrowed from Xah Lee
+And now, a true Emacs classic. I don’t think I’ve seen a config without it: shortening “yes” or “no,” answer to “y” or “n” like any other program known to mankind. use-short-answers was introduced in Emacs 28.1, which is a more graceful way to do this, intended exactly for this purpose. Before that, back when I started to use Emacs, it was done with (fset 'yes-or-no-p 'y-or-n-p). If you have an older Emacs version, you’d need it.
 
+#+begin_src elisp
+;;  (fset 'yes-or-no-p 'y-or-n-p)
+(setq use-short-answers t)
+#+end_src
 
-#+BEGIN_SRC emacs-lisp :exports code
-  (setq use-short-answers t); for yes-or-no-p
-  (defalias 'list-buffers 'ibuffer) ; always use ibuffer
-  ;; make frequently used commands short
-  (defalias 'qrr 'query-replace-regexp)
-  ;; (defalias 'lml 'list-matching-lines)
-  ;; (defalias 'dml 'delete-matching-lines)
-  ;; (defalias 'dnml 'delete-non-matching-lines)
-  ;; (defalias 'dtw 'delete-trailing-whitespace)
-  ;; (defalias 'sl 'sort-lines)
-  ;; (defalias 'rr 'reverse-region)
-  ;; (defalias 'rs 'replace-string)
+**** Kill process prompt
+This one was annoying until I learned this option exists from someone else’s config years ago: “Emacs, please stop asking me if I want to kill process when exiting Emacs (Shell, etc.), just do it!” Yep.
 
-  (defalias 'g 'grep)
-  (defalias 'gf 'grep-find)
-  (setq grep-find-command
-  	    '("find -L . -type f -mtime -21 -name \\*.org -exec grep -E -i --color -nH --null -e  \\{\\} +" . 80))
+#+begin_src elisp
+(setq confirm-kill-processes nil)
+#+end_src
 
-  (defalias 'fd 'find-dired)
+Why would anybody exit emacs?  Don't do this casually...
 
-  (defalias 'rb 'revert-buffer)
+#+begin_src elisp
+  (defun dont-kill-emacs ()
+  (interactive)
+  (error (substitute-command-keys "I'm sorry, Dave.  I'm afraid I can't do that. To exit emacs: \\[M-x kill-emacs].")))
 
-  (defalias 'sh 'shell)
-  (defalias 'fb 'flyspell-buffer)
-  ;; (defalias 'sbc 'set-background-color)
-  ;; (defalias 'rof 'recentf-open-files)
-  (defalias 'lcd 'list-colors-display)
-  ;; (defalias 'cc 'calc)
+  (global-set-key "\C-x\C-c" 'dont-kill-emacs)
+  (global-set-key "\C-z" 'dont-kill-emacs)
 
-  ; elisp
-  (defalias 'eb 'eval-buffer)
-  (defalias 'er 'eval-region)
-  ;; (defalias 'ed 'eval-defun)
-  ;; (defalias 'eis 'elisp-index-search)
-  (defalias 'lf 'load-file)
+  ;; (global-unset-key (kbd "C-x C-c"))
+  ;; (global-unset-key (kbd "C-z"))
+#+end_src
 
-  ; major modes
-  (defalias 'hm 'html-mode)
-  (defalias 'tm 'text-mode)
-  (defalias 'elm 'emacs-lisp-mode)
-  (defalias 'om 'org-mode)
-  ;; (defalias 'gm 'go-mode)
-  (defalias 'lim 'lisp-interaction-mode)
-
-  ; minor modes
-  (defalias 'wsm 'whitespace-mode)
-  (defalias 'gwsm 'global-whitespace-mode)
-  (defalias 'dsm 'desktop-save-mode)
-  (defalias 'acm 'auto-complete-mode)
-  (defalias 'vlm 'visual-line-mode)
-  (defalias 'glm 'global-linum-mode)
-
-	#+END_SRC
-
-*** random cusotmizations
-#+BEGIN_SRC emacs-lisp :exports code
-  ;(tool-bar-mode -1)
-  (global-hl-line-mode)
-  (setq visible-bell t)
-  (setq require-final-newline t
-        default-major-mode 'org-mode
-        initial-major-mode 'org-mode
-        ;; text-mode-hook 'turn-on-auto-fill
-        describe-function-show-arglist t)
-#+END_SRC
-*** Don't leave clutter in directories when editing
-
-
-#+BEGIN_SRC emacs-lisp :exports code
-  ;; save backups
-
-  (setq backup-directory-alist `(("." . "~/.emacs.d/backups/"))
-      backup-by-copying t    ; Don't delink hardlinks
-      version-control t      ; Use version numbers on backups
-      delete-old-versions t  ; Automatically delete excess backups
-      kept-new-versions 6    ; Number of newest versions to keep
-      kept-old-versions 2)   ; Number of oldest versions to keep
-
-  ;; don't cluter dirs with lockfiles
-  
-  (setq create-lockfiles nil)
-#+END_SRC
-*** TODO My keybindings from eons past
-
-#       Some of these may date to TECO based TOPS20 emacs, Multics emacs, FINE (Tops 10), mg or similar museum pieces.
-
-#       As a note, you can get a Free TOPS20 account and run the original (TECO based) Emacs at http://twenex.org/~eludom
-#       I find I can still edit files in it, but it is mostly unrecognizable to the modern GNU Emacs user....
-
-#+BEGIN_SRC emacs-lisp :exports code
-  (global-set-key "\C-Xd" 'insert-date)
-  (global-set-key "\C-\\" 'compile) ; normally toggle input method, I mean, I *might* want in input Sumarian script...
-  ;; (global-set-key "\C-]" 'call-last-kbd-macro)
-  ;; (global-set-key "\eq" 'query-replace)
-  ;; (global-set-key "\er" 'replace-string)
-  (global-set-key "\em" 'set-mark-command)
-  ;(global-set-key "\e " 'set-mark-command)
-  ;; (global-set-key "\e#" 'what-line)
-  ;; (global-set-key "\eg" 'goto-line)
-  ;; (global-set-key "\ei" 'ispell-buffer)
-  ;(global-set-key "\C-X\C-K" 'bury-buffer)
-  (global-set-key "\C-he" 'emacs-version)
-  (global-set-key "\C-hg" 'org-version); OK, so this one is not acient as of
-  (global-set-key "\ep" 'set-fill-prefix)
-  (global-set-key "\C-Xp" 'fill-paragraph)
-  (global-set-key "\C-Xc" 'copy-region-as-kill)
-  (global-set-key "\C-X!" 'compile)
-  ;(global-unset-key "\C-X\C-l")
- #+END_SRC
 ** General Org Mode Configs
 #+BEGIN_SRC emacs-lisp :exports code
   (setq org-directory "~/Org")
@@ -488,6 +221,7 @@ Aliases, mostly borrowed from Xah Lee
   (setq org-startup-indented t)
   (global-set-key "\C-cl" 'org-store-link)
   (setq org-startup-folded 'overview)
+  (setq org-checkbox-hierarchical-statistics nil)
 #+END_SRC
 *** Define custom task states
 #+BEGIN_SRC emacs-lisp
@@ -622,489 +356,4 @@ Aliases, mostly borrowed from Xah Lee
    (with-eval-after-load 'xah-fly-keys
      (define-key xah-fly-command-map (kbd "SPC p") 'org-set-property))
 #+end_src
-
-3. Save your configuration file.
-
-4. Restart Emacs or   evaluate the new code to apply it immediately.
-
-** Editing
-*** Typeing overwrites active region
-#+begin_src emacs-lisp
-(use-package delsel
-  :ensure nil
-  :hook (after-init . delete-selection-mode))
-#+end_src
-
-*** Do something rational when ^G in minibuffer
-#+begin_src emacs-lisp
-(defun prot/keyboard-quit-dwim ()
-  "Do-What-I-Mean behaviour for a general `keyboard-quit'.
-  The generic `keyboard-quit' does not do the expected thing when
-  the minibuffer is open.  Whereas we want it to close the
-  minibuffer, even without explicitly focusing it.
-
-  The DWIM behaviour of this command is as follows:
-
-- When the region is active, disable it.
-- When a minibuffer is open, but not focused, close the minibuffer.
-- When the Completions buffer is selected, close it.
-- In every other case use the regular `keyboard-quit'."
-  (interactive)
-  (cond
-   ((region-active-p)
-    (keyboard-quit))
-   ((derived-mode-p 'completion-list-mode)
-    (delete-completion-window))
-   ((> (minibuffer-depth) 0)
-    (abort-recursive-edit))
-   (t
-    (keyboard-quit))))
-
-(define-key global-map (kbd "C-g") #'prot/keyboard-quit-dwim)
-#+end_src
-
-*** Structure Templates
-#+begin_src elisp
-
-; With props to Xah Lee (again)...
-; http://xahlee.info/emacs/emacs/emacs_set_keys_for_major_mode.html
-(when (fboundp 'org-mode)
-  (defun gmj-org-config ()
-    "For use in `org-mode-hook'."
-    (local-set-key (kbd "C-c s") 'org-insert-structure-template)
-    (message "C-c s bound to org-insert-structure-template for org mode")
-    ;; more stuff here
-    )
-
-  (add-hook 'org-mode-hook 'gmj-org-config))
-#+end_src
-
-#+RESULTS:
-| gmj-org-config | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-fold-show-all append local] 5] | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-babel-show-result-all append local] 5] | org-babel-result-hide-spec | org-babel-hide-all-hashes | #[0 \301\211\207 [imenu-create-index-function org-imenu-get-tree] 2] |
-
-*** TODO Timestamp files on write
-#+BEGIN_SRC emacs-lisp
-  ;
-  ; Update DATE timestamps on write
-  ;
-  ; Updates any dates in the first 8 lines
-  ; of a file that are of the format:
-  ;
-  ;   ^.*date[d]: <>
-  ;
-  ; See https://www.emacswiki.org/emacs/TimeStamp
-  ;
-  ; Matches these format:
-
-  (setq time-stamp-pattern  "8/[Dd][Aa][Tt][Ee][Dd]?:[ \t]+\\\\?[\"<]+%:Y-%02m-%02d %02H:%02M:%02S %:a\\\\?[\">]")
-  (add-hook 'before-save-hook 'time-stamp)
-#+END_SRC
-*** TODO Atomic Chrome
- #+begin_src emacs-lisp
-   ;; EmacsConf 2020 Talk on using Atomic Chrome and GhostText to edit jupyter notebooks
-   ;; https://emacsconf.org/2022/talks/jupyter/
-   ;;
-   ;; https://github.com/alpha22jp/atomic-chrome
-   ;; https://chrome.google.com/webstore/detail/ghosttext/godiecgffnchndlihlpaajjcplehddca/related
-
-    ;; 2022-12-07
-
-    (use-package atomic-chrome
-      :ensure t
-      ;; :init
-      ;; (ignore "foo")
-      :config
-      (atomic-chrome-start-server)
-      (setq atomic-chrome-default-major-mode 'org-mode)
-      (setq atomic-chrome-buffer-open-style 'frame)
-      (setq atomic-chrome-url-major-mode-alist
-   	 '(("localhost" . python-mode)
-              ("fastmail.com" . org-mode)))
-      )
-
-  #+end_src
-
-** Navigation
-#+begin_src emacs-lisp
-(global-set-key "\C-x\C-x" 'exchange-point-and-mark)
-#+end_src
-** Planning
-*** Org Agenda Setup
-
-#+begin_src emacs-lisp
-   (setq org-agenda-files "~/Org/agenda-files.org")
-   (global-set-key "\C-ca" 'org-agenda)
-
-  (setq org-habit-show-all-today t)
-  (setq org-agenda-habit-graph-column 50) ;; Set the width of the progress bar
-  (add-to-list 'org-modules 'org-habit) 
-
-
-  ;; View of current week with only DONE items
-  ;; https://emacs.stackexchange.com/questions/8150/show-done-items-in-current-calendar-week
-
-  (setq org-agenda-custom-commands
-  	'(
-
-  	  ("D" "Weekly DONE review"
-  	      agenda ""
-  	      ((org-agenda-span 'week)
-  	       (org-agenda-start-on-weekday 0)
-  	       ;(org-agenda-start-with-log-mode t)
-  	       (org-agenda-start-with-log-mode '(closed state clock))
-  	       (org-agenda-skip-function
-  		'(org-agenda-skip-entry-if 'nottodo 'done))
-  	       ))
-
-	  ("O" "mOnthly Worked-on review"
-  	       agenda ""
-  	       ((org-agenda-span 'month)
-  		(org-agenda-start-on-weekday 0)
-  		;(org-agenda-start-with-log-mode t)
-  		(org-agenda-start-with-log-mode '(closed state clock))
-  		(org-agenda-skip-function
-  		 '(org-agenda-skip-entry-if 'todo '("TODO" "WAITING" "OBE" "BACKLOG")))
-  		))
-  	  
-  	  
-  	  ("W" "Weekly Worked-on review"
-  	       agenda ""
-  	       ((org-agenda-span 'week)
-  		(org-agenda-start-on-weekday 0)
-  		;(org-agenda-start-with-log-mode t)
-  		(org-agenda-start-with-log-mode '(closed state clock))
-  		(org-agenda-skip-function
-  		 '(org-agenda-skip-entry-if 'todo '("TODO" "WAITING" "OBE" "BACKLOG")))
-  		))
-
-  	  ("Y" "Yearly Worked-on review"
-  	       agenda ""
-  	       ((org-agenda-span 'year)
-  		(org-agenda-start-on-weekday 0)
-  		;(org-agenda-start-with-log-mode t)
-  		(org-agenda-start-with-log-mode '(closed state clock))
-  		(org-agenda-skip-function
-  		 '(org-agenda-skip-entry-if 'todo '("TODO" "WAITING" "OBE" "BACKLOG")))
-  	       ))  	  
-
-  	  )
-  	)
-
-#+end_src
-
-** Reading
-*** IN-PROGRESS elfeed for reading rss
-- State "IN-PROGRESS" from              [2025-11-02 Sun 15:00]
-#+begin_src emacs-lisp
-
-  ;; Elfeed + feeds in an Org file
-  (use-package elfeed
-    :ensure t
-    :bind (("C-x w" . elfeed)            ;; open Elfeed
-           ("C-x W" . elfeed-update))    ;; fetch new entries
-    :custom
-    (elfeed-db-directory "~/private/rss/elfeed")
-    (elfeed-search-filter "@3-days-ago +person +unread")  ;; default search view
-    :config
-    
-    (use-package elfeed-org
-      :ensure t
-      :after elfeed
-      :custom
-      ;; Point to your Org file(s) of feeds
-      (rmh-elfeed-org-files '("~/private/rss/elfeed.org"))
-      :config
-      ;; Parse the Org file and load feeds into Elfeed
-      (elfeed-org)))
-
-  (use-package elfeed-score
-  :ensure t
-  :config
-  ;; (setq elfeed-score-score-file "~/private/rss/elfeed.score")
-  ;; (setq elfeed-score-rule-stats-file "~/private/rss/elfeed.stats")
-  ;(setq elfeed-score-serde-score-file "~/private/rss/elfeed.score")  
-  (progn
-    (elfeed-score-enable)
-    (define-key elfeed-search-mode-map "=" elfeed-score-map)))
-#+end_src
-
-** TODO Web Browsing
-*** TODO org-web-tools
-    #+begin_src emacs-lisp
-       ;; 2022-12-09
-       (use-package org-web-tools
-      :ensure t
-      ;; :init
-      ;; (ignore "foo")
-      :config
-      (defalias 'owr  'org-web-tools-read-url-as-org)
-      )
-       
-
-#+end_src
-
-*** TODO Reference
-
-    http://ergoemacs.org/emacs/xah-lookup.html
-
-
-    #+begin_src emacs-lisp :exports code
-    (require 'eww)
-    (setq xah-lookup-browser-function 'eww) ; must come before loading xah-lookup
-    (require 'xah-lookup)
-
-    (when (boundp 'xah-fly-h-keymap)
-    (define-key xah-fly-h-keymap (kbd "1") 'xah-lookup-etymology)
-    (define-key xah-fly-h-keymap (kbd "2") 'xah-lookup-word-dict-org)
-    (define-key xah-fly-h-keymap (kbd "3") 'xah-lookup-web)
-    (define-key xah-fly-h-keymap (kbd "4") 'xah-lookup-word-definition)
-    (define-key xah-fly-h-keymap (kbd "5") 'xah-lookup-wikipedia)
-    (define-key xah-fly-h-keymap (kbd "6") 'xah-lookup-wiktionary)
-    (define-key xah-fly-h-keymap (kbd "7") 'xah-lookup-all-dictionaries)
-    (define-key xah-fly-h-keymap (kbd "9") 'xah-lookup-word-definition)
-    ;;
-    )
-    #+end_src
-
-** Writing
-*** Denote
-
-#+begin_src emacs-lisp
-  (use-package denote
-    :ensure t
-    :bind (("C-c n w" . gmj/denote-switch-directory))
-    :config
-    (setq denote-directory '("~/notes/" ))
-    (setq denote-prompts '(subdirectory title keywords))
-    (setq denote-excluded-files-regexp "\\(\\.#\\|#.*#\\|.*~\\)")
-    (setq denote-sort-dired-extra-prompts nil) 
-    )
-
-  ;; Make dired denote friendly
-  (add-hook 'dired-mode-hook #'denote-dired-mode)
-
-  ;; set my last denote "silo"
-  (gmj/denote-restore-last-directory)
- #+end_src
-*** TODO Flyspell
-#+BEGIN_SRC emacs-lisp :exports code
-  (dolist (hook '(text-mode-hook))
-    (add-hook hook (lambda () (flyspell-mode 1))))
-    #+END_SRC
-*** HTML Export - Title, Name, email, date at top
-
-To get reasonable export (title, author, email, date up at at
-start in both LaTeX and HTML export do something like this:
-
-The key is the macro that sets title:t or title:nil
-and the org-html-preamble-format that prints the title
-etc as desired.   The rest are reasonable defaults
-#+begin_example
-
-#Reasonable defaults
-
-,#+OPTIONS: author:t date:t email:t
-,#+OPTIONS: html-postamble:nil
-,#+latex_class: report
-,#+latex_class_options: [titlepage]
-
-# Macro to set title option as required per backend
- 
-,#+MACRO: conditional-title (eval (if (org-export-derived-backend-p org-export-current-backend 'latex) "#+OPTIONS: title:t" "#+OPTIONS: title:nil"))
-{{{conditional-title}}}
-#+end_example
-
-
-#+begin_src elisp
-
-  (setq org-html-preamble-format
-        '(("en"
-  	 "<h1 class=\"title\">%t</h1>
-            <p class=\"subtitle\">%s</p>
-            <br>
-            <p class=\"subtitle\">%a</p>
-            <p class=\"subtitle\">%e</p>
-            <p class=\"subtitle\">%d</p>")))
-
-#+end_src
-*** Allow Markdown export
-    #+begin_src emacs-lisp :exports code
-    (require 'ox-md)
-    #+end_src
-
-** Communication
-*** Org Social
-See https://github.com/tanrax/org-social.el
-#+BEGIN_SRC emacs-lisp
-  (use-package request)
-  (use-package org-social
-    :ensure t
-    :config
-    (setq org-social-file "/home/gmj/stow/org-social/social.org")
-    (setq org-social-my-public-url "https://codeberg.org/eludom/org-social/raw/branch/main/social.org")  ;; Your public URL
-    ;; Hide Reply, Vote, and Profile buttons for a cleaner timeline view. Change to 't' to hide them. Keyboard shortcuts 'r', 'v', and 'P' still work
-    (setq org-social-hide-post-buttons nil)
-
-    ;; Optionally, configure global keybindings
-    (keymap-global-set "C-c s t" 'org-social-timeline)
-    (keymap-global-set "C-c s n" 'org-social-new-post)
-    (keymap-global-set "C-c s o" 'org-social-open-file)
-    (keymap-global-set "C-c s p" 'org-social-new-poll)
-    (keymap-global-set "C-c s m" 'org-social-mention-user)  
-    )
-  ;; Use emojify package
-    (use-package emojify
-      :hook (after-init . global-emojify-mode))
-      #+END_SRC
-      
-*** Email
-**** Notmuch and friends
-#+BEGIN_SRC emacs-lisp
-  (use-package notmuch
-    :ensure t
-    ;; :init
-    ;; (ignore "foo")
-    :config
-    (defalias 'nm 'notmuch)
-    (setq mm-discouraged-alternatives '("text/html" "text/richtext"))
-    (setq message-default-headers "Bcc: gmj@pobox.com")
-    (global-set-key "\C-Xm" 'compose-mail-other-window)
-    )
-
-  (use-package notmuch-addr
-    :ensure t
-    ;; :init
-    ;; (ignore "foo")
-    ;; :config
-    ;; (ignore "foo")
-    )
-
-  (use-package ol-notmuch
-    :ensure t
-    ;; :init
-    ;; (ignore "foo")
-    ;; :config
-    ;; (ignore "foo")
-    )  
-#+END_SRC
-
-** Programming
-*** Magit
-#+begin_src emacs-lisp
-  (use-package magit
-    :ensure t
-    :config
-    (progn
-      (defalias 'ms 'magit-status)
-    ))
-    #+end_src
-*** Git autocommit
-#+begin_src elisp
-  (use-package git-auto-commit-mode
-    :ensure t
-  :config
-  :hook (prog-mode . git-auto-commit-mode)
-  :hook (text-mode . git-auto-commit-mode))
-
-  ;; For some reason these do not work as :custom or :config
-  (customize-set-variable 'gac-debounce-interval 300) ; 5 min
-  (customize-set-variable 'gac-automatically-add-new-files-p nil)
-  (customize-set-variable 'gac-automatically-add-new-files-p nil)
-  (customize-set-variable 'gac-ask-for-summary-p t)
-
-#+end_src
-*** pair matching
-#+begin_src emacs-lisp
-  (add-hook 'sh-mode-hook 'electric-pair-mode)
-#+end_src
-** Web Browsing
-** AI
-#+begin_src emacs-lisp
-  (use-package gptel
-    :ensure t
-    :config
-    ;; (setq debug-on-error t)
-    (setq gptel-expert-commands t) 
-    (setq gptel-org-branching-context t)
-    ;; (setq gptel-org-branching-context t)
-    ;; (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@user\n")
-    ;; (setf (alist-get 'org-mode gptel-response-prefix-alist) "@assistant\n")
-    (progn
-         (global-set-key "\C-xg" 'gptel-send)))	
-
-  (setq gptel-backend
-        (gptel-make-anthropic "Claude"
-          :stream t
-          :key (lambda ()
-  	       ;; pull api key from .authinfo.gpg
-                 (auth-source-pick-first-password
-                  :host "api.anthropic.com"
-                  :user "apikey"))))
-
-  ;; select model
-  (setq gptel-model 'claude-opus-4-5-20251101)  ;; or whichever model you want
-
-#+end_src
-
-** Fun and Games
-** Experimental
-*** org-capture
-#+begin_src emacs-lisp
-    ;; (use-package org-protocol
-      ;; :ensure t)
-  ;; 
-    ;; (use-package org-protocol-capture-html
-      ;; :ensure t
-      ;; :config
-      ;; (org-protocol-capture-html-setup))
-
-
-  (require 'org-protocol)
-  ;(require 'org-protocol-capture-html)
-  ;; (org-protocol-capture-html-setup)'
-#+end_src
-** 
-** Emacs things to try
-*** TODO Try Emacs Everwyere
-  [2025-11-02 Sun 15:17]
-  [[elfeed:taonaw.com#http://jtr.micro.blog/2025/10/27/emacs-and-mental-challanges.html][Emacs and mental challanges]]
-  https://github.com/tecosaur/emacs-everywhere
-** Configs that have to load late
-* Meetings
-
-** TODO Org Meetup (Monthly) - 11:00-13:00 EST
-   <%%(diary-float t 3 2)>
-
-   See 
-   https://orgmode.org/worg/orgmeetup.html for BBB and/or Jitsi links
-
-   
-* All's Well That Ends Well, YOW !!!
-   Because, well, you've got to be able to M-x psychoanalyze-pinhead
-   to fill a buffer and pass the time....
-
-   Discussion of the demise of zippy in Emacs here:
-    - http://forums.fedoraforum.org/showthread.php?t=302313
-
-   You'll need a coupy of the zippy quotes.  I pulled from here LONG ago..
-   https://github.com/shentonfreude/dot-emacs/blob/master/yow.lines
-
-#+BEGIN_SRC emacs-lisp :exports code
-  (message "init.el finished. Yow !")
-  (setq yow-file "~/.emacs.d/etc/yow.lines")
-  (global-set-key "\ey" 'yow)		; my ANCIENT keybinding
-
-  ;; This function gives me a zippy quote on the status line after 
-  ;; everything else in the config has settled down.
-  ;; I'm sure there are better/cleaner ways...
-  (defun display-yow-in-status-line ()
-    "Display the result of yow in the status line once after 1 second of idle time."
-    (interactive)
-    (run-with-idle-timer 1 nil
-                         (lambda ()
-                           (let ((yow-output (yow)))
-                             (message "%s" yow-output)))))
-  (display-yow-in-status-line)
-
-  #+END_SRC
 
