@@ -192,12 +192,12 @@ Not anymore! With this little guy, when we kill the line (step 2 above), Emacs �
 Some of these may date to TECO based TOPS20 emacs, Multics emacs, FINE (Tops 10), mg or similar museum pieces. As a note, you can get a Free TOPS20 account and run the original (TECO based) Emacs at http://twenex.org/~eludom.   I find I can still edit files in it, but it is mostly unrecognizable to the modern GNU Emacs user....
 
 #+BEGIN_SRC emacs-lisp :exports code
-  (global-set-key "\C-Xd" 'insert-date)a
+  (global-set-key "\C-Xd" 'insert-date)
   (global-set-key "\C-\\" 'compile) ; normally toggle input method, I mean, I *might* want in input Sumarian script...
   ;; (global-set-key "\C-]" 'call-last-kbd-macro)
   ;; (global-set-key "\eq" 'query-replace)
   ;; (global-set-key "\er" 'replace-string)
--set-key "\em" 'set-mark-command)
+  ;; (global-set-key "\em" 'set-mark-command)
   ;(global-set-key "\e " 'set-mark-command)
   ;; (global-set-key "\e#" 'what-line)
   ;; (global-set-key "\eg" 'goto-line)
@@ -313,13 +313,13 @@ From JTR: https://taonaw.com/2026/08/09/emacs-config-gems-part.html
 
 We might want to move Emacs’ backup files and temp files (those are the ones with ~ and #)2 to a different dedicated folder (emacs-bks) instead of the main Emacs folder. Since Emacs won’t just create the directory for us, let’s ask it to do so3. It won’t throw an error if we already have it.
 
-#+begin_src elisp :results none
-  (make-directory "~/emacs-bks" t)
-  (setq backup-directory-alist
-        `((".*" . "~/emacs-bks")))
-  (setq auto-save-file-name-transforms
-        `((".*" "~/emacs-bks" t)))
-#+end_src
+##+begin_src elisp :results none
+#  (make-directory "~/.emacs.d/backups" t)
+#  (setq backup-directory-alist
+#        `((".*" . "~/.emacs.d/backups")))
+#  (setq auto-save-file-name-transforms
+#        `((".*" "~/.emacs.d/backups" t)))
+##+end_src
 
 Now, let’s turn on the option to automatically save files we are working on inside Emacs, and set how long Emacs needs to be idle before auto-save kicks in. In my case, 300 seconds (= 5 minutes) is good enough for idle time. Importantly, I want to emphasize again, idle time. It will not auto-save the file as long as you type, so if you type non-stop for an hour and suddenly lose power, this will not save you, since Emacs didn’t get the chance to be idle for 5 minutes (or even 30 seconds, which is the default). For this, we have auto-save-interval, which auto-saves every 300 characters (globally in Emacs) by default. In my case, I’m lowering it here to 100, since I write plenty of quick notes (using org-add-note, C-c C-z), and it’s common for me to keep using Emacs between those without hitting the 300 mark. Both of those are described in the manual under auto-saving.
 
@@ -341,6 +341,27 @@ Activate recentf mode, so Emacs has a list of the recent files we worked on last
 (recentf-mode t)
 (setq recentf-max-saved-items 30)
 #+end_src
+
+** Other backup behaviors
+
+#+BEGIN_SRC emacs-lisp :exports code
+  ;; save backups
+
+  (setq 
+      backup-by-copying t    ; Don't delink hardlinks
+      version-control t      ; Use version numbers on backups
+      delete-old-versions t  ; Automatically delete excess backups
+      kept-new-versions 6    ; Number of newest versions to keep
+      kept-old-versions 2)   ; Number of oldest versions to keep
+
+  ;; don't cluter dirs with lockfiles.
+  ;;
+  ;; This is not 1985 and I'm not editing shared
+  ;; files on a VAX with 10 other people logged in.
+
+  (setq create-lockfiles nil)
+#+END_SRC
+
 
 ** Window and frame config
 
@@ -391,33 +412,21 @@ And now, a true Emacs classic. I don’t think I’ve seen a config without it: 
 (setq use-short-answers t)
 #+end_src
 
-*** Kill process prompt
-This one was annoying until I learned this option exists from someone else’s config years ago: “Emacs, please stop asking me if I want to kill process when exiting Emacs (Shell, etc.), just do it!” Yep.
+*** Exit Emacs.  Don't do this casually !!!
+\C-x\C-c is just to easy to type.   And, I mean, really, who wants
+to exit Emacs?  Keep calm.  Think it over before taking any rash
+action.
 
-#+begin_src elisp
-(setq confirm-kill-processes nil)
-#+end_src
+	#+BEGIN_SRC emacs-lisp :exports code
+          (defun dont-kill-emacs ()
+          	    (interactive)
+          	    (error (substitute-command-keys "I'm sorry, Dave.  I'm afraid I can't do that. To exit emacs: \\[save-buffers-kill-terminal].  Bound to C-X \"")))
 
-Why would anybody exit emacs?  Don't do this casually...
+          (global-set-key "\C-x\C-c" 'dont-kill-emacs)
+          (global-set-key "\C-z" 'dont-kill-emacs)
+          (global-set-key "\C-x\"" 'save-buffers-kill-terminal)
 
-#+begin_src elisp
-  (defun dont-kill-emacs ()
-  (interactive)
-  (error (substitute-command-keys "I'm sorry, Dave.  I'm afraid I can't do that. To exit emacs: \\[M-x kill-emacs].")))
-
-  (global-set-key "\C-x\C-c" 'dont-kill-emacs)
-  (global-set-key "\C-z" 'dont-kill-emacs)
-
-  ;; (global-unset-key (kbd "C-x C-c"))
-  ;; (global-unset-key (kbd "C-z"))
-#+end_src
-*** Visual Bell
- 
-Turn off the annoying error beep, which I first discovered in SUSE Linux by turning on a visual warning (a flash) instead. This will flash the top and bottom lines of our window instead of going “beep!”
-
-#+begin_src elisp
-(setq visible-bell t)
-#+end_src
+	#+END_SRC
 
 ** Configure the minibuffer and completions
 
@@ -464,6 +473,54 @@ I think I stole these from Prot?
          (corfu-history-mode 1)
          (add-to-list 'savehist-additional-variables 'corfu-history)))
 #+end_src
+** The file manager (Dired)
+
+#+begin_src emacs-lisp
+  (use-package dired
+    :ensure nil
+    :commands (dired)
+    :hook
+    (;(dired-mode . dired-hide-details-mode)
+     (dired-mode . hl-line-mode))
+    :config
+    (setq dired-listing-switches "-laht" )
+    (setq dired-recursive-copies 'always)
+    (setq dired-recursive-deletes 'always)
+    (setq delete-by-moving-to-trash t)
+    (setq dired-dwim-target t))
+
+  (use-package dired-subtree
+    :ensure t
+    :after dired
+    :bind
+    ( :map dired-mode-map
+      ("<tab>" . dired-subtree-toggle)
+      ("TAB" . dired-subtree-toggle)
+      ("<backtab>" . dired-subtree-remove)
+      ("S-TAB" . dired-subtree-remove))
+    :config
+    (setq dired-subtree-use-backgrounds nil))
+
+  (use-package trashed
+    :ensure t
+    :commands (trashed)
+    :config
+    (setq trashed-action-confirmer 'y-or-n-p)
+    (setq trashed-use-header-line t)
+    (setq trashed-sort-key '("Date deleted" . t))
+    (setq trashed-date-format "%Y-%m-%d %H:%M:%S"))
+#+end_src
+
+** random cusotmizations
+#+BEGIN_SRC emacs-lisp :exports code
+  (global-hl-line-mode)
+  (setq visible-bell t)
+  (setq require-final-newline t
+        default-major-mode 'org-mode
+        initial-major-mode 'org-mode
+        ;; text-mode-hook 'turn-on-auto-fill
+        describe-function-show-arglist t)
+#+END_SRC
 * Org Mode Configs
 ** General Org Mode Settings
 #+BEGIN_SRC emacs-lisp :exports code
