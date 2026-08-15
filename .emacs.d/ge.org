@@ -1,16 +1,14 @@
 #+TITLE: ge.org - GE.ORG Emacs config
-#+Updated:-<2026-01-16 07:12:58 Friday>
 #+file tags:   :emacs:
 #+identifier: 20250220T112622
 #+PROPERTY: header-args :results silent :exports code
 #+PROPERTY: header-args:elisp :lexical t
-#+last_saved: 2026-04-08 13:33
 
 
 * Configurations
-** General Emacs Configs
-*** Things That Have To Load Early
-**** Org Babel Languages
+* General Emacs Configs
+** Things That Have To Load Early
+*** Org Babel Languages
 
 This allows elisp code blocks below to execute
 
@@ -24,7 +22,7 @@ This allows elisp code blocks below to execute
 
 #+END_SRC
 
-**** Xah Fly Keys
+*** Xah Fly Keys
 
 I use Xah Fly Keys.  This, and the Knesis Advantage II keyboard
 averted carple tunnel syndrome for me...  Thanks Xah !
@@ -71,8 +69,8 @@ http://xahlee.info/emacs/misc/xah-fly-keys.html
      ;; ((eq major-mode 'help-mode) nil)
      (t t)))
 #+END_SRC
-*** Editing
-**** Structure Templates
+** Editing
+*** Structure Templates
 #+begin_src elisp :results none
 
 ; With props to Xah Lee (again)...
@@ -88,7 +86,7 @@ http://xahlee.info/emacs/misc/xah-fly-keys.html
   (add-hook 'org-mode-hook 'gmj-org-config))
 #+end_src
 
-**** Parens
+*** Parens
 
 https://taonaw.com/2026/08/05/emacs-config-gems-part.html
 
@@ -101,7 +99,7 @@ In addition, while we’re here: when we stand on an expression that is only sho
 
     ;; (setq show-paren-style 'expression)
   #+end_src
-**** Fun tricks with the kill ring
+*** Fun tricks with the kill ring
 
  Saw this over at https://emacsredux.com/blog/2026/04/07/stealing-from-the-best-emacs-configs/. This is a nice little trick, and it requires a bit of reading to understand what exactly it does: preventing Emacs from deleting whatever we have in the system’s clipboard when we kill a line, so it’s still in the kill ring. Here’s an example to help you grasp the idea and why it’s useful:
 
@@ -114,7 +112,7 @@ Not anymore! With this little guy, when we kill the line (step 2 above), Emacs �
 #+begin_src elisp
   (setq save-interprogram-paste-before-kill t)
 #+end_src
-**** Linenumber mode
+*** Linenumber mode
 #+begin_src elisp
   (global-display-line-numbers-mode)
   ;; Because somtimes you want to switch to /bin/ed,
@@ -127,8 +125,37 @@ Not anymore! With this little guy, when we kill the line (step 2 above), Emacs �
   ; of the fill column indicator at EOL 
 #+end_src
 
-*** Appearance
-**** Line Wrap
+*** Typeing overwrites active region
+#+begin_src emacs-lisp
+(use-package delsel
+  :ensure nil
+  :hook (after-init . delete-selection-mode))
+#+end_src
+
+
+*** TODO Timestamp files on write
+#+BEGIN_SRC emacs-lisp
+  ;
+  ; Update DATE timestamps on write
+  ;
+  ; Updates any dates in the first 8 lines
+  ; of a file that are of the format:
+  ;
+  ;   ^.*date[d]: <>
+  ;
+  ; See https://www.emacswiki.org/emacs/TimeStamp
+  ;
+  ; Matches these format:
+
+  (setq time-stamp-pattern  "8/[Dd][Aa][Tt][Ee][Dd]?:[ \t]+\\\\?[\"<]+%:Y-%02m-%02d %02H:%02M:%02S %:a\\\\?[\">]")
+  (add-hook 'before-save-hook 'time-stamp)
+#+END_SRC
+** Navigation
+#+begin_src emacs-lisp
+(global-set-key "\C-x\C-x" 'exchange-point-and-mark)
+#+end_src
+** Appearance
+*** Line Wrap
 
 #+begin_src elisp
   (remove-hook 'text-mode-hook #'turn-on-auto-fill)
@@ -155,7 +182,7 @@ Winner mode (included in Emacs) is sort of “undo” for changes in windows’ 
   (winner-mode t)
 #+end_src
 
-*** File Backup behavior
+** File Backup behavior
 
 From JTR: https://taonaw.com/2026/08/09/emacs-config-gems-part.html
 
@@ -195,7 +222,7 @@ Activate recentf mode, so Emacs has a list of the recent files we worked on last
 (setq recentf-max-saved-items 30)
 #+end_src
 
-*** Window and frame config
+** Window and frame config
 
 From JTR: https://taonaw.com/2026/08/09/emacs-config-gems-part.html
 
@@ -208,7 +235,7 @@ Let’s set the frame Emacs starts with to be a bit bigger. In Emacs, these meas
     )
 #+end_src
 
-*** Emacs Help
+** Emacs Help
 
 From
 
@@ -233,8 +260,8 @@ In addition, we want to be able to navigate help menus as Emacs intended if we f
   (setq help-window-keep-selected t)
 #+end_src
 
-*** Misc Emacs Behaviors
-**** short answers
+** Misc Emacs Behaviors
+*** short answers
 https://taonaw.com/2026/08/05/emacs-config-gems-part.html
 
 And now, a true Emacs classic. I don’t think I’ve seen a config without it: shortening “yes” or “no,” answer to “y” or “n” like any other program known to mankind. use-short-answers was introduced in Emacs 28.1, which is a more graceful way to do this, intended exactly for this purpose. Before that, back when I started to use Emacs, it was done with (fset 'yes-or-no-p 'y-or-n-p). If you have an older Emacs version, you’d need it.
@@ -244,7 +271,7 @@ And now, a true Emacs classic. I don’t think I’ve seen a config without it: 
 (setq use-short-answers t)
 #+end_src
 
-**** Kill process prompt
+*** Kill process prompt
 This one was annoying until I learned this option exists from someone else’s config years ago: “Emacs, please stop asking me if I want to kill process when exiting Emacs (Shell, etc.), just do it!” Yep.
 
 #+begin_src elisp
@@ -264,7 +291,7 @@ Why would anybody exit emacs?  Don't do this casually...
   ;; (global-unset-key (kbd "C-x C-c"))
   ;; (global-unset-key (kbd "C-z"))
 #+end_src
-**** Visual Bell
+*** Visual Bell
  
 Turn off the annoying error beep, which I first discovered in SUSE Linux by turning on a visual warning (a flash) instead. This will flash the top and bottom lines of our window instead of going “beep!”
 
@@ -272,7 +299,7 @@ Turn off the annoying error beep, which I first discovered in SUSE Linux by turn
 (setq visible-bell t)
 #+end_src
 
-*** Configure the minibuffer and completions
+** Configure the minibuffer and completions
 
 I think I stole these from Prot?
 
@@ -317,7 +344,8 @@ I think I stole these from Prot?
          (corfu-history-mode 1)
          (add-to-list 'savehist-additional-variables 'corfu-history)))
 #+end_src
-** General Org Mode Configs
+* Org Mode Configs
+** General Org Mode Settings
 #+BEGIN_SRC emacs-lisp :exports code
   (setq org-directory "~/Org")
   (setq org-return-follows-link t)
@@ -327,20 +355,84 @@ I think I stole these from Prot?
   (setq org-startup-folded 'overview)
   (setq org-checkbox-hierarchical-statistics nil)
 #+END_SRC
-*** Define custom task states
+** Org Agenda Setup
+
+#+begin_src emacs-lisp :results none
+   (setq org-agenda-files "~/Org/agenda-files.org")
+   (global-set-key "\C-ca" 'org-agenda)
+
+  (setq org-habit-show-all-today t)
+  (setq org-agenda-habit-graph-column 50) ;; Set the width of the progress bar
+  (add-to-list 'org-modules 'org-habit) 
+
+
+  ;; View of current week with only DONE items
+  ;; https://emacs.stackexchange.com/questions/8150/show-done-items-in-current-calendar-week
+
+  (setq org-agenda-custom-commands
+  	'(
+
+  	  ("D" "Weekly DONE review"
+  	      agenda ""
+  	      ((org-agenda-span 'week)
+  	       (org-agenda-start-on-weekday 0)
+  	       ;(org-agenda-start-with-log-mode t)
+  	       (org-agenda-start-with-log-mode '(closed state clock))
+  	       (org-agenda-skip-function
+  		'(org-agenda-skip-entry-if 'nottodo 'done))
+  	       ))
+
+	  ("O" "mOnthly Worked-on review"
+  	       agenda ""
+  	       ((org-agenda-span 'month)
+  		(org-agenda-start-on-weekday 0)
+  		;(org-agenda-start-with-log-mode t)
+  		(org-agenda-start-with-log-mode '(closed state clock))
+  		(org-agenda-skip-function
+  		 '(org-agenda-skip-entry-if 'todo '("TODO" "WAITING" "OBE" "BACKLOG")))
+  		))
+  	  
+  	  
+  	  ("W" "Weekly Worked-on review"
+  	       agenda ""
+  	       ((org-agenda-span 'week)
+  		(org-agenda-start-on-weekday 0)
+  		;(org-agenda-start-with-log-mode t)
+  		(org-agenda-start-with-log-mode '(closed state clock))
+  		(org-agenda-skip-function
+  		 '(org-agenda-skip-entry-if 'todo '("TODO" "WAITING" "OBE" "BACKLOG")))
+  		))
+
+  	  ("Y" "Yearly Worked-on review"
+  	       agenda ""
+  	       ((org-agenda-span 'year)
+  		(org-agenda-start-on-weekday 0)
+  		;(org-agenda-start-with-log-mode t)
+  		(org-agenda-start-with-log-mode '(closed state clock))
+  		(org-agenda-skip-function
+  		 '(org-agenda-skip-entry-if 'todo '("TODO" "WAITING" "OBE" "BACKLOG")))
+  	       ))  	  
+
+  	  )
+  	)
+
+#+end_src
+
+
+** Define custom task states
 #+BEGIN_SRC emacs-lisp
   (setq org-agenda-include-diary t)
   (setq org-todo-keywords
   	  '((sequence "TODO(t)" "IN-PROGRESS(i!)" "QUESTION(q@/!)" "WAITING(w@/!)"  "|" "DONE(d!)" "INFO(f!)" "REFILED(r!)" "DELEGATED(g@)" "CANCELED(c@)" "BACKLOG(b!)" "OBE(o@)")))
 #+END_SRC
 
-*** Custom refile commands
+** Custom refile commands
 #+begin_src emacs-lisp
   (define-key org-mode-map (kbd "C-c w") 'org-refile)
   (define-key org-mode-map (kbd "C-c W") 'org-refile-copy)
   (setq org-refile-targets '((org-agenda-files :maxlevel . 3))) ;; Allows refiling to any files in your agenda
 #+end_src
-*** Org capture templtes
+** Org capture templtes
 
 #+begin_src emacs-lisp
 
@@ -452,7 +544,7 @@ I think I stole these from Prot?
           ;; (add-hook 'org-capture-after-finalize-hook #'my/org-capture-goto-new-entry)
         #+end_src
 #+end_src
-*** Xah Fly Key Org mappings
+** Xah Fly Key Org mappings
     Make "SPC p" run org-set-property when in xah-fly-keys command mode.
     Should probably further restrict it to org mode.
 
@@ -463,3 +555,5 @@ I think I stole these from Prot?
 * Reading
 * Writing
 * AI
+* Experimental
+* All's well that ends well
