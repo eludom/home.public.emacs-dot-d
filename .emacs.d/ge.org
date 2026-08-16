@@ -102,7 +102,7 @@ This allows elisp code blocks below to execute
 
 #+END_SRC
 
-*** Xah Fly Keys
+** Xah Fly Keys
 
 I use Xah Fly Keys.  This, and the Knesis Advantage II keyboard
 averted carple tunnel syndrome for me...  Thanks Xah !
@@ -205,7 +205,7 @@ from
   (add-hook 'org-mode-hook 'gmj-org-config))
 #+end_src
 
-*** Parens
+**** Parens
 
 https://taonaw.com/2026/08/05/emacs-config-gems-part.html
 
@@ -218,7 +218,7 @@ In addition, while we’re here: when we stand on an expression that is only sho
 
     ;; (setq show-paren-style 'expression)
   #+end_src
-*** Fun tricks with the kill ring
+**** Fun tricks with the kill ring
 
  Saw this over at https://emacsredux.com/blog/2026/04/07/stealing-from-the-best-emacs-configs/. This is a nice little trick, and it requires a bit of reading to understand what exactly it does: preventing Emacs from deleting whatever we have in the system’s clipboard when we kill a line, so it’s still in the kill ring. Here’s an example to help you grasp the idea and why it’s useful:
 
@@ -231,7 +231,7 @@ Not anymore! With this little guy, when we kill the line (step 2 above), Emacs �
 #+begin_src elisp
   (setq save-interprogram-paste-before-kill t)
 #+end_src
-*** Linenumber mode
+**** Linenumber mode
 #+begin_src elisp
   (global-display-line-numbers-mode)
   ;; Because somtimes you want to switch to /bin/ed,
@@ -244,7 +244,7 @@ Not anymore! With this little guy, when we kill the line (step 2 above), Emacs �
   ; of the fill column indicator at EOL 
 #+end_src
 
-*** Typeing overwrites active region
+**** Typeing overwrites active region
 #+begin_src emacs-lisp
 (use-package delsel
   :ensure nil
@@ -252,7 +252,7 @@ Not anymore! With this little guy, when we kill the line (step 2 above), Emacs �
 #+end_src
 
 
-*** TODO Timestamp files on write
+**** TODO Timestamp files on write
 - Note taken on [2026-08-15 Sat 17:08] \\
   Not working???
 #+BEGIN_SRC emacs-lisp
@@ -271,7 +271,7 @@ Not anymore! With this little guy, when we kill the line (step 2 above), Emacs �
   (setq time-stamp-pattern  "8/[Dd][Aa][Tt][Ee][Dd]?:[ \t]+\\\\?[\"<]+%:Y-%02m-%02d %02H:%02M:%02S %:a\\\\?[\">]")
   (add-hook 'before-save-hook 'time-stamp)
 #+END_SRC
-** My keybindings from eons past
+*** My keybindings from eons past
 
 Some of these may date to TECO based TOPS20 emacs, Multics emacs, FINE (Tops 10), mg or similar museum pieces. As a note, you can get a Free TOPS20 account and run the original (TECO based) Emacs at http://twenex.org/~eludom.   I find I can still edit files in it, but it is mostly unrecognizable to the modern GNU Emacs user....
 
@@ -295,7 +295,7 @@ Some of these may date to TECO based TOPS20 emacs, Multics emacs, FINE (Tops 10)
   (global-set-key "\C-X!" 'compile)
   ;(global-unset-key "\C-X\C-l")
  #+END_SRC
-** Aliases
+*** Aliases
 
 Aliases, mostly borrowed from Xah Lee
 
@@ -341,12 +341,12 @@ Aliases, mostly borrowed from Xah Lee
 
 	#+END_SRC
 
-** Navigation
+*** Navigation
 #+begin_src emacs-lisp
 (global-set-key "\C-x\C-x" 'exchange-point-and-mark)
 #+end_src
-** Appearance
-*** Line Wrap
+*** Appearance
+**** Line Wrap
 
 #+begin_src elisp
   (remove-hook 'text-mode-hook #'turn-on-auto-fill)
@@ -364,7 +364,7 @@ Aliases, mostly borrowed from Xah Lee
   ;; Set the desired wrap width
   (setq-default visual-fill-column-width 120) ;; because 80 character terminals were a thing?
 #+end_src
-*** Window control
+**** Window control
 From JTR: https://taonaw.com/2026/08/09/emacs-config-gems-part.html
 
 Winner mode (included in Emacs) is sort of “undo” for changes in windows’ layout in Emacs. C-c ← goes back to our previous setting, and C-c → will “redo” the layout we just left. I use it all the time as in “oops, I closed the wrong window”3.
@@ -373,10 +373,9 @@ Winner mode (included in Emacs) is sort of “undo” for changes in windows’ 
   (winner-mode t)
 #+end_src
 
-*** WAITING Fonts
-- State "WAITING"    from              [2026-08-15 Sat 10:03] \\
-  Do I want these?
+**** Fonts and frames
 #+begin_src emacs-lisp
+  ;; start fullscren
   (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
   (let ((mono-spaced-font "Monospace")
@@ -385,10 +384,11 @@ Winner mode (included in Emacs) is sort of “undo” for changes in windows’ 
     (set-face-attribute 'fixed-pitch nil :family mono-spaced-font :height 1.0)
     (set-face-attribute 'variable-pitch nil :family proportionately-spaced-font :height 1.0))
 
+  ;; This is where I tweak the basic font size at startup
   (set-face-attribute 'default nil :height 200)
 #+end_src
 
-** File Backup behavior
+*** File Backup behavior
 
 From JTR: https://taonaw.com/2026/08/09/emacs-config-gems-part.html
 
@@ -428,7 +428,7 @@ Activate recentf mode, so Emacs has a list of the recent files we worked on last
 (setq recentf-max-saved-items 30)
 #+end_src
 
-** Other backup behaviors
+*** Other backup behaviors
 
 #+BEGIN_SRC emacs-lisp :exports code
   ;; save backups
@@ -449,20 +449,9 @@ Activate recentf mode, so Emacs has a list of the recent files we worked on last
 #+END_SRC
 
 
-** Window and frame config
+*** Window and frame config
 
-From JTR: https://taonaw.com/2026/08/09/emacs-config-gems-part.html
-
-Let’s set the frame Emacs starts with to be a bit bigger. In Emacs, these measurements are in lines and columns (character width), so we’re basically saying: “make the default frame 100 characters wide and 55 lines high.”1
-
-#+begin_src elisp
-(setq default-frame-alist
-   '((width . 100)
-     (height . 55))
-    )
-#+end_src
-
-** Emacs Help
+*** Emacs Help
 
 From
 
@@ -487,8 +476,8 @@ In addition, we want to be able to navigate help menus as Emacs intended if we f
   (setq help-window-keep-selected t)
 #+end_src
 
-** Misc Emacs Behaviors
-*** short answers
+*** Misc Emacs Behaviors
+**** short answers
 https://taonaw.com/2026/08/05/emacs-config-gems-part.html
 
 And now, a true Emacs classic. I don’t think I’ve seen a config without it: shortening “yes” or “no,” answer to “y” or “n” like any other program known to mankind. use-short-answers was introduced in Emacs 28.1, which is a more graceful way to do this, intended exactly for this purpose. Before that, back when I started to use Emacs, it was done with (fset 'yes-or-no-p 'y-or-n-p). If you have an older Emacs version, you’d need it.
@@ -498,7 +487,7 @@ And now, a true Emacs classic. I don’t think I’ve seen a config without it: 
 (setq use-short-answers t)
 #+end_src
 
-*** Exit Emacs.  Don't do this casually !!!
+**** Exit Emacs.  Don't do this casually !!!
 \C-x\C-c is just to easy to type.   And, I mean, really, who wants
 to exit Emacs?  Keep calm.  Think it over before taking any rash
 action.
@@ -506,15 +495,19 @@ action.
 	#+BEGIN_SRC emacs-lisp :exports code
           (defun dont-kill-emacs ()
           	    (interactive)
-          	    (error (substitute-command-keys "I'm sorry, Dave.  I'm afraid I can't do that. To exit emacs: \\[save-buffers-kill-terminal].  Bound to C-X \"")))
+          	    (error (substitute-command-keys "I'm sorry, Dave.  I'm afraid I can't do that. To exit emacs: \\[save-buffers-kill-emacs].  Bound to C-X \"")))
 
           (global-set-key "\C-x\C-c" 'dont-kill-emacs)
           (global-set-key "\C-z" 'dont-kill-emacs)
-          (global-set-key "\C-x\"" 'save-buffers-kill-terminal)
+          (global-set-key "\C-x\"" 'save-buffers-kill-emacs)
 
 	#+END_SRC
 
-** Configure the minibuffer and completions
+        #+RESULTS:
+        : save-buffers-kill-emacs
+
+
+*** Configure the minibuffer and completions
 
 I think I stole these from Prot?
 
@@ -559,7 +552,7 @@ I think I stole these from Prot?
          (corfu-history-mode 1)
          (add-to-list 'savehist-additional-variables 'corfu-history)))
 #+end_src
-** The file manager (Dired)
+*** The file manager (Dired)
 
 #+begin_src emacs-lisp
   (use-package dired
@@ -597,7 +590,7 @@ I think I stole these from Prot?
     (setq trashed-date-format "%Y-%m-%d %H:%M:%S"))
 #+end_src
 
-** random cusotmizations
+*** random cusotmizations
 #+BEGIN_SRC emacs-lisp :exports code
   (global-hl-line-mode)
   (setq visible-bell t)
