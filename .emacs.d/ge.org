@@ -149,8 +149,47 @@ http://xahlee.info/emacs/misc/xah-fly-keys.html
      ;; ((eq major-mode 'help-mode) nil)
      (t t)))
 #+END_SRC
+*
+** Load custom .el or .org files from ~/elisp-*
+
+This loads any custom code snippits I've written or borrowed
+from
+
+   ~/elisp-{public,private,secret}
+
+    #+BEGIN_SRC emacs-lisp :exports code
+
+      ;; -*- lexical-binding: t; -*-
+      ; Load up all .org files in ~/elisp*
+      (setq debug-on-error t)
+
+
+       (dolist (word  (directory-files (expand-file-name "~/") t "^elisp*"))
+      	(if (file-exists-p word)
+      	  (progn
+      	    (setq elisp-dir word)
+      	    (add-to-list 'load-path word)
+      	    (message (format "org-bable-load directory: %s"  elisp-dir))
+      	    (mapc #'org-babel-load-file (directory-files elisp-dir t "\\.org$"))
+
+      	     ; Load up everything in the ~/elisp
+
+      	     ; http://stackoverflow.com/questions/18706250/emacs-require-all-files-in-a-directory
+
+      	     (let ((loaded  (mapcar #'car load-history)))
+      	       (dolist (file  (directory-files elisp-dir t ".+\\.elc?$"))
+      		 (unless (catch 'foo
+      			   (dolist (done  loaded)
+      			     (when (equal file done) (throw 'foo t)))
+      			   nil)
+      		   (load (file-name-sans-extension file))
+      		   (push file loaded))))
+      		 )))
+    #+END_SRC
+
+* General Emacs Configs
 ** Editing
-*** Structure Templates
+**** Structure Templates
 #+begin_src elisp :results none
 
 ; With props to Xah Lee (again)...
