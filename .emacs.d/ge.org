@@ -997,6 +997,34 @@ For now I'm pinning 4.5 from github since there were apparent incompatibilities 
   (add-hook 'sh-mode-hook 'electric-pair-mode)
 #+end_src
 * AI
+#+begin_src emacs-lisp
+  (use-package gptel
+    :ensure t
+    :config
+    ;; (setq debug-on-error t)
+    (setq gptel-expert-commands t) 
+    (setq gptel-org-branching-context t)
+    ;; (setq gptel-org-branching-context t)
+    ;; (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@user\n")
+    ;; (setf (alist-get 'org-mode gptel-response-prefix-alist) "@assistant\n")
+    (progn
+         (global-set-key "\C-xg" 'gptel-send)))	
+
+
+    (setq gptel-model 'anthropic/claude-opus-5
+      gptel-backend
+      (gptel-make-openai "OpenRouter"
+        :host "openrouter.ai"
+        :endpoint "/api/v1/chat/completions"
+        :stream t
+        :key (lambda () (gptel-api-key-from-auth-source "openrouter.ai"))
+        :models '(anthropic/claude-opus-5
+  		google/gemini-3.6-flash
+                  openai/gpt-5.6-luna
+  		deepseek/deepseek-v4-flash-0731)))
+
+#+end_src
+
 * Experimental
 * All's Well That Ends Well, YOW !!!
    Because, well, you've got to be able to M-x psychoanalyze-pinhead
