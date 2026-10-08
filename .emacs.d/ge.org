@@ -51,7 +51,7 @@ village.
     functions, placing the most common actions on the strongest digits
     on the hand.  It is probably more accurate to say I am using AN
     editor implemented in the emacs lisp development environment. 
-- Protesilaos Stavrou :: Recent borrowings from  Protesilaos Stavrou
+- Protesilaos Stavrou :: Recent borrowings from  Protesilaos Stavrou (Prot)  
   I think denote and gtpel are going to completely change my workflow.
 - gptel :: [[https://github.com/karthink]] and 100+ friends have created
   gptel.  That and the AIs that it front ends (and denote) are
