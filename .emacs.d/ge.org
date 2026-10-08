@@ -996,40 +996,45 @@ For now I'm pinning 4.5 from github since there were apparent incompatibilities 
        :rev "c800f79")) ; Can be a commit hash, tag name, or branch
     #+end_src
 ** Git autocommit
-#+begin_src elisp
-  (use-package git-auto-commit-mode
-    :ensure t
-  :config
-  :hook (prog-mode . git-auto-commit-mode)
-  :hook (text-mode . git-auto-commit-mode))
-
-  ;; For some reason these do not work as :custom or :config
-  (customize-set-variable 'gac-debounce-interval 300) ; 5 min
-  (customize-set-variable 'gac-automatically-add-new-files-p nil)
-  (customize-set-variable 'gac-automatically-add-new-files-p nil)
-  (customize-set-variable 'gac-ask-for-summary-p t)
-
-#+end_src
+##+begin_src elisp
+#  (use-package git-auto-commit-mode
+#    :ensure t
+#  :config
+#  :hook (prog-mode . git-auto-commit-mode)
+#  :hook (text-mode . git-auto-commit-mode))
++
+#  ;; For some reason these do not work as :custom or :config
+#  (customize-set-variable 'gac-debounce-interval 300) ; 5 min
+#  (customize-set-variable 'gac-automatically-add-new-files-p nil)
+#  (customize-set-variable 'gac-automatically-add-new-files-p nil)
+#  (customize-set-variable 'gac-ask-for-summary-p t)
+ 
+##+end_src
 ** pair matching
 #+begin_src emacs-lisp
   (add-hook 'sh-mode-hook 'electric-pair-mode)
 #+end_src
 * AI
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :results none
   (use-package gptel
     :ensure t
     :config
     ;; (setq debug-on-error t)
     (setq gptel-expert-commands t) 
     (setq gptel-org-branching-context t)
+
+    ;; Whole buffer from start up to point
+    (setq gptel-org-branching-context nil)
+    ;; Or: only the current outline branch, including ancestors' bodies
     ;; (setq gptel-org-branching-context t)
+    
     ;; (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@user\n")
     ;; (setf (alist-get 'org-mode gptel-response-prefix-alist) "@assistant\n")
     (progn
          (global-set-key "\C-xg" 'gptel-send)))	
 
 
-    (setq gptel-model 'anthropic/claude-opus-5
+    (setq gptel-model 'google/gemini-3.6-flash
       gptel-backend
       (gptel-make-openai "OpenRouter"
         :host "openrouter.ai"
