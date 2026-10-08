@@ -613,17 +613,23 @@ I think I stole these from Prot?
   (global-set-key "\C-cl" 'org-store-link)
   (setq org-startup-folded 'overview)
   (setq org-checkbox-hierarchical-statistics nil)
+
+  ;; Open links (e.g. pictures) in current window
+  (with-eval-after-load 'org
+    (setf (alist-get 'file org-link-frame-setup) 'find-file))
 #+END_SRC
 ** Org Agenda Setup
 
 #+begin_src emacs-lisp :results none
+
+  ;; then restart Emacs, or just:
+
    (setq org-agenda-files "~/Org/agenda-files.org")
    (global-set-key "\C-ca" 'org-agenda)
 
   (setq org-habit-show-all-today t)
   (setq org-agenda-habit-graph-column 50) ;; Set the width of the progress bar
-  (add-to-list 'org-modules 'org-habit) 
-
+  (add-to-list 'org-modules 'org-habit)
 
   ;; View of current week with only DONE items
   ;; https://emacs.stackexchange.com/questions/8150/show-done-items-in-current-calendar-week
