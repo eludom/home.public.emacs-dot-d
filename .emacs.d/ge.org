@@ -3,6 +3,8 @@
 #+file tags:   :emacs:
 #+identifier: 20250220T112622
 #+PROPERTY: header-args:elisp :lexical t :results silent :exports code
+#+last_saved: 2026-10-05 16:23
+
 
 * Prolog
 ** Artwork
@@ -683,7 +685,6 @@ I think I stole these from Prot?
 
 #+end_src
 
-
 ** Define custom task states
 #+BEGIN_SRC emacs-lisp
   (setq org-agenda-include-diary t)
@@ -1045,8 +1046,10 @@ For now I'm pinning 4.5 from github since there were apparent incompatibilities 
   		google/gemini-3.6-flash
                   openai/gpt-5.6-luna
   		deepseek/deepseek-v4-flash-0731)))
-
 #+end_src
+
+
+
 
 * Experimental
 * All's Well That Ends Well, YOW !!!
@@ -1056,7 +1059,7 @@ For now I'm pinning 4.5 from github since there were apparent incompatibilities 
    Discussion of the demise of zippy in Emacs here:
     - http://forums.fedoraforum.org/showthread.php?t=302313
 
-   You'll need a coupy of the zippy quotes.  I pulled from here LONG ago..
+   You'll need a copy of the zippy quotes.  I pulled from here LONG ago..
    https://github.com/shentonfreude/dot-emacs/blob/master/yow.lines
 
 #+BEGIN_SRC emacs-lisp :exports code
