@@ -4,6 +4,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(cookie-file "/home/gmj/cookies.txt")
  '(custom-enabled-themes nil)
  '(denote-known-keywords nil)
  '(denote-sort-dired-default-sort-component 'last-modified)
@@ -47,19 +48,15 @@
      (:name "replied" :query "tag:replied")))
  '(notmuch-search-oldest-first nil)
  '(org-export-with-broken-links 'mark)
+ '(org-log-into-drawer t)
  '(package-selected-packages
-   '(atomic-chrome citeproc corfu denote denote-menu denote-org
-		   dired-subtree elfeed-org elfeed-score
-		   git-auto-commit-mode gptel magit marginalia
-		   markdown-mode mode-icons modus-themes
-		   nerd-icons-completion nerd-icons-corfu
-		   nerd-icons-dired notmuch-addr numeri ol-notmuch
-		   orderless org-protocol org-protocol-capture-html
-		   org-ql org-social org-web-tools ox-hugo ox-rss
-		   ripgrep trashed undo-tree vertico
-		   visual-fill-column xah-fly-keys))
+   '(corfu denote dired-subtree elfeed-org elfeed-score
+	   git-auto-commit-mode gptel magit marginalia notmuch-addr
+	   ol-notmuch orderless org-social ox-hugo trashed vertico
+	   visual-fill-column xah-fly-keys))
  '(package-vc-selected-packages
-   '((org-social :url "https://github.com/tanrax/org-social.el"))))
+   '((org-social :url "https://github.com/tanrax/org-social.el")))
+ '(safe-local-variable-values '((eval setq-local gptel-org-branching-context nil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
