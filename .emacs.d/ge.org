@@ -647,7 +647,7 @@ I think I stole these from Prot?
   		'(org-agenda-skip-entry-if 'nottodo 'done))
   	       ))
 
-	  ("O" "mOnthly Worked-on review"
+  	  ("O" "mOnthly Worked-on review"
   	       agenda ""
   	       ((org-agenda-span 'month)
   		(org-agenda-start-on-weekday 0)
@@ -785,7 +785,7 @@ I think I stole these from Prot?
     
           (defun my/org-capture-goto-new-entry ()
           "Go to the entry that was just captured."
-          (when-let ((marker org-capture-last-stored-marker)
+          (when-let* ((marker org-capture-last-stored-marker)
                      (buf (marker-buffer marker)))
             (switch-to-buffer buf)
             (goto-char marker)))
@@ -899,7 +899,16 @@ etc as desired.   The rest are reasonable defaults
 
 #+begin_src elisp :results none
 
-  (setq org-html-preamble-format
+  ;; (setq org-html-preamble-format
+        ;; '(("en"
+        ;; 	 "<p class=\"subtitle\">%s</p>
+        ;;     <br>
+        ;;     <p class=\"subtitle\">%a</p>
+        ;;     <p class=\"subtitle\">%e</p>
+        ;;     <p class=\"subtitle\">%d</p>")))
+
+
+    (setq org-html-preamble-format
         '(("en"
   	 "<h1 class=\"title\">%t</h1>
             <p class=\"subtitle\">%s</p>
