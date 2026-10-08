@@ -28,6 +28,7 @@
  '(font-use-system-font t)
  '(global-display-line-numbers-mode t)
  '(gptel-model 'claude-opus-4-5-20251101)
+ '(gptel-org-branching-context nil)
  '(notmuch-saved-searches
    '((:name "inbox " :query "tag:inbox and not tag:unsubscribe" :key
 	    [105] :search-type tree)
