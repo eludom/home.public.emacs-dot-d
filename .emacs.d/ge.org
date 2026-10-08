@@ -399,18 +399,18 @@ From JTR: https://taonaw.com/2026/08/09/emacs-config-gems-part.html
 
 We might want to move Emacs’ backup files and temp files (those are the ones with ~ and #)2 to a different dedicated folder (emacs-bks) instead of the main Emacs folder. Since Emacs won’t just create the directory for us, let’s ask it to do so3. It won’t throw an error if we already have it.
 
-##+begin_src elisp :results none
-#  (make-directory "~/.emacs.d/backups" t)
-#  (setq backup-directory-alist
-#        `((".*" . "~/.emacs.d/backups")))
-#  (setq auto-save-file-name-transforms
-#        `((".*" "~/.emacs.d/backups" t)))
-##+end_src
+#+begin_src elisp :results none
+  (make-directory "~/.emacs.d/backups" t)
+  (setq backup-directory-alist
+        `((".*" . "~/.emacs.d/backups")))
+  (setq auto-save-file-name-transforms
+        `((".*" "~/.emacs.d/backups" t)))
+#+end_src
 
 Now, let’s turn on the option to automatically save files we are working on inside Emacs, and set how long Emacs needs to be idle before auto-save kicks in. In my case, 300 seconds (= 5 minutes) is good enough for idle time. Importantly, I want to emphasize again, idle time. It will not auto-save the file as long as you type, so if you type non-stop for an hour and suddenly lose power, this will not save you, since Emacs didn’t get the chance to be idle for 5 minutes (or even 30 seconds, which is the default). For this, we have auto-save-interval, which auto-saves every 300 characters (globally in Emacs) by default. In my case, I’m lowering it here to 100, since I write plenty of quick notes (using org-add-note, C-c C-z), and it’s common for me to keep using Emacs between those without hitting the 300 mark. Both of those are described in the manual under auto-saving.
 
 #+begin_src elisp :results none
-  (auto-save-visited-mode t)
+  (setq auto-save-visited-mode t)
   (setq auto-save-visited-interval 300)
   (setq auto-save-interval 100)
 #+end_src
@@ -511,46 +511,49 @@ action.
 
 I think I stole these from Prot?
 
-#+begin_src emacs-lisp
+    For now I'm pinning 2.8 from github since there were apparent incompatibilities with the latest emacs verion from nightly build (31.0.50).
 
-  ;;  This package has some probmes as of emacs 31.0.50
-  ;;  (use-package vertico
-  ;;    :ensure t
-  ;;    :hook (after-init . vertico-mode))
-  ;;
+   #+begin_src elisp
+     (use-package vertico
+       :vc (:url "https://github.com/minad/vertico" :rev "2.8")
+       :init(vertico-mode)
+       ;; :config (setq vertico-sort-override-function #'vertico-sort-history-length-alpha)
+       )
+   #+end_src
 
+ #+begin_src emacs-lisp
+  
+        (use-package marginalia
+          :ensure t
+          :hook (after-init . marginalia-mode))
 
-    (use-package marginalia
-      :ensure t
-      :hook (after-init . marginalia-mode))
+        (use-package orderless
+           :ensure t
+           :config
+           (setq completion-styles '(orderless basic))
+           (setq completion-category-defaults nil)
+           (setq completion-category-overrides nil))
 
-    (use-package orderless
-       :ensure t
-       :config
-       (setq completion-styles '(orderless basic))
-       (setq completion-category-defaults nil)
-       (setq completion-category-overrides nil))
+         (use-package savehist
+           :ensure nil ; it is built-in
+           :hook (after-init . savehist-mode))
 
-     (use-package savehist
-       :ensure nil ; it is built-in
-       :hook (after-init . savehist-mode))
+         (use-package corfu
+           :ensure t
+           :hook (after-init . global-corfu-mode)
+           :bind (:map corfu-map ("<tab>" . corfu-complete))
+           :config
+           (setq tab-always-indent 'complete)
+           (setq corfu-preview-current nil)
+           (setq corfu-min-width 20)
 
-     (use-package corfu
-       :ensure t
-       :hook (after-init . global-corfu-mode)
-       :bind (:map corfu-map ("<tab>" . corfu-complete))
-       :config
-       (setq tab-always-indent 'complete)
-       (setq corfu-preview-current nil)
-       (setq corfu-min-width 20)
+           (setq corfu-popupinfo-delay '(1.25 . 0.5))
+           (corfu-popupinfo-mode 1) ; shows documentation after `corfu-popupinfo-delay'
 
-       (setq corfu-popupinfo-delay '(1.25 . 0.5))
-       (corfu-popupinfo-mode 1) ; shows documentation after `corfu-popupinfo-delay'
-
-        ;; Sort by input history (no need to modify `corfu-sort-function').
-       (with-eval-after-load 'savehist
-         (corfu-history-mode 1)
-         (add-to-list 'savehist-additional-variables 'corfu-history)))
+            ;; Sort by input history (no need to modify `corfu-sort-function').
+           (with-eval-after-load 'savehist
+             (corfu-history-mode 1)
+             (add-to-list 'savehist-additional-variables 'corfu-history)))
 #+end_src
 *** The file manager (Dired)
 
