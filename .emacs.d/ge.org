@@ -72,7 +72,7 @@ village.
   editors including Emacs (and Brief).  Thanks to him (and my brother
   who had co-oped for him) [[https://github.com/PDP-10/fine][FINE (Fine Is Not Emacs)]] was waiting for me
   when I started. We later collaborated to create what became
-  MicroEmacs/mg. [[https://groups.google.com/g/net.sources/c/qraqnOktgdI?pli=1][I posted it to the USENET group net.sources.]]
+  MicroEmacs/mg. [[http://port111.com/george/amiga-microemacs-post.html][I posted it to the USENET group net.sources.]]
   Carsten Dominik (below) used it for a while and rumor
   has it Linus Torvalds does to this day.
 - David Conroy :: David Conroy was the original author of MicroEmacs.
