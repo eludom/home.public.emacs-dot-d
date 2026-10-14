@@ -955,7 +955,7 @@ etc as desired.   The rest are reasonable defaults
     )  
 #+END_SRC
 
-*** Org Social
+** Org Social
 - Note taken on [2026-08-15 Sat 17:18] \\
   Uptake seems to be laging... :-(
 See https://github.com/tanrax/org-social.el
@@ -981,6 +981,15 @@ See https://github.com/tanrax/org-social.el
       :hook (after-init . global-emojify-mode))
       #+END_SRC
       
+** keypress
+#+BEGIN_SRC emacs-lisp
+  (use-package keycast
+    :ensure t
+    ;; :init
+    ;; (ignore "foo")
+    :config
+    (keycast-tab-bar-mode 1)
+    )
 * Programming
 ** Magit
 
