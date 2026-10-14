@@ -464,9 +464,9 @@ From
  This is why the menu-bar is commented out in my config; I want it, but I also want to remember I could turn it off if I wanted:
  
  #+begin_src elisp
-   (tool-bar-mode -1)
-   (scroll-bar-mode -1)
-   (menu-bar-mode t) 
+   (tool-bar-mode 1)     ; -1=off, 1=on
+   (scroll-bar-mode -1)  ; -1=off, 1=on
+   (menu-bar-mode -1)    ;  -1=off, 1=on
  #+end_src
 
  By default, help commands2 display the help buffer in a new window without selecting it. I find this annoying: if I bring up the help window, it’s usually because I want to scroll down to find something or copy (yank) something. On the other hand, if I just want to skim quickly in the help buffer, it’s helpful that the marker is on it for a quick q for quit.
@@ -1047,7 +1047,6 @@ For now I'm pinning 4.5 from github since there were apparent incompatibilities 
                   openai/gpt-5.6-luna
   		deepseek/deepseek-v4-flash-0731)))
 #+end_src
-
 
 
 
