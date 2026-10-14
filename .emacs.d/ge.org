@@ -982,7 +982,7 @@ See https://github.com/tanrax/org-social.el
       #+END_SRC
       
 ** keypress
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package keycast
     :ensure t
     ;; :init
@@ -990,6 +990,11 @@ See https://github.com/tanrax/org-social.el
     :config
     (keycast-tab-bar-mode 1)
     )
+ #+end_src
+
+#+RESULTS:
+: t
+
 * Programming
 ** Magit
 
