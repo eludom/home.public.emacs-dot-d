@@ -982,7 +982,7 @@ See https://github.com/tanrax/org-social.el
       #+END_SRC
       
 ** keypress
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :results none
   (use-package keycast
     :ensure t
     ;; :init
@@ -1017,13 +1017,11 @@ For now I'm pinning 4.5 from github since there were apparent incompatibilities 
 #  :config
 #  :hook (prog-mode . git-auto-commit-mode)
 #  :hook (text-mode . git-auto-commit-mode))
-+
 #  ;; For some reason these do not work as :custom or :config
 #  (customize-set-variable 'gac-debounce-interval 300) ; 5 min
 #  (customize-set-variable 'gac-automatically-add-new-files-p nil)
 #  (customize-set-variable 'gac-automatically-add-new-files-p nil)
 #  (customize-set-variable 'gac-ask-for-summary-p t)
- 
 ##+end_src
 ** pair matching
 #+begin_src emacs-lisp
@@ -1061,8 +1059,6 @@ For now I'm pinning 4.5 from github since there were apparent incompatibilities 
                   openai/gpt-5.6-luna
   		deepseek/deepseek-v4-flash-0731)))
 #+end_src
-
-
 
 * Experimental
 * All's Well That Ends Well, YOW !!!
