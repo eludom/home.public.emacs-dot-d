@@ -1,4 +1,4 @@
-#+TITLE: ge.org - GE.ORG Emacs config
+#+TITLE.org - GE.ORG Emacs config
 #+Updated:-<2026-01-16 07:12:58 Friday>
 #+file tags:   :emacs:
 #+identifier: 20250220T112622
@@ -90,6 +90,10 @@ village.
 
 
 * Things That Have To Load Early
+** Don't complain about symlinks
+#+begin_src elisp :results none
+(setq vc-follow-symlinks t)
+#+end_src
 ** Org Babel Languages
 
 This allows elisp code blocks below to execute
@@ -318,6 +322,7 @@ Aliases, mostly borrowed from Xah Lee
 
   (defalias 'sh 'shell)
   (defalias 'fb 'flyspell-buffer)
+  (defalias 'isb 'ispell-buffer)
   (defalias 'rof 'recentf-open-files)
   (defalias 'lcd 'list-colors-display)
 
@@ -342,6 +347,9 @@ Aliases, mostly borrowed from Xah Lee
   (defalias 'glm 'global-linum-mode)
 
 	#+END_SRC
+
+#+RESULTS:
+: glm
 
 *** Navigation
 #+begin_src emacs-lisp
@@ -639,6 +647,9 @@ I think I stole these from Prot?
   (setq org-agenda-custom-commands
   	'(
 
+            ("d" "Today's Focus" agenda ""
+     	     ((org-agenda-files '("~/Org/diary.org"))))
+  	  
   	  ("D" "Weekly DONE review"
   	      agenda ""
   	      ((org-agenda-span 'week)
@@ -689,8 +700,11 @@ I think I stole these from Prot?
 #+BEGIN_SRC emacs-lisp
   (setq org-agenda-include-diary t)
   (setq org-todo-keywords
-  	  '((sequence "TODO(t)" "IN-PROGRESS(i!)" "QUESTION(q@/!)" "WAITING(w@/!)"  "|" "DONE(d!)" "INFO(f!)" "REFILED(r!)" "DELEGATED(g@)" "CANCELED(c@)" "BACKLOG(b!)" "OBE(o@)")))
+  	  '((sequence "TODO(t)" "IN-PROGRESS(i!)" "QUESTION(q@/!)" "WAITING(w@/!)"  "|" "DONE(d!)" "INFO(f!)" "REFILED(r@)" "DELEGATED(g@)" "CANCELED(c@)" "BACKLOG(b@)" "OBE(o@)")))
 #+END_SRC
+
+#+RESULTS:
+| sequence | TODO(t) | IN-PROGRESS(i!) | QUESTION(q@/!) | WAITING(w@/!) |   |   | DONE(d!) | INFO(f!) | REFILED(r@) | DELEGATED(g@) | CANCELED(c@) | BACKLOG(b@) | OBE(o@) |
 
 ** Custom refile commands
 #+begin_src emacs-lisp
@@ -909,6 +923,9 @@ etc as desired.   The rest are reasonable defaults
         ;;     <p class=\"subtitle\">%d</p>")))
 
 
+    
+    (setq org-html-postamble nil)
+    (setq org-export-with-title nil) ; may mess up LaTeX
     (setq org-html-preamble-format
         '(("en"
   	 "<h1 class=\"title\">%t</h1>
@@ -1047,7 +1064,7 @@ For now I'm pinning 4.5 from github since there were apparent incompatibilities 
          (global-set-key "\C-xg" 'gptel-send)))	
 
 
-    (setq gptel-model 'google/gemini-3.6-flash
+    (setq gptel-model 'deepseek/deepseek-v4-flash-0731
       gptel-backend
       (gptel-make-openai "OpenRouter"
         :host "openrouter.ai"
@@ -1061,6 +1078,26 @@ For now I'm pinning 4.5 from github since there were apparent incompatibilities 
 #+end_src
 
 * Experimental
+
+
+#+begin_src elisp :results none
+  ; dev package
+  (use-package talk-tools
+    :load-path "~/public/github/talk-tools"
+    :bind (:map talk-tools-mode-map
+  	      ("C-c t" . talk-tools-start)
+  	      ("C-c T" . talk-tools-stop))
+    )
+
+  ;; ; public package  
+  ;; (use-package talk-tools
+  ;;   :vc (:url "https://github.com/eludom/talk-tools" )
+  ;;   :bind (:map talk-tools-mode-map
+  ;; 	      ("C-c t" . talk-tools-start)
+  ;; 	      ("C-c T" . talk-tools-stop))
+  ;;   )
+
+#+end_src
 * All's Well That Ends Well, YOW !!!
    Because, well, you've got to be able to M-x psychoanalyze-pinhead
    to fill a buffer and pass the time....
