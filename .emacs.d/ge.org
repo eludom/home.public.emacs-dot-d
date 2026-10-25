@@ -523,47 +523,47 @@ I think I stole these from Prot?
 
     For now I'm pinning 2.8 from github since there were apparent incompatibilities with the latest emacs verion from nightly build (31.0.50).
 
-   #+begin_src elisp
-     (use-package vertico
-       :vc (:url "https://github.com/minad/vertico" :rev "2.8")
-       :init(vertico-mode)
-       ;; :config (setq vertico-sort-override-function #'vertico-sort-history-length-alpha)
-       )
-   #+end_src
+   ##+begin_src elisp
+   #  (use-package vertico
+   #    :vc (:url "https://github.com/minad/vertico" :rev "2.8")
+   #    :init(vertico-mode)
+   #    ;; :config (setq vertico-sort-override-function #'vertico-sort-history-length-alpha)
+   #    )
+   ##+end_src
 
  #+begin_src emacs-lisp
-  
-        (use-package marginalia
-          :ensure t
-          :hook (after-init . marginalia-mode))
 
-        (use-package orderless
-           :ensure t
-           :config
-           (setq completion-styles '(orderless basic))
-           (setq completion-category-defaults nil)
-           (setq completion-category-overrides nil))
+   ;; (use-package marginalia
+   ;;   :ensure t
+   ;;   :hook (after-init . marginalia-mode))
 
-         (use-package savehist
-           :ensure nil ; it is built-in
-           :hook (after-init . savehist-mode))
+   (use-package orderless
+      :ensure t
+      :config
+      (setq completion-styles '(orderless basic))
+      (setq completion-category-defaults nil)
+      (setq completion-category-overrides nil))
 
-         (use-package corfu
-           :ensure t
-           :hook (after-init . global-corfu-mode)
-           :bind (:map corfu-map ("<tab>" . corfu-complete))
-           :config
-           (setq tab-always-indent 'complete)
-           (setq corfu-preview-current nil)
-           (setq corfu-min-width 20)
+    (use-package savehist
+      :ensure nil ; it is built-in
+      :hook (after-init . savehist-mode))
 
-           (setq corfu-popupinfo-delay '(1.25 . 0.5))
-           (corfu-popupinfo-mode 1) ; shows documentation after `corfu-popupinfo-delay'
+    (use-package corfu
+      :ensure t
+      :hook (after-init . global-corfu-mode)
+      :bind (:map corfu-map ("<tab>" . corfu-complete))
+      :config
+      (setq tab-always-indent 'complete)
+      (setq corfu-preview-current nil)
+      (setq corfu-min-width 20)
 
-            ;; Sort by input history (no need to modify `corfu-sort-function').
-           (with-eval-after-load 'savehist
-             (corfu-history-mode 1)
-             (add-to-list 'savehist-additional-variables 'corfu-history)))
+      (setq corfu-popupinfo-delay '(1.25 . 0.5))
+      (corfu-popupinfo-mode 1) ; shows documentation after `corfu-popupinfo-delay'
+
+       ;; Sort by input history (no need to modify `corfu-sort-function').
+      (with-eval-after-load 'savehist
+        (corfu-history-mode 1)
+        (add-to-list 'savehist-additional-variables 'corfu-history)))
 #+end_src
 *** The file manager (Dired)
 
