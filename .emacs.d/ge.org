@@ -644,55 +644,12 @@ I think I stole these from Prot?
   ;; View of current week with only DONE items
   ;; https://emacs.stackexchange.com/questions/8150/show-done-items-in-current-calendar-week
 
-  (setq org-agenda-custom-commands
-  	'(
 
-            ("d" "Today's Focus" agenda ""
-     	     ((org-agenda-files '("~/Org/diary.org"))))
-  	  
-  	  ("D" "Weekly DONE review"
-  	      agenda ""
-  	      ((org-agenda-span 'week)
-  	       (org-agenda-start-on-weekday 0)
-  	       ;(org-agenda-start-with-log-mode t)
-  	       (org-agenda-start-with-log-mode '(closed state clock))
-  	       (org-agenda-skip-function
-  		'(org-agenda-skip-entry-if 'nottodo 'done))
-  	       ))
-
-  	  ("O" "mOnthly Worked-on review"
-  	       agenda ""
-  	       ((org-agenda-span 'month)
-  		(org-agenda-start-on-weekday 0)
-  		;(org-agenda-start-with-log-mode t)
-  		(org-agenda-start-with-log-mode '(closed state clock))
-  		(org-agenda-skip-function
-  		 '(org-agenda-skip-entry-if 'todo '("TODO" "WAITING" "OBE" "BACKLOG")))
-  		))
-  	  
-  	  
-  	  ("W" "Weekly Worked-on review"
-  	       agenda ""
-  	       ((org-agenda-span 'week)
-  		(org-agenda-start-on-weekday 0)
-  		;(org-agenda-start-with-log-mode t)
-  		(org-agenda-start-with-log-mode '(closed state clock))
-  		(org-agenda-skip-function
-  		 '(org-agenda-skip-entry-if 'todo '("TODO" "WAITING" "OBE" "BACKLOG")))
-  		))
-
-  	  ("Y" "Yearly Worked-on review"
-  	       agenda ""
-  	       ((org-agenda-span 'year)
-  		(org-agenda-start-on-weekday 0)
-  		;(org-agenda-start-with-log-mode t)
-  		(org-agenda-start-with-log-mode '(closed state clock))
-  		(org-agenda-skip-function
-  		 '(org-agenda-skip-entry-if 'todo '("TODO" "WAITING" "OBE" "BACKLOG")))
-  	       ))  	  
-
-  	  )
-  	)
+  (add-to-list 'org-agenda-custom-commands
+             '("d" "Today's Focus" agenda ""
+               ((org-agenda-files '("~/Org/diary.org"))))
+             t)   ; t = append to end
+  
 
 #+end_src
 
