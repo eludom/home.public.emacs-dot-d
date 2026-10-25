@@ -779,6 +779,15 @@ I think I stole these from Prot?
    (with-eval-after-load 'xah-fly-keys
      (define-key xah-fly-command-map (kbd "SPC p") 'org-set-property))
 #+end_src
+** org-ql
+
+Who needs a database when you have org-ql?
+
+#+begin_src elisp
+(use-package org-ql
+  :ensure t)
+#+end_src
+
 * Reading
 *** elfeed for reading rss
 - State "IN-PROGRESS" from              [2025-11-02 Sun 15:00]
