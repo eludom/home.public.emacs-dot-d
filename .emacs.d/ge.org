@@ -128,6 +128,15 @@ http://xahlee.info/emacs/misc/xah-fly-keys.html
        (xah-fly-keys 1)
        (global-set-key (kbd "<home>") 'xah-fly-insert-mode-activate)
        (global-set-key (kbd "<f7>") 'xah-open-in-external-app)
+
+       (if (not (display-graphic-p))
+  	 ;; Terminal mode: Map the raw terminal null-byte to xah-fly-keys
+  	 (progn
+  	   (message "Remapping C-@ for use in terminal mode")
+  	   (global-set-key (kbd "C-@") 'xah-fly-command-mode-activate)
+  	   ;; GUI mode: Map the standard combination
+  	   (global-set-key (kbd "C-SPC") 'xah-fly-command-mode-activate)))
+
        )
 
   					; I want *Org Agenda* to be a "User Buffer".
