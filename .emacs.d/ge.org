@@ -88,7 +88,6 @@ village.
 - Donald Knuth :: Literate Programming (tangle/web/weave).  TeX.  The
   Art of Computer Programming.
 
-
 * Things That Have To Load Early
 ** Don't complain about symlinks
 #+begin_src elisp :results none
@@ -108,6 +107,11 @@ This allows elisp code blocks below to execute
 
 #+END_SRC
 
+** Prompting for GPG passwords
+#+begin_src elisp
+  (setq read-passwd-char-display nil)
+  (setq epa-pinentry-mode 'loopback)
+#+end_src
 ** Xah Fly Keys
 
 I use Xah Fly Keys.  This, and the Knesis Advantage II keyboard
