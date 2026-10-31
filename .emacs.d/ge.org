@@ -1,4 +1,4 @@
-#+TITLE.org - GE.ORG Emacs config
+#+TITLE George's Emacs ORG environment (GE.ORG)e
 #+Updated:-<2026-01-16 07:12:58 Friday>
 #+file tags:   :emacs:
 #+identifier: 20250220T112622
