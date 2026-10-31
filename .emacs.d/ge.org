@@ -1008,9 +1008,14 @@ For now I'm pinning 4.5 from github since there were apparent incompatibilities 
     (progn
       (defalias 'ms 'magit-status)
       )
-    :vc (:url "https://github.com/magit/magit"
-       :rev "c800f79")) ; Can be a commit hash, tag name, or branch
+    ;; :vc (:url "https://github.com/magit/magit"
+    ;;    :rev "c800f79")
+    ) ; Can be a commit hash, tag name, or branch
     #+end_src
+
+#+RESULTS:
+: t
+
 ** Git autocommit
 ##+begin_src elisp
 #  (use-package git-auto-commit-mode
