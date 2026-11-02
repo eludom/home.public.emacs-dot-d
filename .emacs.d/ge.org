@@ -169,20 +169,17 @@ http://xahlee.info/emacs/misc/xah-fly-keys.html
        (t t)))
 
   ;; Define SPC-left and SPC-righ to go call previous/next user buffer 
+
   (with-eval-after-load 'xah-fly-keys
-    (progn
       (let* ((prefix (key-binding (kbd "SPC")))
   	   (map    (if (keymapp prefix) prefix (symbol-value prefix))))
-        (define-key map (kbd "<left>") #'xah-previous-user-buffer))
-      (let* ((prefix (key-binding (kbd "SPC")))
-  	   (map    (if (keymapp prefix) prefix (symbol-value prefix))))
-        (define-key map (kbd "<right>") #'xah-next-user-buffer))
-      )
-    )
+    (define-key map (kbd "<left>")  #'xah-previous-user-buffer)
+    (define-key map (kbd "<right>") #'xah-next-user-buffer)))
+
 #+END_SRC
 
 #+RESULTS:
-: xah-previous-user-buffer
+: xah-next-user-buffer
 
 *
 ** Load custom .el or .org files from ~/elisp-*
