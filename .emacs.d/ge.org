@@ -123,31 +123,31 @@ Xah Fly keys is a complete re-binding of the editing functions
 http://xahlee.info/emacs/misc/xah-fly-keys.html
 
 #+BEGIN_SRC emacs-lisp
-      (use-package xah-fly-keys
-        :ensure t
-         :init
-         (setq xah-fly-use-control-key t)
-         :config
-         (xah-fly-keys-set-layout "qwerty")
-         (xah-fly-keys 1)
-         (global-set-key (kbd "<home>") 'xah-fly-insert-mode-activate)
-         (global-set-key (kbd "<f7>") 'xah-open-in-external-app)
+  (use-package xah-fly-keys
+    :ensure t
+    :init
+    (setq xah-fly-use-control-key t)
+    :config
+    (xah-fly-keys-set-layout "qwerty")
+    (xah-fly-keys 1)
+    (global-set-key (kbd "<home>") 'xah-fly-insert-mode-activate)
+    (global-set-key (kbd "<f7>") 'xah-open-in-external-app)
 
-         (if (not (display-graphic-p))
-    	 ;; Terminal mode: Map the raw terminal null-byte to xah-fly-keys
-    	 (progn
-    	   (message "Remapping C-@ for use in terminal mode")
-    	   (global-set-key (kbd "C-@") 'xah-fly-command-mode-activate)
-    	   ;; GUI mode: Map the standard combination
-    	   (global-set-key (kbd "C-SPC") 'xah-fly-command-mode-activate)))
+    (if (not (display-graphic-p))
+        ;; Terminal mode: Map the raw terminal null-byte to xah-fly-keys
+        (progn
+    	(message "Remapping C-@ for use in terminal mode")
+    	(global-set-key (kbd "C-@") 'xah-fly-command-mode-activate)
+    	;; GUI mode: Map the standard combination
+    	(global-set-key (kbd "C-SPC") 'xah-fly-command-mode-activate)))
 
-         )
+    )
 
     					; I want *Org Agenda* to be a "User Buffer".
     					; Overwrite default
 
-      (defun xah-user-buffer-p ()
-      "Return t if current buffer is a user buffer, else nil.
+  (defun xah-user-buffer-p ()
+    "Return t if current buffer is a user buffer, else nil.
     A user buffer has buffer name NOT starts with * or space, and is not dired mode, help mode, etc.
     This function is used by buffer switching command and close buffer command, so that next buffer shown is a user buffer.
     You can override this function to get your idea of “user buffer”.
@@ -155,24 +155,24 @@ http://xahlee.info/emacs/misc/xah-fly-keys.html
     Created: 2016-06-18
     Version: 2025-09-05
     Customized: 2025-11-20"
-      (interactive)
-      (cond
-       ((string-equal "*elfeed-search*" (buffer-name)) t)
-       ((string-equal "*notmuch-hello*" (buffer-name)) t)
-       ((string-match "notmuch-search" (buffer-name)) t)
-       ((string-equal "*Org Social Timeline*" (buffer-name)) t)
-       ((string-equal "*Org Agenda*" (buffer-name)) t)
-       ((string-match "^\*" (buffer-name)) nil)
-       ;; ((eq major-mode 'dired-mode) nil)
-       ;; ((eq major-mode 'eww-mode) nil)
-       ;; ((eq major-mode 'help-mode) nil)
-       (t t)))
+    (interactive)
+    (cond
+     ((string-equal "*elfeed-search*" (buffer-name)) t)
+     ((string-equal "*notmuch-hello*" (buffer-name)) t)
+     ((string-match "notmuch-search" (buffer-name)) t)
+     ((string-equal "*Org Social Timeline*" (buffer-name)) t)
+     ((string-equal "*Org Agenda*" (buffer-name)) t)
+     ((string-match "^\*" (buffer-name)) nil)
+     ;; ((eq major-mode 'dired-mode) nil)
+     ;; ((eq major-mode 'eww-mode) nil)
+     ;; ((eq major-mode 'help-mode) nil)
+     (t t)))
 
-  ;; Define SPC-left and SPC-righ to go call previous/next user buffer 
+  ;; Define SPC-left and SPC-righ to go call previous/next user buffer
 
   (with-eval-after-load 'xah-fly-keys
-      (let* ((prefix (key-binding (kbd "SPC")))
-  	   (map    (if (keymapp prefix) prefix (symbol-value prefix))))
+  (let* ((prefix (key-binding (kbd "SPC")))
+         (map    (if (keymapp prefix) prefix (symbol-value prefix))))
     (define-key map (kbd "<left>")  #'xah-previous-user-buffer)
     (define-key map (kbd "<right>") #'xah-next-user-buffer)))
 
