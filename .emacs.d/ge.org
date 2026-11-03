@@ -88,8 +88,27 @@ village.
 - Donald Knuth :: Literate Programming (tangle/web/weave).  TeX.  The
   Art of Computer Programming.
 
-
 * Things That Have To Load Early
+
+** Lexical binding, it's all the rage now. 
+
+#+begin_src elisp :results none
+  ;;; -*- lexical-binding: t; -*-
+#+end_src
+
+** Because I really do use thse
+Looks like lazy eval/loading happened in ~emacs 29/30.
+I use these in different places, including some of
+the other files I load early, so I'm just bringing
+them in explicitly now
+
+
+
+#+begin_src elisp :results none
+    (require 'org-agenda)
+    (require 'org-capture)
+#+end_src
+
 ** Don't complain about symlinks
 #+begin_src elisp :results none
 (setq vc-follow-symlinks t)
