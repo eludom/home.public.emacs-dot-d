@@ -1074,7 +1074,37 @@ For now I'm pinning 4.5 from github since there were apparent incompatibilities 
   		google/gemini-3.6-flash
                   openai/gpt-5.6-luna
   		deepseek/deepseek-v4-flash-0731)))
+  
+  (setq gptel-show-reasoning nil)
 #+end_src
+
+Insert model called before response.
+
+#+begin_src elisp
+    (defun my-gptel-insert-model (beg end)
+      "Insert the current gptel model at the start of the response."
+      (when gptel-model
+        (save-excursion
+          (goto-char beg)
+          (insert (format "Response from: %s\n\n" gptel-model)))))
+
+    ;; Don't want to see reasoning blocks
+    
+    (add-hook 'gptel-post-response-functions #'my-gptel-insert-model)
+
+  (defun my-gptel-delete-reasoning-blocks (&rest _)
+    "Delete reasoning blocks after gptel response, ignoring hook args."
+    (save-excursion
+      (goto-char (point-min))
+      (while (re-search-forward "^[[:space:]]*#\\+begin_reasoning[[:space:]]*$" nil t)
+        (let ((start (match-beginning 0)))
+  	(when (re-search-forward "^[[:space:]]*#\\+end_reasoning[[:space:]]*$" nil t)
+  	  (delete-region start (match-end 0)))))))
+
+  (setq gptel-post-response-functions
+        '(my-gptel-insert-model pulse-momentary-highlight-region my-gptel-delete-reasoning-blocks))
+#+end_src
+
 
 * Experimental
 
