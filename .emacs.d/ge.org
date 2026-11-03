@@ -388,7 +388,10 @@ Aliases, mostly borrowed from Xah Lee
 #+begin_src elisp
   (remove-hook 'text-mode-hook #'turn-on-auto-fill)
 
-  (require 'visual-fill-column)
+  (use-package visual-fill-column
+      :ensure t
+      )
+  ;; (require 'visual-fill-column)
 
   ;; Add visual-line-mode and visual-fill-column-mode to text-mode-hook
   (add-hook 'text-mode-hook (lambda ()
