@@ -690,11 +690,11 @@ I think I stole these from Prot?
 #+BEGIN_SRC emacs-lisp
   (setq org-agenda-include-diary t)
   (setq org-todo-keywords
-  	  '((sequence "TODO(t)" "SCHEDULED(s)" "IN-PROGRESS(i!)" "QUESTION(q@/!)" "WAITING(w@/!)"  "|" "DONE(d!)" "INFO(f!)" "REFILED(r@)" "DELEGATED(g@)" "CANCELED(c@)" "BACKLOG(b@)" "OBE(o@)")))
+  	  '((sequence "TODO(t)" "SCHEDULED(s)" "IN-PROGRESS(i!)" "PROMPT(p@/!)" "QUESTION(q@/!)" "WAITING(w@/!)"  "|" "DONE(d!)" "INFO(f!)" "REFILED(r@)" "DELEGATED(g@)" "CANCELED(c@)" "BACKLOG(b@)" "OBE(o@)")))
 #+END_SRC
 
 #+RESULTS:
-| sequence | TODO(t) | SCHEDULED(s) | IN-PROGRESS(i!) | QUESTION(q@/!) | WAITING(w@/!) |   |   | DONE(d!) | INFO(f!) | REFILED(r@) | DELEGATED(g@) | CANCELED(c@) | BACKLOG(b@) | OBE(o@) |
+| sequence | TODO(t) | SCHEDULED(s) | IN-PROGRESS(i!) | PROMPT(p@/!) | QUESTION(q@/!) | WAITING(w@/!) |   |   | DONE(d!) | INFO(f!) | REFILED(r@) | DELEGATED(g@) | CANCELED(c@) | BACKLOG(b@) | OBE(o@) |
 
 ** Custom refile commands
 #+begin_src emacs-lisp
