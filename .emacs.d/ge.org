@@ -89,6 +89,26 @@ village.
   Art of Computer Programming.
 
 * Things That Have To Load Early
+
+** Lexical binding, it's all the rage now. 
+
+#+begin_src elisp :results none
+  ;;; -*- lexical-binding: t; -*-
+#+end_src
+
+** Because I really do use thse
+Looks like lazy eval/loading happened in ~emacs 29/30.
+I use these in different places, including some of
+the other files I load early, so I'm just bringing
+them in explicitly now
+
+
+
+#+begin_src elisp :results none
+    (require 'org-agenda)
+    (require 'org-capture)
+#+end_src
+
 ** Don't complain about symlinks
 #+begin_src elisp :results none
 (setq vc-follow-symlinks t)
@@ -386,7 +406,10 @@ Aliases, mostly borrowed from Xah Lee
 #+begin_src elisp
   (remove-hook 'text-mode-hook #'turn-on-auto-fill)
 
-  (require 'visual-fill-column)
+  (use-package visual-fill-column
+      :ensure t
+      )
+  ;; (require 'visual-fill-column)
 
   ;; Add visual-line-mode and visual-fill-column-mode to text-mode-hook
   (add-hook 'text-mode-hook (lambda ()
@@ -688,11 +711,11 @@ I think I stole these from Prot?
 #+BEGIN_SRC emacs-lisp
   (setq org-agenda-include-diary t)
   (setq org-todo-keywords
-  	  '((sequence "TODO(t)" "SCHEDULED(s)" "IN-PROGRESS(i!)" "QUESTION(q@/!)" "WAITING(w@/!)"  "|" "DONE(d!)" "INFO(f!)" "REFILED(r@)" "DELEGATED(g@)" "CANCELED(c@)" "BACKLOG(b@)" "OBE(o@)")))
+  	  '((sequence "TODO(t)" "SCHEDULED(s)" "IN-PROGRESS(i!)" "PROMPT(p@/!)" "QUESTION(q@/!)" "WAITING(w@/!)"  "|" "DONE(d!)" "INFO(f!)" "REFILED(r@)" "DELEGATED(g@)" "CANCELED(c@)" "BACKLOG(b@)" "OBE(o@)")))
 #+END_SRC
 
 #+RESULTS:
-| sequence | TODO(t) | SCHEDULED(s) | IN-PROGRESS(i!) | QUESTION(q@/!) | WAITING(w@/!) |   |   | DONE(d!) | INFO(f!) | REFILED(r@) | DELEGATED(g@) | CANCELED(c@) | BACKLOG(b@) | OBE(o@) |
+| sequence | TODO(t) | SCHEDULED(s) | IN-PROGRESS(i!) | PROMPT(p@/!) | QUESTION(q@/!) | WAITING(w@/!) |   |   | DONE(d!) | INFO(f!) | REFILED(r@) | DELEGATED(g@) | CANCELED(c@) | BACKLOG(b@) | OBE(o@) |
 
 ** Custom refile commands
 #+begin_src emacs-lisp
@@ -1078,7 +1101,37 @@ For now I'm pinning 4.5 from github since there were apparent incompatibilities 
   		google/gemini-3.6-flash
                   openai/gpt-5.6-luna
   		deepseek/deepseek-v4-flash-0731)))
+  
+  (setq gptel-show-reasoning nil)
 #+end_src
+
+Insert model called before response.
+
+#+begin_src elisp
+    (defun my-gptel-insert-model (beg end)
+      "Insert the current gptel model at the start of the response."
+      (when gptel-model
+        (save-excursion
+          (goto-char beg)
+          (insert (format "Response from: %s\n\n" gptel-model)))))
+
+    ;; Don't want to see reasoning blocks
+    
+    (add-hook 'gptel-post-response-functions #'my-gptel-insert-model)
+
+  (defun my-gptel-delete-reasoning-blocks (&rest _)
+    "Delete reasoning blocks after gptel response, ignoring hook args."
+    (save-excursion
+      (goto-char (point-min))
+      (while (re-search-forward "^[[:space:]]*#\\+begin_reasoning[[:space:]]*$" nil t)
+        (let ((start (match-beginning 0)))
+  	(when (re-search-forward "^[[:space:]]*#\\+end_reasoning[[:space:]]*$" nil t)
+  	  (delete-region start (match-end 0)))))))
+
+  (setq gptel-post-response-functions
+        '(my-gptel-insert-model pulse-momentary-highlight-region my-gptel-delete-reasoning-blocks))
+#+end_src
+
 
 * Experimental
 

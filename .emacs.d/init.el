@@ -1,4 +1,5 @@
-;; This is George Jones' init.el  -*- lexical-binding: t; -*-
+;;; -*- lexical-binding: t; -*-
+;; This is George Jones' init.el
 ;;
 ;; The main job of this file is to call ge.org
 ;; which contains most of the config.
