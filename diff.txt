@@ -1,0 +1,246 @@
+diff --git a/.emacs.d/ge.org b/.emacs.d/ge.org
+index 67c7a10..1ef9d82 100644
+--- a/.emacs.d/ge.org
++++ b/.emacs.d/ge.org
+@@ -1,4 +1,4 @@
+-#+TITLE.org - GE.ORG Emacs config
++#+TITLE George's Emacs ORG environment (GE.ORG)e
+ #+Updated:-<2026-01-16 07:12:58 Friday>
+ #+file tags:   :emacs:
+ #+identifier: 20250220T112622
+@@ -127,6 +127,11 @@ This allows elisp code blocks below to execute
+ 
+ #+END_SRC
+ 
++** Prompting for GPG passwords
++#+begin_src elisp
++  (setq read-passwd-char-display nil)
++  (setq epa-pinentry-mode 'loopback)
++#+end_src
+ ** Xah Fly Keys
+ 
+ I use Xah Fly Keys.  This, and the Knesis Advantage II keyboard
+@@ -138,38 +143,38 @@ Xah Fly keys is a complete re-binding of the editing functions
+ http://xahlee.info/emacs/misc/xah-fly-keys.html
+ 
+ #+BEGIN_SRC emacs-lisp
+-    (use-package xah-fly-keys
+-      :ensure t
+-       :init
+-       (setq xah-fly-use-control-key t)
+-       :config
+-       (xah-fly-keys-set-layout "qwerty")
+-       (xah-fly-keys 1)
+-       (global-set-key (kbd "<home>") 'xah-fly-insert-mode-activate)
+-       (global-set-key (kbd "<f7>") 'xah-open-in-external-app)
+-
+-       (if (not (display-graphic-p))
+-  	 ;; Terminal mode: Map the raw terminal null-byte to xah-fly-keys
+-  	 (progn
+-  	   (message "Remapping C-@ for use in terminal mode")
+-  	   (global-set-key (kbd "C-@") 'xah-fly-command-mode-activate)
+-  	   ;; GUI mode: Map the standard combination
+-  	   (global-set-key (kbd "C-SPC") 'xah-fly-command-mode-activate)))
+-
+-       )
+-
+-  					; I want *Org Agenda* to be a "User Buffer".
+-  					; Overwrite default
+-
+-    (defun xah-user-buffer-p ()
++  (use-package xah-fly-keys
++    :ensure t
++    :init
++    (setq xah-fly-use-control-key t)
++    :config
++    (xah-fly-keys-set-layout "qwerty")
++    (xah-fly-keys 1)
++    (global-set-key (kbd "<home>") 'xah-fly-insert-mode-activate)
++    (global-set-key (kbd "<f7>") 'xah-open-in-external-app)
++
++    (if (not (display-graphic-p))
++        ;; Terminal mode: Map the raw terminal null-byte to xah-fly-keys
++        (progn
++    	(message "Remapping C-@ for use in terminal mode")
++    	(global-set-key (kbd "C-@") 'xah-fly-command-mode-activate)
++    	;; GUI mode: Map the standard combination
++    	(global-set-key (kbd "C-SPC") 'xah-fly-command-mode-activate)))
++
++    )
++
++    					; I want *Org Agenda* to be a "User Buffer".
++    					; Overwrite default
++
++  (defun xah-user-buffer-p ()
+     "Return t if current buffer is a user buffer, else nil.
+-  A user buffer has buffer name NOT starts with * or space, and is not dired mode, help mode, etc.
+-  This function is used by buffer switching command and close buffer command, so that next buffer shown is a user buffer.
+-  You can override this function to get your idea of “user buffer”.
+-  URL `http://xahlee.info/emacs/emacs/elisp_next_prev_user_buffer.html'
+-  Created: 2016-06-18
+-  Version: 2025-09-05
+-  Customized: 2025-11-20"
++    A user buffer has buffer name NOT starts with * or space, and is not dired mode, help mode, etc.
++    This function is used by buffer switching command and close buffer command, so that next buffer shown is a user buffer.
++    You can override this function to get your idea of “user buffer”.
++    URL `http://xahlee.info/emacs/emacs/elisp_next_prev_user_buffer.html'
++    Created: 2016-06-18
++    Version: 2025-09-05
++    Customized: 2025-11-20"
+     (interactive)
+     (cond
+      ((string-equal "*elfeed-search*" (buffer-name)) t)
+@@ -182,7 +187,20 @@ http://xahlee.info/emacs/misc/xah-fly-keys.html
+      ;; ((eq major-mode 'eww-mode) nil)
+      ;; ((eq major-mode 'help-mode) nil)
+      (t t)))
++
++  ;; Define SPC-left and SPC-righ to go call previous/next user buffer
++
++  (with-eval-after-load 'xah-fly-keys
++  (let* ((prefix (key-binding (kbd "SPC")))
++         (map    (if (keymapp prefix) prefix (symbol-value prefix))))
++    (define-key map (kbd "<left>")  #'xah-previous-user-buffer)
++    (define-key map (kbd "<right>") #'xah-next-user-buffer)))
++
+ #+END_SRC
++
++#+RESULTS:
++: xah-next-user-buffer
++
+ *
+ ** Load custom .el or .org files from ~/elisp-*
+ 
+@@ -1026,9 +1044,14 @@ For now I'm pinning 4.5 from github since there were apparent incompatibilities
+     (progn
+       (defalias 'ms 'magit-status)
+       )
+-    :vc (:url "https://github.com/magit/magit"
+-       :rev "c800f79")) ; Can be a commit hash, tag name, or branch
++    ;; :vc (:url "https://github.com/magit/magit"
++    ;;    :rev "c800f79")
++    ) ; Can be a commit hash, tag name, or branch
+     #+end_src
++
++#+RESULTS:
++: t
++
+ ** Git autocommit
+ ##+begin_src elisp
+ #  (use-package git-auto-commit-mode
+@@ -1048,64 +1071,65 @@ For now I'm pinning 4.5 from github since there were apparent incompatibilities
+ #+end_src
+ * AI
+ #+begin_src emacs-lisp :results none
+-  (use-package gptel
+-    :ensure t
+-    :config
+-    ;; (setq debug-on-error t)
+-    (setq gptel-expert-commands t) 
+-    (setq gptel-org-branching-context t)
+-
+-    ;; Whole buffer from start up to point
+-    (setq gptel-org-branching-context nil)
+-    ;; Or: only the current outline branch, including ancestors' bodies
+-    ;; (setq gptel-org-branching-context t)
++  ;; (use-package gptel
++  ;;   :ensure t
++  ;;   :config
++  ;;   ;; (setq debug-on-error t)
++  ;;   (setq gptel-expert-commands t) 
++  ;;   (setq gptel-org-branching-context t)
++
++  ;;   ;; Whole buffer from start up to point
++  ;;   (setq gptel-org-branching-context nil)
++  ;;   ;; Or: only the current outline branch, including ancestors' bodies
++  ;;   ;; (setq gptel-org-branching-context t)
+     
+-    ;; (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@user\n")
+-    ;; (setf (alist-get 'org-mode gptel-response-prefix-alist) "@assistant\n")
+-    (progn
+-         (global-set-key "\C-xg" 'gptel-send)))	
+-
+-
+-    (setq gptel-model 'deepseek/deepseek-v4-flash-0731
+-      gptel-backend
+-      (gptel-make-openai "OpenRouter"
+-        :host "openrouter.ai"
+-        :endpoint "/api/v1/chat/completions"
+-        :stream t
+-        :key (lambda () (gptel-api-key-from-auth-source "openrouter.ai"))
+-        :models '(deepseek/deepseek-v4-flash-0731
+-  		google/gemini-3.6-flash
+-                  openai/gpt-5.6-luna
+-  		deepseek/deepseek-v4-flash-0731)))
+-  
++  ;;   ;; (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@user\n")
++  ;;   ;; (setf (alist-get 'org-mode gptel-response-prefix-alist) "@assistant\n")
++  ;;   (progn
++  ;;        (global-set-key "\C-xg" 'gptel-send)))	
++
++
++    ;; (setq gptel-model 'deepseek/deepseek-v4.1-flash-1017
++    ;;   gptel-backend
++    ;;   (gptel-make-openai "OpenRouter"
++    ;;     :host "openrouter.ai"
++    ;;     :endpoint "/api/v1/chat/completions"
++    ;;     :stream t
++    ;;     :key (lambda () (gptel-api-key-from-auth-source "openrouter.ai"))
++    ;;     :models '(deepseek/deepseek-v4.1-flash-1017
++    ;; 		deepseek/deepseek-v4-flash-0731
++    ;; 		google/gemini-3.6-flash
++    ;;               openai/gpt-5.6-luna
++  		;; deepseek/deepseek-v4-flash-0731)))
++
+   (setq gptel-show-reasoning nil)
+ #+end_src
+ 
+ Insert model called before response.
+ 
+ #+begin_src elisp
+-    (defun my-gptel-insert-model (beg end)
+-      "Insert the current gptel model at the start of the response."
+-      (when gptel-model
+-        (save-excursion
+-          (goto-char beg)
+-          (insert (format "Response from: %s\n\n" gptel-model)))))
+-
+-    ;; Don't want to see reasoning blocks
++  ;;   (defun my-gptel-insert-model (beg end)
++  ;;     "Insert the current gptel model at the start of the response."
++  ;;     (when gptel-model
++  ;;       (save-excursion
++  ;;         (goto-char beg)
++  ;;         (insert (format "Response from: %s\n\n" gptel-model)))))
++
++  ;;   ;; Don't want to see reasoning blocks
+     
+-    (add-hook 'gptel-post-response-functions #'my-gptel-insert-model)
+-
+-  (defun my-gptel-delete-reasoning-blocks (&rest _)
+-    "Delete reasoning blocks after gptel response, ignoring hook args."
+-    (save-excursion
+-      (goto-char (point-min))
+-      (while (re-search-forward "^[[:space:]]*#\\+begin_reasoning[[:space:]]*$" nil t)
+-        (let ((start (match-beginning 0)))
+-  	(when (re-search-forward "^[[:space:]]*#\\+end_reasoning[[:space:]]*$" nil t)
+-  	  (delete-region start (match-end 0)))))))
+-
+-  (setq gptel-post-response-functions
+-        '(my-gptel-insert-model pulse-momentary-highlight-region my-gptel-delete-reasoning-blocks))
++  ;;   (add-hook 'gptel-post-response-functions #'my-gptel-insert-model)
++
++  ;; (defun my-gptel-delete-reasoning-blocks (&rest _)
++  ;;   "Delete reasoning blocks after gptel response, ignoring hook args."
++  ;;   (save-excursion
++  ;;     (goto-char (point-min))
++  ;;     (while (re-search-forward "^[[:space:]]*#\\+begin_reasoning[[:space:]]*$" nil t)
++  ;;       (let ((start (match-beginning 0)))
++  ;; 	(when (re-search-forward "^[[:space:]]*#\\+end_reasoning[[:space:]]*$" nil t)
++  ;; 	  (delete-region start (match-end 0)))))))
++
++  ;; (setq gptel-post-response-functions
++  ;;       '(my-gptel-insert-model pulse-momentary-highlight-region my-gptel-delete-reasoning-blocks))
+ #+end_src
+ 
+ 
