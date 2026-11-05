@@ -1070,37 +1070,36 @@ For now I'm pinning 4.5 from github since there were apparent incompatibilities 
   (add-hook 'sh-mode-hook 'electric-pair-mode)
 #+end_src
 * AI
-#+begin_src emacs-lisp :results none
-  ;; (use-package gptel
-  ;;   :ensure t
-  ;;   :config
-  ;;   ;; (setq debug-on-error t)
-  ;;   (setq gptel-expert-commands t) 
-  ;;   (setq gptel-org-branching-context t)
+  #+begin_src emacs-lisp :results none
+  (use-package gptel
+    :ensure t
+    :config
+    ;; (setq debug-on-error t)
+    (setq gptel-expert-commands t) 
+    (setq gptel-org-branching-context t)
 
-  ;;   ;; Whole buffer from start up to point
-  ;;   (setq gptel-org-branching-context nil)
-  ;;   ;; Or: only the current outline branch, including ancestors' bodies
-  ;;   ;; (setq gptel-org-branching-context t)
+    ;; Whole buffer from start up to point
+    (setq gptel-org-branching-context nil)
+    ;; Or: only the current outline branch, including ancestors' bodies
+    ;; (setq gptel-org-branching-context t)
     
-  ;;   ;; (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@user\n")
-  ;;   ;; (setf (alist-get 'org-mode gptel-response-prefix-alist) "@assistant\n")
-  ;;   (progn
-  ;;        (global-set-key "\C-xg" 'gptel-send)))	
+    ;; (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@user\n")
+    ;; (setf (alist-get 'org-mode gptel-response-prefix-alist) "@assistant\n")
+    (progn
+         (global-set-key "\C-xg" 'gptel-send)))	
 
 
-    ;; (setq gptel-model 'deepseek/deepseek-v4.1-flash-1017
-    ;;   gptel-backend
-    ;;   (gptel-make-openai "OpenRouter"
-    ;;     :host "openrouter.ai"
-    ;;     :endpoint "/api/v1/chat/completions"
-    ;;     :stream t
-    ;;     :key (lambda () (gptel-api-key-from-auth-source "openrouter.ai"))
-    ;;     :models '(deepseek/deepseek-v4.1-flash-1017
-    ;; 		deepseek/deepseek-v4-flash-0731
-    ;; 		google/gemini-3.6-flash
-    ;;               openai/gpt-5.6-luna
-  		;; deepseek/deepseek-v4-flash-0731)))
+    (setq gptel-model 'deepseek/deepseek-v4-flash-0731
+      gptel-backend
+      (gptel-make-openai "OpenRouter"
+        :host "openrouter.ai"
+        :endpoint "/api/v1/chat/completions"
+        :stream t
+        :key (lambda () (gptel-api-key-from-auth-source "openrouter.ai"))
+        :models '(deepseek/deepseek-v4-flash-0731
+  		google/gemini-3.6-flash
+                  openai/gpt-5.6-luna
+  		deepseek/deepseek-v4-flash-0731)))
 
   (setq gptel-show-reasoning nil)
 #+end_src
@@ -1108,30 +1107,29 @@ For now I'm pinning 4.5 from github since there were apparent incompatibilities 
 Insert model called before response.
 
 #+begin_src elisp
-  ;;   (defun my-gptel-insert-model (beg end)
-  ;;     "Insert the current gptel model at the start of the response."
-  ;;     (when gptel-model
-  ;;       (save-excursion
-  ;;         (goto-char beg)
-  ;;         (insert (format "Response from: %s\n\n" gptel-model)))))
+    (defun my-gptel-insert-model (beg end)
+      "Insert the current gptel model at the start of the response."
+      (when gptel-model
+        (save-excursion
+          (goto-char beg)
+          (insert (format "Response from: %s\n\n" gptel-model)))))
 
-  ;;   ;; Don't want to see reasoning blocks
+    ;; Don't want to see reasoning blocks
     
-  ;;   (add-hook 'gptel-post-response-functions #'my-gptel-insert-model)
+    (add-hook 'gptel-post-response-functions #'my-gptel-insert-model)
 
-  ;; (defun my-gptel-delete-reasoning-blocks (&rest _)
-  ;;   "Delete reasoning blocks after gptel response, ignoring hook args."
-  ;;   (save-excursion
-  ;;     (goto-char (point-min))
-  ;;     (while (re-search-forward "^[[:space:]]*#\\+begin_reasoning[[:space:]]*$" nil t)
-  ;;       (let ((start (match-beginning 0)))
-  ;; 	(when (re-search-forward "^[[:space:]]*#\\+end_reasoning[[:space:]]*$" nil t)
-  ;; 	  (delete-region start (match-end 0)))))))
+  (defun my-gptel-delete-reasoning-blocks (&rest _)
+    "Delete reasoning blocks after gptel response, ignoring hook args."
+    (save-excursion
+      (goto-char (point-min))
+      (while (re-search-forward "^[[:space:]]*#\\+begin_reasoning[[:space:]]*$" nil t)
+        (let ((start (match-beginning 0)))
+  	(when (re-search-forward "^[[:space:]]*#\\+end_reasoning[[:space:]]*$" nil t)
+  	  (delete-region start (match-end 0)))))))
 
-  ;; (setq gptel-post-response-functions
-  ;;       '(my-gptel-insert-model pulse-momentary-highlight-region my-gptel-delete-reasoning-blocks))
+  (setq gptel-post-response-functions
+        '(my-gptel-insert-model pulse-momentary-highlight-region my-gptel-delete-reasoning-blocks))
 #+end_src
-
 
 * Experimental
 
