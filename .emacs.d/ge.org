@@ -322,6 +322,13 @@ Not anymore! With this little guy, when we kill the line (step 2 above), Emacs â
   (setq time-stamp-pattern  "8/[Dd][Aa][Tt][Ee][Dd]?:[ \t]+\\\\?[\"<]+%:Y-%02m-%02d %02H:%02M:%02S %:a\\\\?[\">]")
   (add-hook 'before-save-hook 'time-stamp)
 #+END_SRC
+**** Allow multiple terminals
+Because ssh is a thing...
+
+#+begin_src emacs-lisp :results none
+  (setq multiple-terminals-merge-keyboards t)
+#+end_src
+
 ** My keybindings from eons past
 
 Some of these may date to TECO based TOPS20 emacs, Multics emacs, FINE (Tops 10), mg or similar museum pieces. As a note, you can get a Free TOPS20 account and run the original (TECO based) Emacs at http://twenex.org/~eludom.   I find I can still edit files in it, but it is mostly unrecognizable to the modern GNU Emacs user....
