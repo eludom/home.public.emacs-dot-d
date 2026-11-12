@@ -684,26 +684,36 @@ I think I stole these from Prot?
 #+END_SRC
 ** Org Agenda Setup
 
+I will have at least one set of agenda files,
+
+~/Org/secret/agenda-files/
+~/Org/private/agenda-files/
+~/Org/public/agenda-files/
+
+Pick up what's there:
+
 #+begin_src emacs-lisp :results none
+  (let ((dirs (file-expand-wildcards "~/Org/*/agenda-files")))
+    (unless dirs (warn "No agenda dirs found under ~/Org"))
+    (setq org-agenda-files dirs))
+ #+end_src
 
-  ;; then restart Emacs, or just:
+  #+begin_src emacs-lisp :results none
 
-   (setq org-agenda-files "~/Org/agenda-files.org")
-   (global-set-key "\C-ca" 'org-agenda)
+     (global-set-key "\C-ca" 'org-agenda)
 
-  (setq org-habit-show-all-today t)
-  (setq org-agenda-habit-graph-column 50) ;; Set the width of the progress bar
-  (add-to-list 'org-modules 'org-habit)
+     (setq org-habit-show-all-today t)
+     (setq org-agenda-habit-graph-column 50) ;; Set the width of the progress bar
+     (add-to-list 'org-modules 'org-habit)
 
-  ;; View of current week with only DONE items
-  ;; https://emacs.stackexchange.com/questions/8150/show-done-items-in-current-calendar-week
+     ;; View of current week with only DONE items
+     ;; https://emacs.stackexchange.com/questions/8150/show-done-items-in-current-calendar-week
 
+     (add-to-list 'org-agenda-custom-commands
+                '("d" "Today's Focus" agenda ""
+                  ((org-agenda-files '("~/Org/secret/agenda-files/diary-secret.org" "~/Org/private/agenda-files/diary-private.org"))))
+                t)   ; t = append to end
 
-  (add-to-list 'org-agenda-custom-commands
-             '("d" "Today's Focus" agenda ""
-               ((org-agenda-files '("~/Org/diary.org"))))
-             t)   ; t = append to end
-  
 
 #+end_src
 
